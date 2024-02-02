@@ -1,5 +1,7 @@
 # Team-6
-Project Proposal: https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Project-Proposal
+
+## Project Proposal: 
+https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Project-Proposal
 
 ## Getting started
 
