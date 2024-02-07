@@ -18,7 +18,7 @@ fun main() = application {
         title = "MVC Demo",
         state = WindowState(
             position = WindowPosition(Alignment.Center),
-            size = DpSize(275.dp, 200.dp)
+            size = DpSize(1366.dp, 768.dp)
         ),
         resizable = false,
         onCloseRequest = ::exitApplication
