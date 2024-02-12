@@ -26,17 +26,37 @@ fun BasicInformationPage(userViewModel: UserViewModel, userController: UserContr
             modifier = Modifier.fillMaxSize(),
 
         ) {
-            Image(
-                painter = painterResource("sidebar.jpg"),
-                contentDescription = "Sidebar Image",
-                modifier = Modifier.size(400.dp)
-                                    .align(Alignment.CenterStart),
+            LazyColumn(
+                modifier = Modifier.align(Alignment.CenterStart)
+                ){
+                item{
+                    Image(
+                        painter = painterResource("Home.jpg"),
+                        contentDescription = "home icon",
+                        modifier = Modifier.size(100.dp).padding(25.dp,15.dp, 15.dp,0.dp),
+                        contentScale = ContentScale.Fit,
+                        )
+                    Image(
+                        painter = painterResource("Graph.jpg"),
+                        contentDescription = "graph icon",
+                        modifier = Modifier.size(100.dp).padding(25.dp,15.dp, 15.dp,0.dp),
+                        contentScale = ContentScale.Fit,
+                    )
+                    Image(
+                        painter = painterResource("My-Nutrition.jpg"),
+                        contentDescription = "nutrition icon",
+                        modifier = Modifier.size(100.dp).padding(25.dp,15.dp, 15.dp,0.dp),
+                        contentScale = ContentScale.Fit,
+                    )
+                    Image(
+                        painter = painterResource("Profile.jpg"),
+                        contentDescription = "profile icon",
+                        modifier = Modifier.size(100.dp).padding(25.dp,15.dp, 15.dp,0.dp),
+                        contentScale = ContentScale.Fit,
+                    )
 
-
-
-                contentScale = ContentScale.FillHeight,
-
-                )
+                }
+            }
 
             Column(
                modifier = Modifier.align(Alignment.Center)
