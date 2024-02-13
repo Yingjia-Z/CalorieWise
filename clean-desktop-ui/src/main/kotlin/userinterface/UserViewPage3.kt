@@ -17,7 +17,7 @@ import controller.UserController
 
 
 @Composable
-fun CombinedDemo(userViewModel: UserViewModel, userController: UserController) {
+fun UIPage3(userViewModel: UserViewModel, userController: UserController) {
     val viewModel by remember { mutableStateOf(userViewModel) }
     val controller by remember { mutableStateOf(userController) }
 
