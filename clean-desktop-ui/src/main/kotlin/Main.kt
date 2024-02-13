@@ -27,12 +27,8 @@ fun main() = application {
         resizable = false,
         onCloseRequest = ::exitApplication
     ) {
-<<<<<<< HEAD
-        BasicInformationPage(userViewModel, userController)
-=======
-//        UserView(userViewModel, userController)
-        HomepageView(homepageViewModel, homepageController)
-
->>>>>>> a01a7bb (Created Homepage structure)
+//        BasicInformationPage(userViewModel, userController)
+        UserView(userViewModel, userController)
+//        HomepageView(homepageViewModel, homepageController)
     }
 }
