@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/CS346_w24.iml" filepath="$PROJECT_DIR$/.idea/CS346_w24.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/clean-desktop-ui.iml" filepath="$PROJECT_DIR$/.idea/modules/clean-desktop-ui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/clean-desktop-ui.main.iml" filepath="$PROJECT_DIR$/.idea/modules/clean-desktop-ui.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/clean-desktop-ui.test.iml" filepath="$PROJECT_DIR$/.idea/modules/clean-desktop-ui.test.iml" />
     </modules>
   </component>
 </project>
