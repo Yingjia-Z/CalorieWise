@@ -5,6 +5,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
+import controller.HomepageController
 import controller.UserController
 import model.UserModel
 import userinterface.*
@@ -13,6 +14,8 @@ fun main() = application {
     val userModel = UserModel()
     val userViewModel = UserViewModel(userModel)
     val userController = UserController(userModel)
+    val homepageViewModel = HomepageViewModel(userModel)
+    val homepageController = HomepageController(userModel)
 
     Window(
         title = "MVC Demo",
@@ -24,6 +27,12 @@ fun main() = application {
         resizable = false,
         onCloseRequest = ::exitApplication
     ) {
+<<<<<<< HEAD
         BasicInformationPage(userViewModel, userController)
+=======
+//        UserView(userViewModel, userController)
+        HomepageView(homepageViewModel, homepageController)
+
+>>>>>>> a01a7bb (Created Homepage structure)
     }
 }
