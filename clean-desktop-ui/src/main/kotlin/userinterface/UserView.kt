@@ -12,15 +12,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import controller.UserController
+import userinterface.ViewEvent
 import model.UserModel
-
-enum class ViewEvent {
-    FirstNameEvent,
-    LastNameEvent,
-    UppercaseEvent,
-    LowercaseEvent,
-    ResetEvent
-}
 
 @Composable
 fun UserView(userViewModel: UserViewModel, userController: UserController) {
