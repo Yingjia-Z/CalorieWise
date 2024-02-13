@@ -19,10 +19,11 @@ fun main() = application {
         state = WindowState(
             position = WindowPosition(Alignment.Center),
             size = DpSize(1366.dp, 768.dp)
+
         ),
         resizable = false,
         onCloseRequest = ::exitApplication
     ) {
-        UserView(userViewModel, userController)
+        BasicInformationPage(userViewModel, userController)
     }
 }
