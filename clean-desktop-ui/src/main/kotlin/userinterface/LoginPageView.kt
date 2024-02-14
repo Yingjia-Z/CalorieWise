@@ -30,7 +30,9 @@ fun LoginPageView(loginPageViewModel: LoginPageViewModel, loginPageController: L
 
     MaterialTheme {
         Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-            Column(verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.CenterHorizontally) {
                 Image(
                     painter = painterResource("SignIn.png"),
                     contentDescription = "SignIn Image",
@@ -48,7 +50,11 @@ fun LoginPageView(loginPageViewModel: LoginPageViewModel, loginPageController: L
                             tint = Color.Gray,
                             modifier = Modifier.size(30.dp)
                         )
-                    })
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        focusedIndicatorColor = Color.Red,
+                        focusedLabelColor = Color.Red,
+                        cursorColor = Color.Red))
 
                 Spacer(modifier = Modifier.height(25.dp))
 
@@ -71,18 +77,24 @@ fun LoginPageView(loginPageViewModel: LoginPageViewModel, loginPageController: L
                             tint = Color.Gray,
                             modifier = Modifier.size(30.dp)
                         )
-                    })
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        focusedIndicatorColor = Color.Red,
+                        focusedLabelColor = Color.Red,
+                        cursorColor = Color.Red))
 
                 Spacer(modifier = Modifier.height(25.dp))
 
-                Button(onClick = {}) {
+                Button(onClick = {}, colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color.Red,
+                    contentColor = Color.White)) {
                     Text("Sign In")
                 }
 
                 Spacer(modifier = Modifier.height(25.dp))
 
                 Text("Don't have an account?")
-                TextButton( onClick = {} ) {
+                TextButton( onClick = {}, colors = ButtonDefaults.textButtonColors(contentColor = Color.Red) ) {
                     Text("Sign Up")
                 }
             }
