@@ -5,14 +5,19 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
+import controller.LoginPageController
 import controller.UserController
+import model.LoginPageModel
 import model.UserModel
 import userinterface.*
 
 fun main() = application {
     val userModel = UserModel()
-    val userViewModel = UserViewModel(userModel)
-    val userController = UserController(userModel)
+//    val userViewModel = UserViewModel(userModel)
+//    val userController = UserController(userModel)
+    val loginPageModel = LoginPageModel()
+    val loginPageViewModel = LoginPageViewModel(loginPageModel)
+    val loginPageController = LoginPageController(loginPageModel)
 
     Window(
         title = "MVC Demo",
@@ -23,6 +28,7 @@ fun main() = application {
         resizable = false,
         onCloseRequest = ::exitApplication
     ) {
-        UserView(userViewModel, userController)
+//        UserView(userViewModel, userController)
+        LoginPageView(loginPageViewModel, loginPageController)
     }
 }
