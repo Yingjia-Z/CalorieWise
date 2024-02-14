@@ -34,8 +34,8 @@ fun main() = application {
     ) {
 //        UserView(userViewModel, userController)
         //LoginPageView(loginPageViewModel, loginPageController)
-        BasicInformationPage(userViewModel, userController)
-//        HomepageView(homepageViewModel, homepageController)
+//        BasicInformationPage(userViewModel, userController)
+        HomepageView(homepageViewModel, homepageController)
 //        UIPage3(userViewModel, userController)
     }
 }
