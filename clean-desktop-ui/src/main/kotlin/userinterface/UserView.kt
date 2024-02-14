@@ -12,15 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import controller.UserController
-import model.UserModel
-
-enum class ViewEvent {
-    FirstNameEvent,
-    LastNameEvent,
-    UppercaseEvent,
-    LowercaseEvent,
-    ResetEvent
-}
 
 @Composable
 fun UserView(userViewModel: UserViewModel, userController: UserController) {
@@ -29,16 +20,14 @@ fun UserView(userViewModel: UserViewModel, userController: UserController) {
 
     MaterialTheme {
         Column(verticalArrangement = Arrangement.SpaceEvenly) {
-            TextField(
-                viewModel.firstname.value,
-                label = {Text("First Name: ")},
+            TextField(viewModel.firstname.value,
+                label = { Text("First Name: ") },
                 onValueChange = { controller.invoke(ViewEvent.FirstNameEvent, it) })
-            TextField(
-                viewModel.lastname.value,
-                label = {Text("Last Name: ")},
+            TextField(viewModel.lastname.value,
+                label = { Text("Last Name: ") },
                 onValueChange = { controller.invoke(ViewEvent.LastNameEvent, it) })
 
-            Row (horizontalArrangement = Arrangement.SpaceEvenly) {
+            Row(horizontalArrangement = Arrangement.SpaceEvenly) {
                 Button(onClick = {
                     controller.invoke(ViewEvent.UppercaseEvent, null)
                 }) {
