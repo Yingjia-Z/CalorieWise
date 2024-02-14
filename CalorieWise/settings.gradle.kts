@@ -10,4 +10,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "clean-desktop-ui"
+rootProject.name = "CalorieWise"
