@@ -24,12 +24,12 @@ fun BasicInformationPage(userViewModel: UserViewModel, userController: UserContr
     val controller by remember { mutableStateOf(userController) }
     var showNextScreen by remember { mutableStateOf(false) }
     val userModel = UserModel()
-    val homepageViewModel = HomepageViewModel(userModel)
-    val homepageController = HomepageController(userModel)
+    val page3ViewModel = UserViewModel(userModel)
+    val page3Controller = UserController(userModel)
 
     if (showNextScreen) {
         // Show the next screen
-        HomepageView(homepageViewModel, homepageController)
+        UIPage3(page3ViewModel, page3Controller)
     } else {
         MaterialTheme {
             Box(
