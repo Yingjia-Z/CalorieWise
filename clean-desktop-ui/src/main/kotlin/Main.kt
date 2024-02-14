@@ -33,8 +33,8 @@ fun main() = application {
         onCloseRequest = ::exitApplication
     ) {
 //        UserView(userViewModel, userController)
-        LoginPageView(loginPageViewModel, loginPageController)
-//        BasicInformationPage(userViewModel, userController)
+        //LoginPageView(loginPageViewModel, loginPageController)
+        BasicInformationPage(userViewModel, userController)
 //        HomepageView(homepageViewModel, homepageController)
 //        UIPage3(userViewModel, userController)
     }
