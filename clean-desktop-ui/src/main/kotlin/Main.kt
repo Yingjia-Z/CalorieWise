@@ -14,8 +14,8 @@ import userinterface.*
 
 fun main() = application {
     val userModel = UserModel()
-//    val userViewModel = UserViewModel(userModel)
-//    val userController = UserController(userModel)
+    val userViewModel = UserViewModel(userModel)
+    val userController = UserController(userModel)
     val loginPageModel = LoginPageModel()
     val loginPageViewModel = LoginPageViewModel(loginPageModel)
     val loginPageController = LoginPageController(loginPageModel)
@@ -35,7 +35,6 @@ fun main() = application {
 //        UserView(userViewModel, userController)
         LoginPageView(loginPageViewModel, loginPageController)
 //        BasicInformationPage(userViewModel, userController)
-//        UserView(userViewModel, userController)
 //        HomepageView(homepageViewModel, homepageController)
 //        UIPage3(userViewModel, userController)
     }
