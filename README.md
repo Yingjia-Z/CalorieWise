@@ -8,6 +8,8 @@
 ## Personal Development Journal:
 - [Yingjia Zhang](https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Yingjia-Zhang's-Development-Journal)
 - [Dongni Lu](https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Dongni's-Development-Journal)
+- [Lynn Li](https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Lynn's-Development-Journal)
+- [Peter Li](https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Peter's-Development-Journal)
 
 
 ## Team Meeting Journal:
