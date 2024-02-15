@@ -27,7 +27,7 @@ fun LoginPageView(loginPageViewModel: LoginPageViewModel, loginPageController: L
     var isSignedIn by remember { mutableStateOf(false) }
 
     if (isSignedIn) {
-        userController.switchScreen(model.Screen.BasicInfoPage)
+        userController.SwitchScreen(model.Screen.BasicInfoPage)
     } else {
         MaterialTheme {
             Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {

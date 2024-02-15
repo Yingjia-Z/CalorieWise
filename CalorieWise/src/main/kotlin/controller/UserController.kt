@@ -29,7 +29,7 @@ class UserController(val model: UserModel, val viewModel: UserViewModel,
     }
 
     @Composable
-    fun switchScreen(screen: model.Screen) {
+    fun SwitchScreen(screen: model.Screen) {
         when(screen) {
             Screen.LoginPage -> LoginPageView(loginViewModel, loginPageController, this)
             Screen.BasicInfoPage -> BasicInformationPage(viewModel,this)
