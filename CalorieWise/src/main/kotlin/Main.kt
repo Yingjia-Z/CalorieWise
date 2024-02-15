@@ -5,9 +5,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
-import controller.LoginPageController
-import controller.HomepageController
-import controller.UserController
+import controller.*
 import model.LoginPageModel
 import model.UserModel
 import userinterface.*
@@ -21,6 +19,13 @@ fun main() = application {
     val loginPageController = LoginPageController(loginPageModel)
     val homepageViewModel = HomepageViewModel(userModel)
     val homepageController = HomepageController(userModel)
+    val addFoodViewModel = AddFoodViewModel(userModel)
+    val addFoodController = AddFoodController(userModel)
+    val addDrinkViewModel = AddDrinkViewModel(userModel)
+    val addDrinkController = AddDrinkController(userModel)
+    val addExerciseViewModel = AddExerciseViewModel(userModel)
+    val addExerciseController = AddExerciseController(userModel)
+
 
     Window(
         title = "MVC Demo",
@@ -35,7 +40,10 @@ fun main() = application {
 //        UserView(userViewModel, userController)
         //LoginPageView(loginPageViewModel, loginPageController)
 //        BasicInformationPage(userViewModel, userController)
-        HomepageView(homepageViewModel, homepageController)
+//        HomepageView(homepageViewModel, homepageController)
 //        UIPage3(userViewModel, userController)
+//        AddFoodView(addFoodViewModel, addFoodController)
+//        AddDrinkView(addDrinkViewModel, addDrinkController)
+        AddExerciseView(addExerciseViewModel, addExerciseController)
     }
 }
