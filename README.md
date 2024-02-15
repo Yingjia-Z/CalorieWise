@@ -13,6 +13,8 @@
 ## Team Meeting Journal:
 [Team Meeting Journal](https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/TEAM-6-MEETING-JOURNAL)
 
+## Sprint 1 Release Notes:
+https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Sprint-1-Release-Notes
 
 ## Getting started
 
