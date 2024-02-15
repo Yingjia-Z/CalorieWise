@@ -37,14 +37,14 @@ fun UserView(userViewModel: UserViewModel, userController: UserController) {
     var currentScreen by rememberSaveable { mutableStateOf(model.Screen.LoginPage) }
     MaterialTheme {
         // Content area
-        Box(
+        Row(
             modifier = Modifier.fillMaxSize()
         ) {
             // Check if the current screen is not the LoginPage, then display the sidebar
             if (currentScreen != model.Screen.LoginPage) {
                 // Sidebar with buttons to navigate to different screens
                 LazyColumn(
-                    modifier = Modifier.align(Alignment.CenterStart)
+                    modifier = Modifier.align(Alignment.CenterVertically)
                 ) {
                     item {
                         Image(
