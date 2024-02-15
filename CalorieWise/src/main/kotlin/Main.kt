@@ -12,18 +12,7 @@ import userinterface.*
 fun main() = application {
     val userModel = UserModel()
     val userViewModel = UserViewModel(userModel)
-    val loginPageViewModel = LoginPageViewModel(userModel)
-    val loginPageController = LoginPageController(userModel)
-    val homepageViewModel = HomepageViewModel(userModel)
-    val homepageController = HomepageController(userModel)
-    val userController = UserController(userModel, userViewModel, loginPageViewModel, loginPageController,
-        homepageViewModel, homepageController)
-    val addFoodViewModel = AddFoodViewModel(userModel)
-    val addFoodController = AddFoodController(userModel)
-    val addDrinkViewModel = AddDrinkViewModel(userModel)
-    val addDrinkController = AddDrinkController(userModel)
-    val addExerciseViewModel = AddExerciseViewModel(userModel)
-    val addExerciseController = AddExerciseController(userModel)
+    val userController = UserController(userModel, userViewModel)
 
     Window(
         title = "MVC Demo",
@@ -34,12 +23,6 @@ fun main() = application {
         resizable = false,
         onCloseRequest = ::exitApplication
     ) {
-        LoginPageView(loginPageViewModel, loginPageController, userController)
-//        BasicInformationPage(userViewModel, userController)
-//        HomepageView(homepageViewModel, homepageController)
-//        UIPage3(userViewModel, userController)
-//        AddFoodView(addFoodViewModel, addFoodController)
-//        AddDrinkView(addDrinkViewModel, addDrinkController)
-//        AddExerciseView(addExerciseViewModel, addExerciseController)
+        UserView(userViewModel, userController)
     }
 }

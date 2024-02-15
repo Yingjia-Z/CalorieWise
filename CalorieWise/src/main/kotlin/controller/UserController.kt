@@ -5,9 +5,7 @@ import model.Screen
 import model.UserModel
 import userinterface.*
 
-class UserController(val model: UserModel, val viewModel: UserViewModel,
-                     val loginViewModel: LoginPageViewModel, val loginPageController: LoginPageController,
-                     val homeViewModel: HomepageViewModel, val homeController: HomepageController) {
+class UserController(val model: UserModel, val viewModel: UserViewModel) {
     // we can cast `Any` later since each event has an associated type
     fun invoke(event: ViewEvent, value: Any?) {
         when(event) {
@@ -25,16 +23,6 @@ class UserController(val model: UserModel, val viewModel: UserViewModel,
                 model.firstname = ""
                 model.lastname = ""
             }
-        }
-    }
-
-    @Composable
-    fun SwitchScreen(screen: model.Screen) {
-        when(screen) {
-            Screen.LoginPage -> LoginPageView(loginViewModel, loginPageController, this)
-            Screen.BasicInfoPage -> BasicInformationPage(viewModel,this)
-            Screen.HomePage -> HomepageView(homeViewModel,homeController)
-            Screen.IntakePage -> UIPage3(viewModel, this)
         }
     }
 }

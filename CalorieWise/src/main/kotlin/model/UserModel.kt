@@ -4,7 +4,10 @@ enum class Screen {
     LoginPage,
     HomePage,
     BasicInfoPage,
-    IntakePage
+    IntakePage,
+    AddPage
+
+    /* TODO: Food Recommendation Page missing */
 }
 class UserModel : IPublisher() {
     var firstname: String = ""

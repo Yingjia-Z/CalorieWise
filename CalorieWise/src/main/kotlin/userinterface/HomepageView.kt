@@ -76,160 +76,158 @@ fun HomepageView(homepageViewModel: HomepageViewModel, homepageController: Homep
     val viewModel by remember { mutableStateOf(homepageViewModel) }
     val controller by remember { mutableStateOf(homepageController) }
 
-    MaterialTheme {
-        Box(
-            modifier = Modifier.fillMaxSize()
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+
+        Column(
+            modifier = Modifier.fillMaxSize().padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            Column(
-                modifier = Modifier.fillMaxSize().padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
 
-                    // Nutrients Board
-                    Card(
-                        modifier = Modifier.weight(1f),
-                        elevation = 4.dp
-                    ) {
-                        Column(modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("Nutrients Board", style = MaterialTheme.typography.h5)
-                            // add details here
-                            Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-                                Button(onClick = {
-                                    controller.invoke(HomepageComponent.UppercaseEvent, null)
-                                }) {
-                                    Text("Today")
-                                }
-                                Button(onClick = {
-                                    controller.invoke(HomepageComponent.LowercaseEvent, null)
-                                }) {
-                                    Text("Week")
-                                }
-                                Button(onClick = {
-                                    controller.invoke(HomepageComponent.ResetEvent, null)
-                                }) {
-                                    Text("Month")
-                                }
+                // Nutrients Board
+                Card(
+                    modifier = Modifier.weight(1f),
+                    elevation = 4.dp
+                ) {
+                    Column(modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text("Nutrients Board", style = MaterialTheme.typography.h5)
+                        // add details here
+                        Row(horizontalArrangement = Arrangement.SpaceEvenly) {
+                            Button(onClick = {
+                                controller.invoke(HomepageComponent.UppercaseEvent, null)
+                            }) {
+                                Text("Today")
                             }
-                            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                                PieChart()
-                                PieChart()
-                                PieChart()
+                            Button(onClick = {
+                                controller.invoke(HomepageComponent.LowercaseEvent, null)
+                            }) {
+                                Text("Week")
+                            }
+                            Button(onClick = {
+                                controller.invoke(HomepageComponent.ResetEvent, null)
+                            }) {
+                                Text("Month")
                             }
                         }
-                    }
-
-                    // Calorie Tracker
-                    Card(
-
-                        modifier = Modifier.weight(1f),
-                        elevation = 4.dp
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(16.dp)
-                        ) {
-                            Text("Calorie Tracker", style = MaterialTheme.typography.h5)
-                            // add details here
+                        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                             PieChart()
-                            Card(
-                                modifier = Modifier.fillMaxWidth()
+                            PieChart()
+                            PieChart()
+                        }
+                    }
+                }
+
+                // Calorie Tracker
+                Card(
+
+                    modifier = Modifier.weight(1f),
+                    elevation = 4.dp
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        Text("Calorie Tracker", style = MaterialTheme.typography.h5)
+                        // add details here
+                        PieChart()
+                        Card(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceEvenly,
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Row(
-                                    horizontalArrangement = Arrangement.SpaceEvenly,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(text = "Add Food", style = MaterialTheme.typography.h6)
-                                    Button(onClick = {
-                                        controller.invoke(HomepageComponent.LowercaseEvent, null)
-                                    }, shape = CircleShape) {
-                                        Text("+")
-                                    }
+                                Text(text = "Add Food", style = MaterialTheme.typography.h6)
+                                Button(onClick = {
+                                    controller.invoke(HomepageComponent.LowercaseEvent, null)
+                                }, shape = CircleShape) {
+                                    Text("+")
                                 }
                             }
-                            Card(
-                                modifier = Modifier.fillMaxWidth()
+                        }
+                        Card(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceEvenly,
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Row(
-                                    horizontalArrangement = Arrangement.SpaceEvenly,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(text = "Add Drinks", style = MaterialTheme.typography.h6)
-                                    Button(onClick = {
-                                        controller.invoke(HomepageComponent.LowercaseEvent, null)
-                                    }, shape = CircleShape) {
-                                        Text("+")
-                                    }
+                                Text(text = "Add Drinks", style = MaterialTheme.typography.h6)
+                                Button(onClick = {
+                                    controller.invoke(HomepageComponent.LowercaseEvent, null)
+                                }, shape = CircleShape) {
+                                    Text("+")
                                 }
                             }
-                            Card(
-                                modifier = Modifier.fillMaxWidth()
+                        }
+                        Card(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceEvenly,
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Row(
-                                    horizontalArrangement = Arrangement.SpaceEvenly,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(text = "Add Exercise", style = MaterialTheme.typography.h6)
-                                    Button(onClick = {
-                                        controller.invoke(HomepageComponent.LowercaseEvent, null)
-                                    }, shape = CircleShape) {
-                                        Text("+")
-                                    }
+                                Text(text = "Add Exercise", style = MaterialTheme.typography.h6)
+                                Button(onClick = {
+                                    controller.invoke(HomepageComponent.LowercaseEvent, null)
+                                }, shape = CircleShape) {
+                                    Text("+")
                                 }
                             }
                         }
                     }
                 }
+            }
 
-                // Intake and Workout of the day
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    elevation = 4.dp
+            // Intake and Workout of the day
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                elevation = 4.dp
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    Text("Intake and Workout of the day", style = MaterialTheme.typography.h5)
+                    // add details here
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("Intake and Workout of the day", style = MaterialTheme.typography.h5)
-                        // add details here
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(16.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
 
-                            Card(modifier = Modifier.fillMaxSize().weight(1f)) {
-                                Text(text = "Food", style = MaterialTheme.typography.h6)
-                                Column(verticalArrangement = Arrangement.SpaceEvenly) {
-                                    HistoryEntry("Noodle", "+ 70", "20 g")
-                                    HistoryEntry("Noodle", "+ 70", "20 g")
-                                    HistoryEntry("Noodle", "+ 70", "20 g")
-                                }
-                            }
-                            Card(modifier = Modifier.fillMaxSize().weight(1f)) {
-                                Text(text = "Drink", style = MaterialTheme.typography.h6)
-                                Column(verticalArrangement = Arrangement.SpaceEvenly) {
-                                    HistoryEntry("Water", "+ 0", "200 ml")
-                                    HistoryEntry("Water", "+ 0", "200 ml")
-                                    HistoryEntry("Water", "+ 0", "200 ml")
-                                }
-                            }
-                            Card(modifier = Modifier.fillMaxSize().weight(1f)) {
-                                Text(text = "Exercise", style = MaterialTheme.typography.h6)
-                                Column(verticalArrangement = Arrangement.SpaceEvenly) {
-                                    HistoryEntry("Jogging", "- 70", "20 min")
-                                    HistoryEntry("Jogging", "- 70", "20 min")
-                                    HistoryEntry("Jogging", "- 70", "20 min")
-                                }
+                        Card(modifier = Modifier.fillMaxSize().weight(1f)) {
+                            Text(text = "Food", style = MaterialTheme.typography.h6)
+                            Column(verticalArrangement = Arrangement.SpaceEvenly) {
+                                HistoryEntry("Noodle", "+ 70", "20 g")
+                                HistoryEntry("Noodle", "+ 70", "20 g")
+                                HistoryEntry("Noodle", "+ 70", "20 g")
                             }
                         }
-
+                        Card(modifier = Modifier.fillMaxSize().weight(1f)) {
+                            Text(text = "Drink", style = MaterialTheme.typography.h6)
+                            Column(verticalArrangement = Arrangement.SpaceEvenly) {
+                                HistoryEntry("Water", "+ 0", "200 ml")
+                                HistoryEntry("Water", "+ 0", "200 ml")
+                                HistoryEntry("Water", "+ 0", "200 ml")
+                            }
+                        }
+                        Card(modifier = Modifier.fillMaxSize().weight(1f)) {
+                            Text(text = "Exercise", style = MaterialTheme.typography.h6)
+                            Column(verticalArrangement = Arrangement.SpaceEvenly) {
+                                HistoryEntry("Jogging", "- 70", "20 min")
+                                HistoryEntry("Jogging", "- 70", "20 min")
+                                HistoryEntry("Jogging", "- 70", "20 min")
+                            }
+                        }
                     }
+
                 }
             }
         }
