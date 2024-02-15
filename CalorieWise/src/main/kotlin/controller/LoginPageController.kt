@@ -1,10 +1,9 @@
 package controller
 
-import model.LoginPageModel
 import model.UserModel
 import userinterface.LoginPageViewEvent
 
-class LoginPageController(val model: LoginPageModel) {
+class LoginPageController(val model: UserModel) {
     // we can cast `Any` later since each event has an associated type
     fun invoke(event: LoginPageViewEvent, value: Any?) {
         when(event) {

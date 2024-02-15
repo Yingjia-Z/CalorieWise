@@ -1,7 +1,7 @@
 package controller
 
 import model.UserModel
-import userinterface.ViewEvent
+import userinterface.*
 
 class UserController(val model: UserModel) {
     // we can cast `Any` later since each event has an associated type
