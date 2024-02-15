@@ -12,7 +12,7 @@ import userinterface.*
 fun main() = application {
     val userModel = UserModel()
     val userViewModel = UserViewModel(userModel)
-    val userController = UserController(userModel, userViewModel)
+    val userController = UserController(userModel)
 
     Window(
         title = "MVC Demo",

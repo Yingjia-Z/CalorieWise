@@ -1,11 +1,9 @@
 package controller
 
-import androidx.compose.runtime.Composable
-import model.Screen
 import model.UserModel
 import userinterface.*
 
-class UserController(val model: UserModel, val viewModel: UserViewModel) {
+class UserController(val model: UserModel) {
     // we can cast `Any` later since each event has an associated type
     fun invoke(event: ViewEvent, value: Any?) {
         when(event) {
