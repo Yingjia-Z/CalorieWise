@@ -15,7 +15,7 @@ fun main() = application {
     val userController = UserController(userModel)
 
     Window(
-        title = "MVC Demo",
+        title = "CalorieWise",
         state = WindowState(
             position = WindowPosition(Alignment.Center),
             size = DpSize(1366.dp, 768.dp)
