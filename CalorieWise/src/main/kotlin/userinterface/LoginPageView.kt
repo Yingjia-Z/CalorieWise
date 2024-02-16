@@ -65,7 +65,7 @@ fun LoginPageView(loginPageViewModel: LoginPageViewModel, loginPageController: L
                 onValueChange = { controller.invoke(LoginPageViewEvent.PasswordEvent, it) },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource("PassWordIcon.png"),
+                        painter = painterResource("PasswordIcon.png"),
                         contentDescription = "Password",
                         tint = Color.Gray,
                         modifier = Modifier.size(30.dp)
