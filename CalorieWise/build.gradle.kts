@@ -29,7 +29,7 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "clean-desktop-ui"
+            packageName = "CalorieWise"
             packageVersion = "1.0.0"
         }
     }
