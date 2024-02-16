@@ -1,9 +1,11 @@
 package userinterface
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -12,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -35,6 +38,30 @@ fun UserView(userViewModel: UserViewModel, userController: UserController) {
 
     // Maintain the current screen using rememberSaveable
     var currentScreen by rememberSaveable { mutableStateOf(model.Screen.LoginPage) }
+    var focusedButton by rememberSaveable { mutableStateOf("") }
+
+    @Composable
+    fun SidebarImageButton(imageRes: String, onClick: () -> Unit) {
+        Box(
+            modifier = Modifier
+                .size(100.dp)
+                .padding(25.dp, 15.dp, 15.dp, 0.dp)
+                .clickable {
+                    onClick()
+                    focusedButton = imageRes
+                }
+                .background(color = if(focusedButton == imageRes) Color.LightGray else Color.Transparent,
+                    shape = RoundedCornerShape(50))
+        ) {
+            Image(
+                painter = painterResource(imageRes),
+                contentDescription = "graph icon",
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Fit
+            )
+        }
+    }
+
     MaterialTheme {
         // Content area
         Row(
@@ -47,42 +74,10 @@ fun UserView(userViewModel: UserViewModel, userController: UserController) {
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ) {
                     item {
-                        Image(
-                            painter = painterResource("Home.jpg"),
-                            contentDescription = "home icon",
-                            modifier = Modifier
-                                .size(100.dp)
-                                .padding(25.dp, 15.dp, 15.dp, 0.dp)
-                                .clickable { currentScreen = model.Screen.HomePage },
-                            contentScale = ContentScale.Fit,
-                        )
-                        Image(
-                            painter = painterResource("Graph.jpg"),
-                            contentDescription = "graph icon",
-                            modifier = Modifier
-                                .size(100.dp)
-                                .padding(25.dp, 15.dp, 15.dp, 0.dp)
-                                .clickable { currentScreen = model.Screen.AddPage },
-                            contentScale = ContentScale.Fit,
-                        )
-                        Image(
-                            painter = painterResource("My-Nutrition.jpg"),
-                            contentDescription = "nutrition icon",
-                            modifier = Modifier
-                                .size(100.dp)
-                                .padding(25.dp, 15.dp, 15.dp, 0.dp)
-                                .clickable { /* TODO: Add onclick function */ },
-                            contentScale = ContentScale.Fit,
-                        )
-                        Image(
-                            painter = painterResource("Profile.jpg"),
-                            contentDescription = "profile icon",
-                            modifier = Modifier
-                                .size(100.dp)
-                                .padding(25.dp, 15.dp, 15.dp, 0.dp)
-                                .clickable { currentScreen = model.Screen.BasicInfoPage },
-                            contentScale = ContentScale.Fit,
-                        )
+                        SidebarImageButton("Home.png") { currentScreen = model.Screen.HomePage }
+                        SidebarImageButton("Graph.png") { currentScreen = model.Screen.AddPage }
+                        SidebarImageButton("My-Nutrition.png") { /* TODO: Add onclick function */ }
+                        SidebarImageButton("Profile.png") { currentScreen = model.Screen.BasicInfoPage }
                     }
                 }
             }
