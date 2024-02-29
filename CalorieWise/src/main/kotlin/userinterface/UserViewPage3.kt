@@ -17,7 +17,8 @@ import controller.UserController
 
 
 @Composable
-fun UIPage3(userViewModel: UserViewModel, userController: UserController) {
+fun UIPage3(userViewModel: UserViewModel, userController: UserController,
+            onSignInClick: () -> Unit) {
     val viewModel by remember { mutableStateOf(userViewModel) }
     val controller by remember { mutableStateOf(userController) }
 
@@ -71,9 +72,7 @@ fun UIPage3(userViewModel: UserViewModel, userController: UserController) {
             )
         }
         Button(
-            modifier = Modifier, onClick = {
-                println("A different button clicked.")
-            }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red, contentColor = Color.White)
+            modifier = Modifier, onClick = { onSignInClick() }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red, contentColor = Color.White)
         ) {
             Text("Next Step")
         }

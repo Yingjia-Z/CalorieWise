@@ -86,7 +86,7 @@ fun UserView(userViewModel: UserViewModel, userController: UserController) {
             when (currentScreen) {
                 model.Screen.HomePage -> HomepageView(homepageViewModel, homepageController)
                 model.Screen.BasicInfoPage -> BasicInformationPage(userViewModel, userController, { currentScreen = model.Screen.IntakePage })
-                model.Screen.IntakePage -> UIPage3(userViewModel, userController)
+                model.Screen.IntakePage -> UIPage3(userViewModel, userController, { currentScreen = model.Screen.HomePage })
                 model.Screen.LoginPage -> LoginPageView(loginPageViewModel, loginPageController, { currentScreen = model.Screen.BasicInfoPage })
                 model.Screen.AddPage -> AddFoodView(addFoodViewModel, addFoodController) /* TODO: Set default to AddFoodPage, switch to AddDrinkPage & AddExercisePage missing */
 
