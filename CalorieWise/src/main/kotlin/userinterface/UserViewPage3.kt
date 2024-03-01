@@ -17,7 +17,7 @@ import controller.UserController
 
 
 @Composable
-fun UIPage3(userViewModel: UserViewModel, userController: UserController) {
+fun UIPage3(userViewModel: BasicInformationViewModel, userController: UserController) {
     val viewModel by remember { mutableStateOf(userViewModel) }
     val controller by remember { mutableStateOf(userController) }
 
@@ -39,7 +39,7 @@ fun UIPage3(userViewModel: UserViewModel, userController: UserController) {
                 color = Color.Red
             )
             Text(
-                text = "1890 Cals",
+                text = "${userViewModel.calorie} Cals",
                 style = MaterialTheme.typography.body1,
                 modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(10.dp)
             )
@@ -52,7 +52,7 @@ fun UIPage3(userViewModel: UserViewModel, userController: UserController) {
                 color = Color.Red
             )
             Text(
-                text = "3 Litres",
+                text = "${userViewModel.waterIntake} ounces",
                 style = MaterialTheme.typography.body1,
                 modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(10.dp)
             )

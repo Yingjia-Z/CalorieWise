@@ -35,7 +35,7 @@ fun UserView(userViewModel: UserViewModel, userController: UserController) {
     val addDrinkController = AddDrinkController(viewModel.model)
     val addExerciseViewModel = AddExerciseViewModel(viewModel.model)
     val addExerciseController = AddExerciseController(viewModel.model)
-
+    val basicInformationViewModel = BasicInformationViewModel(viewModel.model)
     // Maintain the current screen using rememberSaveable
     var currentScreen by rememberSaveable { mutableStateOf(model.Screen.LoginPage) }
     var focusedButton by rememberSaveable { mutableStateOf("") }
@@ -85,8 +85,8 @@ fun UserView(userViewModel: UserViewModel, userController: UserController) {
             // Content area
             when (currentScreen) {
                 model.Screen.HomePage -> HomepageView(homepageViewModel, homepageController)
-                model.Screen.BasicInfoPage -> BasicInformationPage(userViewModel, userController, { currentScreen = model.Screen.IntakePage })
-                model.Screen.IntakePage -> UIPage3(userViewModel, userController)
+                model.Screen.BasicInfoPage -> BasicInformationPage(basicInformationViewModel, userController, { currentScreen = model.Screen.IntakePage })
+                model.Screen.IntakePage -> UIPage3(basicInformationViewModel, userController)
                 model.Screen.LoginPage -> LoginPageView(loginPageViewModel, loginPageController, { currentScreen = model.Screen.BasicInfoPage })
                 model.Screen.AddPage -> AddFoodView(addFoodViewModel, addFoodController) /* TODO: Set default to AddFoodPage, switch to AddDrinkPage & AddExercisePage missing */
 
