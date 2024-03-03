@@ -19,10 +19,15 @@ import controller.UserController
 import model.UserModel
 
 @Composable
-fun BasicInformationPage(userViewModel: UserViewModel, userController: UserController,
+fun BasicInformationPage(userViewModel: BasicInformationViewModel, userController: UserController,
                          onNextStepClick: () -> Unit) {
     val viewModel by remember { mutableStateOf(userViewModel) }
     val controller by remember { mutableStateOf(userController) }
+    var gender by remember { mutableStateOf("") }
+    var age by remember { mutableStateOf("") }
+    var height by remember { mutableStateOf("") }
+    var weight by remember { mutableStateOf("") }
+    var goalWeight by remember { mutableStateOf("") }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -38,11 +43,7 @@ fun BasicInformationPage(userViewModel: UserViewModel, userController: UserContr
 
                 )
             //now use lay column to get a column of text fields, compose 5-1 lazy example
-            var gender by remember { mutableStateOf("") }
-            var age by remember { mutableStateOf("") }
-            var height by remember { mutableStateOf("") }
-            var weight by remember { mutableStateOf("") }
-            var goalWeight by remember { mutableStateOf("") }
+
             LazyColumn(
                 //modifier = Modifier.padding(4.dp),
                 modifier = Modifier.weight(0.5f)
@@ -53,7 +54,7 @@ fun BasicInformationPage(userViewModel: UserViewModel, userController: UserContr
                     TextField(
                         value = gender,
                         onValueChange = { gender = it },
-                        label = { Text("GENDER") },
+                        label = { Text("SEX(M/F)") },
                     )
                     Spacer(modifier = Modifier.height(25.dp))
                     TextField(
@@ -65,19 +66,19 @@ fun BasicInformationPage(userViewModel: UserViewModel, userController: UserContr
                     TextField(
                         value = height,
                         onValueChange = { height = it },
-                        label = { Text("HEIGHT") },
+                        label = { Text("HEIGHT(cm)") },
                     )
                     Spacer(modifier = Modifier.height(25.dp))
                     TextField(
                         value = weight,
                         onValueChange = { weight = it },
-                        label = { Text("WEIGHT") },
+                        label = { Text("WEIGHT(kg)") },
                     )
                     Spacer(modifier = Modifier.height(25.dp))
                     TextField(
                         value = goalWeight,
                         onValueChange = { goalWeight = it },
-                        label = { Text("GOAL WEIGHT") },
+                        label = { Text("GOAL WEIGHT(kg)") },
                     )
 
                 }
@@ -90,7 +91,20 @@ fun BasicInformationPage(userViewModel: UserViewModel, userController: UserContr
                 .size(210.dp)
                 .align(Alignment.BottomCenter)
                 .padding(0.dp, 80.dp, 0.dp, 0.dp)
-                .clickable { onNextStepClick() },
+                .clickable {
+                    userViewModel.setGender(gender)
+                    userViewModel.setAge(age)
+                    userViewModel.setHeight(height)
+                    userViewModel.setWeight(weight)
+                    userViewModel.setGoalWeight(goalWeight)
+                    val c = userViewModel.calculateCalroieIntake();
+                    userViewModel.setCalorieIntake(c)
+                    val w = userViewModel.calculateWaterIntake();
+                    userViewModel.setwaterIntake(w)
+                    val e = userViewModel.calculateExercise();
+                    userViewModel.setExerciseIntake(e)
+                    userViewModel.updateBasicInformation(gender, age, height, weight, goalWeight, c,w,e)
+                    onNextStepClick() },
             contentScale = ContentScale.Fit,
         )
     }
