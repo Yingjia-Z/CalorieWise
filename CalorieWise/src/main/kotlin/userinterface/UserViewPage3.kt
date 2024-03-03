@@ -17,8 +17,9 @@ import controller.UserController
 
 
 @Composable
-fun UIPage3(userViewModel: BasicInformationViewModel, userController: UserController) {
-    val viewModel by remember { mutableStateOf(userViewModel) }
+fun UIPage3(basicInformationViewModel: BasicInformationViewModel, userController: UserController,
+            onSignInClick: () -> Unit) {
+    val viewModel by remember { mutableStateOf(basicInformationViewModel) }
     val controller by remember { mutableStateOf(userController) }
 
     Column(
@@ -39,7 +40,7 @@ fun UIPage3(userViewModel: BasicInformationViewModel, userController: UserContro
                 color = Color.Red
             )
             Text(
-                text = "${userViewModel.calorie} Cals",
+                text = "1890 Cals",
                 style = MaterialTheme.typography.body1,
                 modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(10.dp)
             )
@@ -52,7 +53,7 @@ fun UIPage3(userViewModel: BasicInformationViewModel, userController: UserContro
                 color = Color.Red
             )
             Text(
-                text = "${userViewModel.waterIntake} ounces",
+                text = "3 Litres",
                 style = MaterialTheme.typography.body1,
                 modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(10.dp)
             )
@@ -71,9 +72,7 @@ fun UIPage3(userViewModel: BasicInformationViewModel, userController: UserContro
             )
         }
         Button(
-            modifier = Modifier, onClick = {
-                println("A different button clicked.")
-            }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red, contentColor = Color.White)
+            modifier = Modifier, onClick = { onSignInClick() }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red, contentColor = Color.White)
         ) {
             Text("Next Step")
         }
