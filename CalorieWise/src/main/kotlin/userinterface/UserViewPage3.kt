@@ -40,7 +40,7 @@ fun UIPage3(basicInformationViewModel: BasicInformationViewModel, userController
                 color = Color.Red
             )
             Text(
-                text = "1890 Cals",
+                text = "${basicInformationViewModel.calorie} Cals",
                 style = MaterialTheme.typography.body1,
                 modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(10.dp)
             )
@@ -53,7 +53,7 @@ fun UIPage3(basicInformationViewModel: BasicInformationViewModel, userController
                 color = Color.Red
             )
             Text(
-                text = "3 Litres",
+                text = "${basicInformationViewModel.waterIntake} ounces",
                 style = MaterialTheme.typography.body1,
                 modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(10.dp)
             )
