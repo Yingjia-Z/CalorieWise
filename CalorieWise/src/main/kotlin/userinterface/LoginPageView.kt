@@ -3,8 +3,10 @@ package userinterface
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -12,24 +14,21 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import controller.LoginPageController
-import controller.UserController
-import model.UserModel
 
 enum class LoginPageViewEvent {
-    EmailEvent,
-    PasswordEvent
+    EmailEvent, PasswordEvent, SignInEvent
 }
 
 @Composable
-fun LoginPageView(loginPageViewModel: LoginPageViewModel, loginPageController: LoginPageController,
-                  onSignInClick: () -> Unit) {
+fun LoginPageView(
+    loginPageViewModel: LoginPageViewModel, loginPageController: LoginPageController, onSignInClick: () -> Unit
+) {
     val viewModel by remember { mutableStateOf(loginPageViewModel) }
     val controller by remember { mutableStateOf(loginPageController) }
 
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
         Column(
-            verticalArrangement = Arrangement.SpaceEvenly,
-            horizontalAlignment = Alignment.CenterHorizontally
+            verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
                 painter = painterResource("SignIn.png"),
@@ -51,9 +50,7 @@ fun LoginPageView(loginPageViewModel: LoginPageViewModel, loginPageController: L
                     )
                 },
                 colors = TextFieldDefaults.textFieldColors(
-                    focusedIndicatorColor = Color.Red,
-                    focusedLabelColor = Color.Red,
-                    cursorColor = Color.Red
+                    focusedIndicatorColor = Color.Red, focusedLabelColor = Color.Red, cursorColor = Color.Red
                 )
             )
 
@@ -80,19 +77,20 @@ fun LoginPageView(loginPageViewModel: LoginPageViewModel, loginPageController: L
                     )
                 },
                 colors = TextFieldDefaults.textFieldColors(
-                    focusedIndicatorColor = Color.Red,
-                    focusedLabelColor = Color.Red,
-                    cursorColor = Color.Red
+                    focusedIndicatorColor = Color.Red, focusedLabelColor = Color.Red, cursorColor = Color.Red
                 )
             )
 
             Spacer(modifier = Modifier.height(25.dp))
 
             Button(
-                onClick = { onSignInClick() },
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.Red,
-                    contentColor = Color.White
+                onClick = {
+                    controller.invoke(LoginPageViewEvent.SignInEvent, 1)
+                    if (viewModel.loggedin) {
+                        onSignInClick()
+                    }
+                }, colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color.Red, contentColor = Color.White
                 )
             ) {
                 Text("Sign In")
