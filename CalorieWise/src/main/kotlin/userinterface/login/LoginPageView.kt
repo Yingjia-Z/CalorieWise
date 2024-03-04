@@ -1,4 +1,4 @@
-package userinterface
+package userinterface.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import controller.LoginPageController
+import controller.login.LoginPageController
 
 enum class LoginPageViewEvent {
     EmailEvent, PasswordEvent, SignInEvent

@@ -1,7 +1,7 @@
-package userinterface
+package userinterface.basicInfo
 
-import androidx.compose.runtime.mutableStateOf
 import model.UserModel
+import userinterface.ISubscriber
 import kotlin.math.roundToInt
 
 class BasicInformationViewModel(val model: UserModel) : ISubscriber {

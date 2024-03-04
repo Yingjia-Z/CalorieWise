@@ -1,6 +1,5 @@
-package userinterface
+package userinterface.homepage
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -14,9 +13,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.Stroke
-import controller.HomepageController
+import controller.homepage.HomepageController
 import androidx.compose.ui.unit.dp
 
 
