@@ -1,4 +1,4 @@
-package userinterface
+package userinterface.recommendation
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -14,11 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import controller.UserController
+import userinterface.basicInfo.BasicInformationViewModel
 
 
 @Composable
-fun UIPage3(basicInformationViewModel: BasicInformationViewModel, userController: UserController,
-            onSignInClick: () -> Unit) {
+fun RecommendationPage(basicInformationViewModel: BasicInformationViewModel, userController: UserController,
+                       onSignInClick: () -> Unit) {
     val viewModel by remember { mutableStateOf(basicInformationViewModel) }
     val controller by remember { mutableStateOf(userController) }
 

@@ -1,7 +1,7 @@
-package controller
+package controller.login
 
 import model.UserModel
-import userinterface.LoginPageViewEvent
+import userinterface.login.LoginPageViewEvent
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException

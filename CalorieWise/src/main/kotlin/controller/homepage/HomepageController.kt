@@ -1,24 +1,23 @@
-package controller
+package controller.homepage
 
 import model.UserModel
-import userinterface.AddFoodEvent
-import userinterface.HomepageComponent
+import userinterface.homepage.HomepageComponent
 
-class AddFoodController(val model: UserModel) {
+class HomepageController(val model: UserModel) {
     // we can cast `Any` later since each event has an associated type
-    fun invoke(event: AddFoodEvent, value: Any?) {
+    fun invoke(event: HomepageComponent, value: Any?) {
         when(event) {
-            AddFoodEvent.FirstNameEvent -> model.firstname = value as String
-            AddFoodEvent.LastNameEvent -> model.lastname = value as String
-            AddFoodEvent.UppercaseEvent -> {
+            HomepageComponent.FirstNameEvent -> model.firstname = value as String
+            HomepageComponent.LastNameEvent -> model.lastname = value as String
+            HomepageComponent.UppercaseEvent -> {
                 model.firstname = model.firstname.uppercase()
                 model.lastname = model.lastname.uppercase()
             }
-            AddFoodEvent.LowercaseEvent -> {
+            HomepageComponent.LowercaseEvent -> {
                 model.firstname = model.firstname.lowercase()
                 model.lastname = model.lastname.lowercase()
             }
-            AddFoodEvent.ResetEvent -> {
+            HomepageComponent.ResetEvent -> {
                 model.firstname = ""
                 model.lastname = ""
             }
