@@ -94,7 +94,7 @@ fun HomepageView(homepageViewModel: HomepageViewModel, homepageController: Homep
                     elevation = 4.dp
                 ) {
                     Column(modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("Nutrients Board", style = MaterialTheme.typography.h5)
+                        Text("Nutrients Board", style = MaterialTheme.typography.caption)
                         // add details here
                         Row(horizontalArrangement = Arrangement.SpaceEvenly) {
                             Button(onClick = {
@@ -132,7 +132,7 @@ fun HomepageView(homepageViewModel: HomepageViewModel, homepageController: Homep
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        Text("Calorie Tracker", style = MaterialTheme.typography.h5)
+                        Text("Calorie Tracker", style = MaterialTheme.typography.caption)
                         // add details here
                         PieChart()
                         Card(
