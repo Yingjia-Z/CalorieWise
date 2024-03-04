@@ -21,7 +21,7 @@ import controller.addExercise.AddExerciseController
 import controller.addFood.AddFoodController
 import controller.homepage.HomepageController
 import controller.login.LoginPageController
-import model.Screen
+import userinterface.composables.Screens
 import userinterface.addDrink.AddDrinkViewModel
 import userinterface.addExercise.AddExerciseViewModel
 import userinterface.addFood.AddFoodView
@@ -51,7 +51,7 @@ fun UserView(userViewModel: UserViewModel, userController: UserController) {
     val addExerciseController = AddExerciseController(viewModel.model)
     val basicInformationViewModel = BasicInformationViewModel(viewModel.model)
     // Maintain the current screen using rememberSaveable
-    var currentScreen by rememberSaveable { mutableStateOf(model.Screen.LoginPage) }
+    var currentScreen by rememberSaveable { mutableStateOf(Screens.Login.screen) }
     var focusedButton by rememberSaveable { mutableStateOf("") }
 
     @Composable
@@ -82,27 +82,27 @@ fun UserView(userViewModel: UserViewModel, userController: UserController) {
             modifier = Modifier.fillMaxSize()
         ) {
             // Check if the current screen is not the LoginPage, then display the sidebar
-            if (currentScreen != model.Screen.LoginPage) {
+            if (currentScreen != Screens.Login.screen) {
                 // Sidebar with buttons to navigate to different screens
                 LazyColumn(
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ) {
                     item {
-                        SidebarImageButton("Home.png") { currentScreen = model.Screen.HomePage }
-                        SidebarImageButton("Graph.png") { currentScreen = model.Screen.AddPage }
+                        SidebarImageButton("Home.png") { currentScreen = Screens.Homepage.screen }
+                        SidebarImageButton("Graph.png") { currentScreen = Screens.AddFood.screen }
                         SidebarImageButton("My-Nutrition.png") { /* TODO: Add onclick function */ }
-                        SidebarImageButton("Profile.png") { currentScreen = model.Screen.BasicInfoPage }
+                        SidebarImageButton("Profile.png") { currentScreen = Screens.BasicInfo.screen }
                     }
                 }
             }
 
             // Content area
             when (currentScreen) {
-                model.Screen.HomePage -> HomepageView(homepageViewModel, homepageController)
-                model.Screen.BasicInfoPage -> BasicInformationPage(basicInformationViewModel, userController, { currentScreen = Screen.IntakePage })
-                model.Screen.IntakePage -> RecommendationPage(basicInformationViewModel, userController, { currentScreen = Screen.HomePage })
-                model.Screen.LoginPage -> LoginPageView(loginPageViewModel, loginPageController, { currentScreen = Screen.BasicInfoPage })
-                model.Screen.AddPage -> AddFoodView(addFoodViewModel, addFoodController) /* TODO: Set default to AddFoodPage, switch to AddDrinkPage & AddExercisePage missing */
+                Screens.Homepage.screen -> HomepageView(homepageViewModel, homepageController)
+                Screens.BasicInfo.screen -> BasicInformationPage(basicInformationViewModel, userController, { currentScreen = Screens.Recommendation.screen })
+                Screens.Recommendation.screen -> RecommendationPage(basicInformationViewModel, userController, { currentScreen = Screens.Homepage.screen })
+                Screens.Login.screen -> LoginPageView(loginPageViewModel, loginPageController, { currentScreen = Screens.BasicInfo.screen })
+                Screens.AddFood.screen -> AddFoodView(addFoodViewModel, addFoodController) /* TODO: Set default to AddFoodPage, switch to AddDrinkPage & AddExercisePage missing */
 
                 /* TODO: Food Recommendation Page missing */
             }

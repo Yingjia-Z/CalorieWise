@@ -1,11 +1,5 @@
 package model
 
-enum class Screen {
-    LoginPage, HomePage, BasicInfoPage, IntakePage, AddPage
-
-    /* TODO: Food Recommendation Page missing */
-}
-
 class UserModel : IPublisher() {
     var firstname: String = ""
         set(value) {
