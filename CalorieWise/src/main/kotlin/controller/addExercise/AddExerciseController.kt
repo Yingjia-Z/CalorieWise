@@ -1,8 +1,7 @@
-package controller
+package controller.addExercise
 
 import model.UserModel
-import userinterface.AddExerciseEvent
-import userinterface.HomepageComponent
+import userinterface.addExercise.AddExerciseEvent
 
 class AddExerciseController(val model: UserModel) {
     // we can cast `Any` later since each event has an associated type

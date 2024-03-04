@@ -1,7 +1,7 @@
-package controller
+package controller.login
 
 import model.UserModel
-import userinterface.LoginPageViewEvent
+import userinterface.login.LoginPageViewEvent
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
@@ -102,7 +102,7 @@ class LoginPageController(val model: UserModel) {
     fun connect(): Connection? {
         var connection: Connection? = null
         try {
-            val url = "jdbc:sqlite:login.db"
+            val url = "jdbc:sqlite:src/main/kotlin/data/login.db"
             connection = DriverManager.getConnection(url)
             println("Connection is valid.")
         } catch (e: SQLException) {

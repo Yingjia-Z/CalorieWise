@@ -1,7 +1,8 @@
-package userinterface
+package userinterface.login
 
 import androidx.compose.runtime.mutableStateOf
 import model.UserModel
+import userinterface.ISubscriber
 
 class LoginPageViewModel(val model: UserModel) : ISubscriber {
     var email = mutableStateOf("")

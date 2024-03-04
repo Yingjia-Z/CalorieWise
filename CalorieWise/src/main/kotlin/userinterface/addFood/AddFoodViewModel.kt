@@ -1,7 +1,8 @@
-package userinterface
+package userinterface.addFood
 
 import androidx.compose.runtime.mutableStateOf
 import model.UserModel
+import userinterface.ISubscriber
 
 class AddFoodViewModel(val model: UserModel) : ISubscriber {
     var firstname = mutableStateOf("")

@@ -6,10 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -19,6 +16,23 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import controller.*
+import controller.addDrink.AddDrinkController
+import controller.addExercise.AddExerciseController
+import controller.addFood.AddFoodController
+import controller.homepage.HomepageController
+import controller.login.LoginPageController
+import model.Screen
+import userinterface.addDrink.AddDrinkViewModel
+import userinterface.addExercise.AddExerciseViewModel
+import userinterface.addFood.AddFoodView
+import userinterface.addFood.AddFoodViewModel
+import userinterface.basicInfo.BasicInformationPage
+import userinterface.basicInfo.BasicInformationViewModel
+import userinterface.homepage.HomepageView
+import userinterface.homepage.HomepageViewModel
+import userinterface.login.LoginPageView
+import userinterface.login.LoginPageViewModel
+import userinterface.recommendation.RecommendationPage
 
 @Composable
 fun UserView(userViewModel: UserViewModel, userController: UserController) {
@@ -85,9 +99,9 @@ fun UserView(userViewModel: UserViewModel, userController: UserController) {
             // Content area
             when (currentScreen) {
                 model.Screen.HomePage -> HomepageView(homepageViewModel, homepageController)
-                model.Screen.BasicInfoPage -> BasicInformationPage(basicInformationViewModel, userController, { currentScreen = model.Screen.IntakePage })
-                model.Screen.IntakePage -> UIPage3(basicInformationViewModel, userController, { currentScreen = model.Screen.HomePage })
-                model.Screen.LoginPage -> LoginPageView(loginPageViewModel, loginPageController, { currentScreen = model.Screen.BasicInfoPage })
+                model.Screen.BasicInfoPage -> BasicInformationPage(basicInformationViewModel, userController, { currentScreen = Screen.IntakePage })
+                model.Screen.IntakePage -> RecommendationPage(basicInformationViewModel, userController, { currentScreen = Screen.HomePage })
+                model.Screen.LoginPage -> LoginPageView(loginPageViewModel, loginPageController, { currentScreen = Screen.BasicInfoPage })
                 model.Screen.AddPage -> AddFoodView(addFoodViewModel, addFoodController) /* TODO: Set default to AddFoodPage, switch to AddDrinkPage & AddExercisePage missing */
 
                 /* TODO: Food Recommendation Page missing */
