@@ -68,7 +68,7 @@ fun recommendationRow(type: String, label: String, value: String) {
         horizontalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource("${type}Icon.png"),
+            painter = painterResource("icons/${type}Icon.png"),
             contentDescription = null,
             modifier = Modifier.size(width = 59.dp, height = 59.dp),
             contentScale = ContentScale.Fit

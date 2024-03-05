@@ -71,7 +71,7 @@ fun AddExerciseView(addExerciseViewModel: AddExerciseViewModel, addExerciseContr
             modifier = Modifier.fillMaxSize()
         ) {
             Image(
-                painter = painterResource("ExerciseIcon.png"),
+                painter = painterResource("icons/ExerciseIcon.png"),
                 contentDescription = "Exercise Page Background",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Fit

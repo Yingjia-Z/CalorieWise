@@ -42,7 +42,7 @@ fun LoginPageView(
                 onValueChange = { controller.invoke(LoginPageViewEvent.EmailEvent, it) },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource("EmailIcon.png"),
+                        painter = painterResource("icons/EmailIcon.png"),
                         contentDescription = "Email",
                         tint = Color.Gray,
                         modifier = Modifier.size(30.dp)
@@ -58,7 +58,7 @@ fun LoginPageView(
                 onValueChange = { controller.invoke(LoginPageViewEvent.PasswordEvent, it) },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource("PasswordIcon.png"),
+                        painter = painterResource("icons/PasswordIcon.png"),
                         contentDescription = "Password",
                         tint = Color.Gray,
                         modifier = Modifier.size(30.dp)
@@ -66,7 +66,7 @@ fun LoginPageView(
                 },
                 trailingIcon = {
                     Icon(
-                        painter = painterResource("ViewIcon.png"),
+                        painter = painterResource("icons/ViewIcon.png"),
                         contentDescription = "View",
                         tint = Color.Gray,
                         modifier = Modifier.size(30.dp)
