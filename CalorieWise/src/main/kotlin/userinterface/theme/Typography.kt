@@ -9,11 +9,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.platform.Font
 import java.io.File
 
-/* Font resources:
-https://www.fontspace.com/playful-time-star-font-f109394
-https://www.fontspace.com/shine-typewriter-font-f86822
-
- */
 
 val playfulFont = FontFamily(
     Font(
@@ -33,6 +28,7 @@ val shineTypewriterFont = FontFamily(
 
 
 val AppTypography = Typography(
+    // subtitle2 used as emphasized subtitle
     subtitle2 = TextStyle(
         fontFamily = shineTypewriterFont,
         fontWeight = FontWeight.Bold,
@@ -45,6 +41,14 @@ val AppTypography = Typography(
         fontSize = 30.sp,
         letterSpacing = 0.sp
     ),
+    // h4 used as app name display
+    h4 = TextStyle(
+        fontFamily = playfulFont,
+        fontWeight = FontWeight.Thin,
+        fontSize = 75.sp,
+        letterSpacing = 7.sp
+    ),
+    // h5 used as small subtitle
     h5 = TextStyle(
         fontFamily = shineTypewriterFont,
         fontWeight = FontWeight.Thin,
