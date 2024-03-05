@@ -1,10 +1,11 @@
 package model
+
 import userinterface.ISubscriber
 
 abstract class IPublisher {
     private val subscribers = mutableListOf<ISubscriber>()
     fun notifySubscribers() {
-        subscribers.forEach() {
+        subscribers.forEach {
             it.update()
         }
     }

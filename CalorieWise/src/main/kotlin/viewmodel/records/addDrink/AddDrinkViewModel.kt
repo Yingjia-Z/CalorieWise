@@ -1,10 +1,10 @@
-package userinterface.homepage
+package viewmodel.records.addDrink
 
 import androidx.compose.runtime.mutableStateOf
 import model.UserModel
 import userinterface.ISubscriber
 
-class HomepageViewModel(val model: UserModel) : ISubscriber {
+class AddDrinkViewModel(val model: UserModel) : ISubscriber {
     var firstname = mutableStateOf("")
     var lastname = mutableStateOf("")
 

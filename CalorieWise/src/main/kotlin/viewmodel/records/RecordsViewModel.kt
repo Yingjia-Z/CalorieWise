@@ -1,4 +1,4 @@
-package userinterface.records
+package viewmodel.records
 
 import androidx.compose.runtime.mutableStateOf
 import model.UserModel

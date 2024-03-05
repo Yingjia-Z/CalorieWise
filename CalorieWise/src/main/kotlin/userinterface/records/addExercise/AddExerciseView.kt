@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import controller.addExercise.AddExerciseController
+import viewmodel.records.addExercise.AddExerciseViewModel
 
 
 enum class AddExerciseEvent {
@@ -32,8 +32,7 @@ enum class AddExerciseEvent {
 
 
 @Composable
-fun ExerciseEntry(name: String, quantity: String, controller: AddExerciseController) {
-//    val controller by remember { mutableStateOf(addExerciseController) }
+fun ExerciseEntry(name: String, quantity: String) {
     Card(
         modifier = Modifier.width(360.dp),
         backgroundColor = Color.White
@@ -50,7 +49,6 @@ fun ExerciseEntry(name: String, quantity: String, controller: AddExerciseControl
             )
             Button(
                 onClick = {
-                    controller.invoke(AddExerciseEvent.LowercaseEvent, null)
                 },
                 shape = CircleShape,
                 modifier = Modifier.padding(5.dp)
@@ -63,50 +61,49 @@ fun ExerciseEntry(name: String, quantity: String, controller: AddExerciseControl
 }
 
 @Composable
-fun AddExerciseView(addExerciseViewModel: AddExerciseViewModel, addExerciseController: AddExerciseController) {
+fun AddExerciseView(addExerciseViewModel: AddExerciseViewModel) {
     val viewModel by remember { mutableStateOf(addExerciseViewModel) }
-    val controller by remember { mutableStateOf(addExerciseController) }
 
-        Box(
-            modifier = Modifier.fillMaxSize()
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Image(
+            painter = painterResource("icons/ExerciseIcon.png"),
+            contentDescription = "Exercise Page Background",
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Fit
+        )
+        LazyColumn(
+            modifier = Modifier.align(Alignment.TopCenter)
         ) {
-            Image(
-                painter = painterResource("icons/ExerciseIcon.png"),
-                contentDescription = "Exercise Page Background",
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Fit
-            )
-            LazyColumn(
-                modifier = Modifier.align(Alignment.TopCenter)
-            ) {
-                item {
-                    Spacer(modifier = Modifier.height(25.dp))
-                    Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-                        Button(
-                            onClick = { controller.invoke(AddExerciseEvent.UppercaseEvent, null) },
-                            modifier = Modifier.width(118.dp)
-                        ) {
-                            Text("New")
-                        }
-                        Button(
-                            onClick = { controller.invoke(AddExerciseEvent.UppercaseEvent, null) },
-                            modifier = Modifier.width(118.dp)
-                        ) {
-                            Text("Favourite")
-                        }
-                        Button(
-                            onClick = { controller.invoke(AddExerciseEvent.UppercaseEvent, null) },
-                            modifier = Modifier.width(118.dp)
-                        ) {
-                            Text("Recent")
-                        }
+            item {
+                Spacer(modifier = Modifier.height(25.dp))
+                Row(horizontalArrangement = Arrangement.SpaceEvenly) {
+                    Button(
+                        onClick = { },
+                        modifier = Modifier.width(118.dp)
+                    ) {
+                        Text("New")
                     }
-                    Spacer(modifier = Modifier.height(25.dp))
-
-                    ExerciseEntry("Jogging", "20 min", controller)
-                    ExerciseEntry("Jogging", "20 min", controller)
+                    Button(
+                        onClick = { },
+                        modifier = Modifier.width(118.dp)
+                    ) {
+                        Text("Favourite")
+                    }
+                    Button(
+                        onClick = { },
+                        modifier = Modifier.width(118.dp)
+                    ) {
+                        Text("Recent")
+                    }
                 }
-            }
+                Spacer(modifier = Modifier.height(25.dp))
 
+                ExerciseEntry("Jogging", "20 min")
+                ExerciseEntry("Jogging", "20 min")
+            }
         }
+
+    }
 }

@@ -17,7 +17,7 @@ classDiagram
     UserViewModel "*" <-- "*" UserModel
     
     class View {
-        -UserController controller    
+        -UserController viewmodel    
         -UserViewModel viewModel
     }
     

@@ -1,4 +1,4 @@
-package userinterface.basicInfo
+package viewmodel.basicInfo
 
 import model.UserModel
 import userinterface.ISubscriber
@@ -156,8 +156,10 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         if (exist == 0) {
             try {
                 val stmt = createStatement()
-                stmt.executeUpdate("INSERT INTO BasicInfo (username, height, weight, goalWeight, age, gender) " +
-                        "VALUES ('${username}', ${height}, ${weight}, ${goalWeight}, ${age}, '${gender}');")
+                stmt.executeUpdate(
+                    "INSERT INTO BasicInfo (username, height, weight, goalWeight, age, gender) " +
+                            "VALUES ('${username}', ${height}, ${weight}, ${goalWeight}, ${age}, '${gender}');"
+                )
                 stmt.close()
                 return 1
             } catch (exception: Exception) {
@@ -167,8 +169,10 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         } else if (exist == 1) {
             try {
                 val stmt = createStatement()
-                stmt.executeUpdate("UPDATE BasicInfo SET height = ${height}, weight = ${weight}, " +
-                        "goalWeight = ${goalWeight}, age = ${age}, gender = '${gender}' WHERE username = '${username}';")
+                stmt.executeUpdate(
+                    "UPDATE BasicInfo SET height = ${height}, weight = ${weight}, " +
+                            "goalWeight = ${goalWeight}, age = ${age}, gender = '${gender}' WHERE username = '${username}';"
+                )
                 stmt.close()
                 return 1
             } catch (exception: Exception) {
@@ -190,7 +194,8 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
     ) {
         val connection = connect()
         val exist = connection?.checkUserExistInTable(username, "BasicInfo")
-        val insertOrUpdateSuccessCode = connection?.insertOrUpdateBasicInfo(username, height, weight, goalWeight, age, gender, exist!!)
+        val insertOrUpdateSuccessCode =
+            connection?.insertOrUpdateBasicInfo(username, height, weight, goalWeight, age, gender, exist!!)
         assert(insertOrUpdateSuccessCode == 1)
     }
 

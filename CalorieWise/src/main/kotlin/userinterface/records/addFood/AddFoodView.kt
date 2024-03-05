@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import controller.addFood.AddFoodController
+import viewmodel.records.addFood.AddFoodViewModel
 
 
 enum class AddFoodEvent {
@@ -32,8 +32,7 @@ enum class AddFoodEvent {
 
 
 @Composable
-fun FoodEntry(name: String, quantity: String, controller: AddFoodController) {
-//    val controller by remember { mutableStateOf(addFoodController) }
+fun FoodEntry(name: String, quantity: String) {
     Card(
         modifier = Modifier.width(360.dp),
         backgroundColor = Color.White
@@ -50,7 +49,6 @@ fun FoodEntry(name: String, quantity: String, controller: AddFoodController) {
             )
             Button(
                 onClick = {
-                    controller.invoke(AddFoodEvent.LowercaseEvent, null)
                 },
                 shape = CircleShape,
                 modifier = Modifier.padding(5.dp)
@@ -63,51 +61,50 @@ fun FoodEntry(name: String, quantity: String, controller: AddFoodController) {
 }
 
 @Composable
-fun AddFoodView(addFoodViewModel: AddFoodViewModel, addFoodController: AddFoodController) {
+fun AddFoodView(addFoodViewModel: AddFoodViewModel) {
     val viewModel by remember { mutableStateOf(addFoodViewModel) }
-    val controller by remember { mutableStateOf(addFoodController) }
 
     Box(
-            modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Image(
+            painter = painterResource("icons/FoodIcon.png"),
+            contentDescription = "Food Page Background",
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Fit
+        )
+        LazyColumn(
+            modifier = Modifier.align(Alignment.TopCenter)
         ) {
-            Image(
-                painter = painterResource("icons/FoodIcon.png"),
-                contentDescription = "Food Page Background",
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Fit
-            )
-            LazyColumn(
-                modifier = Modifier.align(Alignment.TopCenter)
-            ) {
-                item {
-                    Spacer(modifier = Modifier.height(25.dp))
-                    Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-                        Button(
-                            onClick = { controller.invoke(AddFoodEvent.UppercaseEvent, null) },
-                            modifier = Modifier.width(118.dp)
-                        ) {
-                            Text("New")
-                        }
-                        Button(
-                            onClick = { controller.invoke(AddFoodEvent.UppercaseEvent, null) },
-                            modifier = Modifier.width(118.dp)
-                        ) {
-                            Text("Favourite")
-                        }
-                        Button(
-                            onClick = { controller.invoke(AddFoodEvent.UppercaseEvent, null) },
-                            modifier = Modifier.width(118.dp)
-                        ) {
-                            Text("Recent")
-                        }
+            item {
+                Spacer(modifier = Modifier.height(25.dp))
+                Row(horizontalArrangement = Arrangement.SpaceEvenly) {
+                    Button(
+                        onClick = { },
+                        modifier = Modifier.width(118.dp)
+                    ) {
+                        Text("New")
                     }
-                    Spacer(modifier = Modifier.height(25.dp))
-
-                    FoodEntry("Noodle", "20 g", controller)
-                    FoodEntry("Noodle", "20 g", controller)
+                    Button(
+                        onClick = {},
+                        modifier = Modifier.width(118.dp)
+                    ) {
+                        Text("Favourite")
+                    }
+                    Button(
+                        onClick = {},
+                        modifier = Modifier.width(118.dp)
+                    ) {
+                        Text("Recent")
+                    }
                 }
-            }
+                Spacer(modifier = Modifier.height(25.dp))
 
+                FoodEntry("Noodle", "20 g")
+                FoodEntry("Noodle", "20 g")
+            }
         }
+
+    }
 
 }

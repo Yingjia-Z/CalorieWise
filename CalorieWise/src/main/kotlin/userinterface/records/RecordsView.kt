@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import controller.UserController
+import viewmodel.records.RecordsViewModel
 
 @Composable
 fun HistoryEntry(name: String, calorie: String, quantity: String) {
@@ -41,10 +41,11 @@ fun HistoryEntry(name: String, calorie: String, quantity: String) {
 }
 
 @Composable
-fun RecordsView(recordsViewModel: RecordsViewModel, recordsController: UserController,
-                onAddFoodClick: () -> Unit, onAddDrinkClick: () -> Unit, onAddExerciseClick: () -> Unit) {
+fun RecordsView(
+    recordsViewModel: RecordsViewModel,
+    onAddFoodClick: () -> Unit, onAddDrinkClick: () -> Unit, onAddExerciseClick: () -> Unit
+) {
     val viewModel by remember { mutableStateOf(recordsViewModel) }
-    val controller by remember { mutableStateOf(recordsController) }
 
     Box(
         modifier = Modifier.fillMaxSize()
