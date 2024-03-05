@@ -71,7 +71,7 @@ fun AddDrinkView(addDrinkViewModel: AddDrinkViewModel, addDrinkController: AddDr
             modifier = Modifier.fillMaxSize()
         ) {
             Image(
-                painter = painterResource("DrinkIcon.png"),
+                painter = painterResource("icons/DrinkIcon.png"),
                 contentDescription = "Drink Page Background",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Fit

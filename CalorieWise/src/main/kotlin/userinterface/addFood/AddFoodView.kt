@@ -71,7 +71,7 @@ fun AddFoodView(addFoodViewModel: AddFoodViewModel, addFoodController: AddFoodCo
             modifier = Modifier.fillMaxSize()
         ) {
             Image(
-                painter = painterResource("FoodIcon.png"),
+                painter = painterResource("icons/FoodIcon.png"),
                 contentDescription = "Food Page Background",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Fit

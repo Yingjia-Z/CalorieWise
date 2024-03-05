@@ -88,10 +88,10 @@ fun UserView(userViewModel: UserViewModel, userController: UserController) {
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ) {
                     item {
-                        SidebarImageButton("Home.png") { currentScreen = Screens.Homepage.screen }
-                        SidebarImageButton("Graph.png") { currentScreen = Screens.AddFood.screen }
-                        SidebarImageButton("My-Nutrition.png") { /* TODO: Add onclick function */ }
-                        SidebarImageButton("Profile.png") { currentScreen = Screens.BasicInfo.screen }
+                        SidebarImageButton("icons/Home.png") { currentScreen = Screens.Homepage.screen }
+                        SidebarImageButton("icons/Graph.png") { currentScreen = Screens.AddFood.screen }
+                        SidebarImageButton("icons/My-Nutrition.png") { /* TODO: Add onclick function */ }
+                        SidebarImageButton("icons/Profile.png") { currentScreen = Screens.BasicInfo.screen }
                     }
                 }
             }

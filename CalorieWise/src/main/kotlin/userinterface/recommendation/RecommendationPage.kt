@@ -1,8 +1,8 @@
 package userinterface.recommendation
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -12,10 +12,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import controller.UserController
 import userinterface.basicInfo.BasicInformationViewModel
-
 
 @Composable
 fun RecommendationPage(basicInformationViewModel: BasicInformationViewModel, userController: UserController,
@@ -23,61 +24,69 @@ fun RecommendationPage(basicInformationViewModel: BasicInformationViewModel, use
     val viewModel by remember { mutableStateOf(basicInformationViewModel) }
     val controller by remember { mutableStateOf(userController) }
 
-    Column(
-        modifier = Modifier.fillMaxSize().paddingFromBaseline(125.dp, 50.dp),
-        verticalArrangement = Arrangement.spacedBy(70.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Based on the information you provided, your CalorieWise recommendations are: ",
-            style = MaterialTheme.typography.h4,
-            modifier = Modifier.width(1000.dp)
-        )
-        Row {
-            Text(
-                text = "Daily Calorie Intake",
-                style = MaterialTheme.typography.h5,
-                modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(10.dp),
-                color = Color.Red
-            )
-            Text(
-                text = "${basicInformationViewModel.calorie} Cals",
-                style = MaterialTheme.typography.body1,
-                modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(10.dp)
-            )
-        }
-        Row {
-            Text(
-                text = "Daily Water Intake",
-                style = MaterialTheme.typography.h5,
-                modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(10.dp),
-                color = Color.Red
-            )
-            Text(
-                text = "${basicInformationViewModel.waterIntake} ounces",
-                style = MaterialTheme.typography.body1,
-                modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(10.dp)
-            )
-        }
-        Row {
-            Text(
-                text = "Daily Exercise",
-                style = MaterialTheme.typography.h5,
-                modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(10.dp),
-                color = Color.Red,
-            )
-            Text(
-                text = "30 Min",
-                style = MaterialTheme.typography.body1,
-                modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(10.dp)
-            )
-        }
-        Button(
-            modifier = Modifier, onClick = { onSignInClick() }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red, contentColor = Color.White)
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Next Step")
+            Text(
+                text = "CalorieWise RECOMMENDS: ",
+                style = MaterialTheme.typography.subtitle2,
+                modifier = Modifier.padding(30.dp)
+            )
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(35.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                recommendationRow("Food", "Calorie Intake", "${basicInformationViewModel.calorie} Cals")
+                recommendationRow("Drink", "Water Intake", "${basicInformationViewModel.waterIntake} Ounces")
+                // TODO: add customized exercise time
+                recommendationRow("Exercise", "Exercise", "30 Min")
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Button(
+                    onClick = { onSignInClick() },
+                    modifier = Modifier.align(Alignment.CenterHorizontally) // Center the button within the column
+                ) {
+                    Text("Next Step")
+                }
+            }
         }
-
     }
+}
 
+@Composable
+fun recommendationRow(type: String, label: String, value: String) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Image(
+            painter = painterResource("icons/${type}Icon.png"),
+            contentDescription = null,
+            modifier = Modifier.size(width = 59.dp, height = 59.dp),
+            contentScale = ContentScale.Fit
+        )
+        Text(
+            text = label,
+            style = MaterialTheme.typography.h5.copy(color = MaterialTheme.colors.primaryVariant),
+            modifier = Modifier.padding(10.dp),
+        )
+        Text(
+            text = value,
+            style = MaterialTheme.typography.h5.copy(color = MaterialTheme.colors.secondary),
+            modifier = Modifier.padding(10.dp)
+        )
+        Text(
+            text = "/day",
+            style = MaterialTheme.typography.h5.copy(color = MaterialTheme.colors.primaryVariant),
+            modifier = Modifier.padding(5.dp)
+        )
+    }
 }
