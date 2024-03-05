@@ -29,22 +29,22 @@ class UserModel : IPublisher() {
             field = value
         }
 
-    var age: String = ""
+    var age: Int = -1
         set(value) {
             field = value
         }
 
-    var height: String = ""
+    var height: Int = -1
         set(value) {
             field = value
         }
 
-    var weight: String = ""
+    var weight: Int = -1
         set(value) {
             field = value
         }
 
-    var goalWeight: String = ""
+    var goalWeight: Int = -1
         set(value) {
             field = value
         }
