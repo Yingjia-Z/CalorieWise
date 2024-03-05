@@ -1,4 +1,4 @@
-package userinterface.addDrink
+package userinterface.records.addFood
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -19,10 +19,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import controller.addDrink.AddDrinkController
+import controller.addFood.AddFoodController
 
 
-enum class AddDrinkEvent {
+enum class AddFoodEvent {
     FirstNameEvent,
     LastNameEvent,
     UppercaseEvent,
@@ -32,8 +32,8 @@ enum class AddDrinkEvent {
 
 
 @Composable
-fun DrinkEntry(name: String, quantity: String, controller: AddDrinkController) {
-//    val controller by remember { mutableStateOf(addDrinkController) }
+fun FoodEntry(name: String, quantity: String, controller: AddFoodController) {
+//    val controller by remember { mutableStateOf(addFoodController) }
     Card(
         modifier = Modifier.width(360.dp),
         backgroundColor = Color.White
@@ -50,7 +50,7 @@ fun DrinkEntry(name: String, quantity: String, controller: AddDrinkController) {
             )
             Button(
                 onClick = {
-                    controller.invoke(AddDrinkEvent.LowercaseEvent, null)
+                    controller.invoke(AddFoodEvent.LowercaseEvent, null)
                 },
                 shape = CircleShape,
                 modifier = Modifier.padding(5.dp)
@@ -63,16 +63,16 @@ fun DrinkEntry(name: String, quantity: String, controller: AddDrinkController) {
 }
 
 @Composable
-fun AddDrinkView(addDrinkViewModel: AddDrinkViewModel, addDrinkController: AddDrinkController) {
-    val viewModel by remember { mutableStateOf(addDrinkViewModel) }
-    val controller by remember { mutableStateOf(addDrinkController) }
+fun AddFoodView(addFoodViewModel: AddFoodViewModel, addFoodController: AddFoodController) {
+    val viewModel by remember { mutableStateOf(addFoodViewModel) }
+    val controller by remember { mutableStateOf(addFoodController) }
 
     Box(
             modifier = Modifier.fillMaxSize()
         ) {
             Image(
-                painter = painterResource("icons/DrinkIcon.png"),
-                contentDescription = "Drink Page Background",
+                painter = painterResource("icons/FoodIcon.png"),
+                contentDescription = "Food Page Background",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Fit
             )
@@ -83,19 +83,19 @@ fun AddDrinkView(addDrinkViewModel: AddDrinkViewModel, addDrinkController: AddDr
                     Spacer(modifier = Modifier.height(25.dp))
                     Row(horizontalArrangement = Arrangement.SpaceEvenly) {
                         Button(
-                            onClick = { controller.invoke(AddDrinkEvent.UppercaseEvent, null) },
+                            onClick = { controller.invoke(AddFoodEvent.UppercaseEvent, null) },
                             modifier = Modifier.width(118.dp)
                         ) {
                             Text("New")
                         }
                         Button(
-                            onClick = { controller.invoke(AddDrinkEvent.UppercaseEvent, null) },
+                            onClick = { controller.invoke(AddFoodEvent.UppercaseEvent, null) },
                             modifier = Modifier.width(118.dp)
                         ) {
                             Text("Favourite")
                         }
                         Button(
-                            onClick = { controller.invoke(AddDrinkEvent.UppercaseEvent, null) },
+                            onClick = { controller.invoke(AddFoodEvent.UppercaseEvent, null) },
                             modifier = Modifier.width(118.dp)
                         ) {
                             Text("Recent")
@@ -103,10 +103,11 @@ fun AddDrinkView(addDrinkViewModel: AddDrinkViewModel, addDrinkController: AddDr
                     }
                     Spacer(modifier = Modifier.height(25.dp))
 
-                    DrinkEntry("Water", "200 ml", controller)
-                    DrinkEntry("Water", "200 ml", controller)
+                    FoodEntry("Noodle", "20 g", controller)
+                    FoodEntry("Noodle", "20 g", controller)
                 }
             }
 
-    }
+        }
+
 }

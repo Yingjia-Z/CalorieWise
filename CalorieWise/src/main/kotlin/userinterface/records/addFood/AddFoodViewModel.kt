@@ -1,4 +1,4 @@
-package userinterface.addFood
+package userinterface.records.addFood
 
 import androidx.compose.runtime.mutableStateOf
 import model.UserModel

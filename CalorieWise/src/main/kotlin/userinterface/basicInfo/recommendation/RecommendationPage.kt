@@ -1,4 +1,4 @@
-package userinterface.recommendation
+package userinterface.basicInfo.recommendation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -20,7 +20,7 @@ import userinterface.basicInfo.BasicInformationViewModel
 
 @Composable
 fun RecommendationPage(basicInformationViewModel: BasicInformationViewModel, userController: UserController,
-                       onSignInClick: () -> Unit) {
+                       onNextStepClick: () -> Unit) {
     val viewModel by remember { mutableStateOf(basicInformationViewModel) }
     val controller by remember { mutableStateOf(userController) }
 
@@ -50,7 +50,7 @@ fun RecommendationPage(basicInformationViewModel: BasicInformationViewModel, use
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Button(
-                    onClick = { onSignInClick() },
+                    onClick = { onNextStepClick() },
                     modifier = Modifier.align(Alignment.CenterHorizontally) // Center the button within the column
                 ) {
                     Text("Next Step")

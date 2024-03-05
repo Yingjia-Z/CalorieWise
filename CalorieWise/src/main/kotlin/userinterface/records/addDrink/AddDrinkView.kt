@@ -1,4 +1,4 @@
-package userinterface.addExercise
+package userinterface.records.addDrink
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -19,10 +19,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import controller.addExercise.AddExerciseController
+import controller.addDrink.AddDrinkController
 
 
-enum class AddExerciseEvent {
+enum class AddDrinkEvent {
     FirstNameEvent,
     LastNameEvent,
     UppercaseEvent,
@@ -32,8 +32,8 @@ enum class AddExerciseEvent {
 
 
 @Composable
-fun ExerciseEntry(name: String, quantity: String, controller: AddExerciseController) {
-//    val controller by remember { mutableStateOf(addExerciseController) }
+fun DrinkEntry(name: String, quantity: String, controller: AddDrinkController) {
+//    val controller by remember { mutableStateOf(addDrinkController) }
     Card(
         modifier = Modifier.width(360.dp),
         backgroundColor = Color.White
@@ -50,7 +50,7 @@ fun ExerciseEntry(name: String, quantity: String, controller: AddExerciseControl
             )
             Button(
                 onClick = {
-                    controller.invoke(AddExerciseEvent.LowercaseEvent, null)
+                    controller.invoke(AddDrinkEvent.LowercaseEvent, null)
                 },
                 shape = CircleShape,
                 modifier = Modifier.padding(5.dp)
@@ -63,16 +63,16 @@ fun ExerciseEntry(name: String, quantity: String, controller: AddExerciseControl
 }
 
 @Composable
-fun AddExerciseView(addExerciseViewModel: AddExerciseViewModel, addExerciseController: AddExerciseController) {
-    val viewModel by remember { mutableStateOf(addExerciseViewModel) }
-    val controller by remember { mutableStateOf(addExerciseController) }
+fun AddDrinkView(addDrinkViewModel: AddDrinkViewModel, addDrinkController: AddDrinkController) {
+    val viewModel by remember { mutableStateOf(addDrinkViewModel) }
+    val controller by remember { mutableStateOf(addDrinkController) }
 
-        Box(
+    Box(
             modifier = Modifier.fillMaxSize()
         ) {
             Image(
-                painter = painterResource("icons/ExerciseIcon.png"),
-                contentDescription = "Exercise Page Background",
+                painter = painterResource("icons/DrinkIcon.png"),
+                contentDescription = "Drink Page Background",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Fit
             )
@@ -83,19 +83,19 @@ fun AddExerciseView(addExerciseViewModel: AddExerciseViewModel, addExerciseContr
                     Spacer(modifier = Modifier.height(25.dp))
                     Row(horizontalArrangement = Arrangement.SpaceEvenly) {
                         Button(
-                            onClick = { controller.invoke(AddExerciseEvent.UppercaseEvent, null) },
+                            onClick = { controller.invoke(AddDrinkEvent.UppercaseEvent, null) },
                             modifier = Modifier.width(118.dp)
                         ) {
                             Text("New")
                         }
                         Button(
-                            onClick = { controller.invoke(AddExerciseEvent.UppercaseEvent, null) },
+                            onClick = { controller.invoke(AddDrinkEvent.UppercaseEvent, null) },
                             modifier = Modifier.width(118.dp)
                         ) {
                             Text("Favourite")
                         }
                         Button(
-                            onClick = { controller.invoke(AddExerciseEvent.UppercaseEvent, null) },
+                            onClick = { controller.invoke(AddDrinkEvent.UppercaseEvent, null) },
                             modifier = Modifier.width(118.dp)
                         ) {
                             Text("Recent")
@@ -103,10 +103,10 @@ fun AddExerciseView(addExerciseViewModel: AddExerciseViewModel, addExerciseContr
                     }
                     Spacer(modifier = Modifier.height(25.dp))
 
-                    ExerciseEntry("Jogging", "20 min", controller)
-                    ExerciseEntry("Jogging", "20 min", controller)
+                    DrinkEntry("Water", "200 ml", controller)
+                    DrinkEntry("Water", "200 ml", controller)
                 }
             }
 
-        }
+    }
 }
