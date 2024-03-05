@@ -11,7 +11,7 @@ import java.io.File
 
 /* Font resources:
 https://www.fontspace.com/playful-time-star-font-f109394
-https://www.fontspace.com/magic-saturday-font-f88356
+https://www.fontspace.com/shine-typewriter-font-f86822
 
  */
 
@@ -23,9 +23,9 @@ val playfulFont = FontFamily(
     )
 )
 
-val magicSaturdayFont = FontFamily(
+val shineTypewriterFont = FontFamily(
     Font(
-        resource = "font/MagicSaturday-rg1OA.ttf",
+        resource = "font/ShineTypewriter-lgwzd.ttf",
         weight = FontWeight.W400,
         style = FontStyle.Normal
     )
@@ -33,8 +33,8 @@ val magicSaturdayFont = FontFamily(
 
 
 val AppTypography = Typography(
-    caption = TextStyle(
-        fontFamily = magicSaturdayFont,
+    subtitle2 = TextStyle(
+        fontFamily = shineTypewriterFont,
         fontWeight = FontWeight.Bold,
         fontSize = 30.sp,
         letterSpacing = 0.sp

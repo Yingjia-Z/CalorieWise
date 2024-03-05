@@ -12,4 +12,4 @@ https://colorhunt.co
 val Indigo = Color(0xFF3F51B5)
 val DarkerIndigo = Color(0xFF124076)
 val Red = Color(0xFFD04848)
-val LightPurple = Color(0xFFC5CAE9)
+val WhiteSmoke = Color(0xFFF5F5F5)

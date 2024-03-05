@@ -11,7 +11,7 @@ https://www.jetpackcompose.net/themes-in-jetpack-compose
 private val LightColorPalette = lightColors(
     primary = Indigo,
     primaryVariant = DarkerIndigo,
-    onPrimary = LightPurple,
+    onPrimary = WhiteSmoke,
     secondary = Red,
     error = Red,
 )

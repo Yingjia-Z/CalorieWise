@@ -1,16 +1,14 @@
 package userinterface.basicInfo
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import controller.UserController
 
@@ -25,24 +23,25 @@ fun BasicInformationPage(userViewModel: BasicInformationViewModel, userControlle
     var weight by remember { mutableStateOf("") }
     var goalWeight by remember { mutableStateOf("") }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
         Column(
-            modifier = Modifier.align(Alignment.Center)
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             //basic information text fields
-            Image(
-                painter = painterResource("BasicInformation.jpg"),
-                contentDescription = "BasicInformation Image",
-                modifier = Modifier.size(250.dp)
-                    .padding(15.dp, 0.dp, 0.dp, 0.dp),
-                contentScale = ContentScale.Fit,
 
-                )
+            Text(
+                text = "BASIC INFORMATION",
+                style = MaterialTheme.typography.subtitle2,
+                modifier = Modifier.padding(30.dp)
+            )
+            Spacer(modifier = Modifier.height(25.dp))
+
             //now use lay column to get a column of text fields, compose 5-1 lazy example
 
             LazyColumn(
-                //modifier = Modifier.padding(4.dp),
-                modifier = Modifier.weight(0.5f)
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment= Alignment.CenterHorizontally
 
 
             ) {
@@ -79,29 +78,27 @@ fun BasicInformationPage(userViewModel: BasicInformationViewModel, userControlle
 
                 }
             }
-        }
-        Image(
-            painter = painterResource("NextStep.jpg"),
-            contentDescription = "NextStepButton Image",
-            modifier = Modifier
-                .size(210.dp)
-                .align(Alignment.BottomCenter)
-                .padding(0.dp, 80.dp, 0.dp, 0.dp)
-                .clickable {
+            Spacer(modifier = Modifier.height(25.dp))
+            Button(
+                onClick = {
                     userViewModel.setGender(gender)
                     userViewModel.setAge(age)
                     userViewModel.setHeight(height)
                     userViewModel.setWeight(weight)
                     userViewModel.setGoalWeight(goalWeight)
-                    val c = userViewModel.calculateCalroieIntake();
+                    val c = userViewModel.calculateCalroieIntake()
                     userViewModel.setCalorieIntake(c)
-                    val w = userViewModel.calculateWaterIntake();
+                    val w = userViewModel.calculateWaterIntake()
                     userViewModel.setwaterIntake(w)
-                    val e = userViewModel.calculateExercise();
+                    val e = userViewModel.calculateExercise()
                     userViewModel.setExerciseIntake(e)
-                    userViewModel.updateBasicInformation(gender, age, height, weight, goalWeight, c,w,e)
-                    onNextStepClick() },
-            contentScale = ContentScale.Fit,
-        )
+                    userViewModel.updateBasicInformation(gender, age, height, weight, goalWeight, c, w, e)
+                    onNextStepClick()
+                },
+                modifier = Modifier.padding(top = 20.dp)
+            ) {
+                Text("Next Step")
+            }
+        }
     }
 }

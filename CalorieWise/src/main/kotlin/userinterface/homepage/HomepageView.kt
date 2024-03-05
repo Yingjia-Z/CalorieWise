@@ -5,7 +5,10 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,9 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
-import controller.homepage.HomepageController
 import androidx.compose.ui.unit.dp
-
+import controller.homepage.HomepageController
 
 
 enum class HomepageComponent {
@@ -94,7 +96,7 @@ fun HomepageView(homepageViewModel: HomepageViewModel, homepageController: Homep
                     elevation = 4.dp
                 ) {
                     Column(modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("Nutrients Board", style = MaterialTheme.typography.caption)
+                        Text("Nutrients Board", style = MaterialTheme.typography.subtitle2)
                         // add details here
                         Row(horizontalArrangement = Arrangement.SpaceEvenly) {
                             Button(onClick = {
@@ -132,7 +134,7 @@ fun HomepageView(homepageViewModel: HomepageViewModel, homepageController: Homep
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        Text("Calorie Tracker", style = MaterialTheme.typography.caption)
+                        Text("Calorie Tracker", style = MaterialTheme.typography.subtitle2)
                         // add details here
                         PieChart()
                         Card(

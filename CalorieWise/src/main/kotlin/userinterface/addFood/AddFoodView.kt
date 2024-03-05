@@ -67,8 +67,7 @@ fun AddFoodView(addFoodViewModel: AddFoodViewModel, addFoodController: AddFoodCo
     val viewModel by remember { mutableStateOf(addFoodViewModel) }
     val controller by remember { mutableStateOf(addFoodController) }
 
-    MaterialTheme {
-        Box(
+    Box(
             modifier = Modifier.fillMaxSize()
         ) {
             Image(
@@ -110,5 +109,5 @@ fun AddFoodView(addFoodViewModel: AddFoodViewModel, addFoodController: AddFoodCo
             }
 
         }
-    }
+
 }
