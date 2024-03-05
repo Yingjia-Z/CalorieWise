@@ -45,6 +45,12 @@ val AppTypography = Typography(
         fontSize = 30.sp,
         letterSpacing = 0.sp
     ),
+    h5 = TextStyle(
+        fontFamily = shineTypewriterFont,
+        fontWeight = FontWeight.Thin,
+        fontSize = 25.sp,
+        letterSpacing = 0.sp
+    ),
     body1 = TextStyle(
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Normal,

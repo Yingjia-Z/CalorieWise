@@ -1,6 +1,5 @@
 package userinterface.login
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -10,7 +9,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import controller.login.LoginPageController
@@ -49,10 +47,7 @@ fun LoginPageView(
                         tint = Color.Gray,
                         modifier = Modifier.size(30.dp)
                     )
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    focusedIndicatorColor = Color.Red, focusedLabelColor = Color.Red, cursorColor = Color.Red
-                )
+                }
             )
 
             Spacer(modifier = Modifier.height(25.dp))
@@ -76,10 +71,7 @@ fun LoginPageView(
                         tint = Color.Gray,
                         modifier = Modifier.size(30.dp)
                     )
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    focusedIndicatorColor = Color.Red, focusedLabelColor = Color.Red, cursorColor = Color.Red
-                )
+                }
             )
 
             Spacer(modifier = Modifier.height(25.dp))
@@ -90,15 +82,17 @@ fun LoginPageView(
                     if (viewModel.loggedin) {
                         onSignInClick()
                     }
-                }
-            ) {
+                }) {
                 Text("Sign In")
             }
 
-            Spacer(modifier = Modifier.height(25.dp))
+            Spacer(modifier = Modifier.height(45.dp))
 
             Text("Don't have an account?")
-            TextButton(onClick = {}, colors = ButtonDefaults.textButtonColors(contentColor = Color.Red)) {
+            TextButton(
+                onClick = {},
+                colors = ButtonDefaults.textButtonColors(contentColor = Color.Red)
+            ) {
                 Text("Sign Up")
             }
         }
