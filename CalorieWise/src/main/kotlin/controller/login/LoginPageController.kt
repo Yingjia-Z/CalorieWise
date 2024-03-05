@@ -102,7 +102,7 @@ class LoginPageController(val model: UserModel) {
     fun connect(): Connection? {
         var connection: Connection? = null
         try {
-            val url = "jdbc:sqlite:src/main/kotlin/data/login.db"
+            val url = "jdbc:sqlite:src/main/kotlin/data/data.db"
             connection = DriverManager.getConnection(url)
             println("Connection is valid.")
         } catch (e: SQLException) {
