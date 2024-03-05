@@ -2,18 +2,22 @@ package viewmodel.login
 
 import androidx.compose.runtime.mutableStateOf
 import model.UserModel
+import userinterface.ISubscriber
 import userinterface.login.LoginPageViewEvent
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
 
 
-class LoginPageViewModel(val model: UserModel) {
+class LoginPageViewModel(val model: UserModel) : ISubscriber {
     // we can cast `Any` later since each event has an associated type
-    var email = mutableStateOf("")
-    var password = mutableStateOf("")
+    val email = mutableStateOf("")
+    val password = mutableStateOf("")
     var loggedin = false
 
+    init {
+        model.subscribe(this)
+    }
 
     private fun signInOrSignUp() {
         val connection = connect()
@@ -123,5 +127,11 @@ class LoginPageViewModel(val model: UserModel) {
             LoginPageViewEvent.PasswordEvent -> model.password = value as String
             LoginPageViewEvent.SignInEvent -> signInOrSignUp()
         }
+    }
+
+    override fun update() {
+        email.value = model.email
+        password.value = model.password
+        loggedin = model.loggedIn
     }
 }

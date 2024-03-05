@@ -38,7 +38,7 @@ fun LoginPageView(
             Spacer(modifier = Modifier.height(25.dp))
 
             TextField(
-                loginPageViewModel.email.value,
+                viewmodel.email.value,
                 label = { Text("E-mail: ") },
                 onValueChange = { viewmodel.invoke(LoginPageViewEvent.EmailEvent, it) },
                 leadingIcon = {
@@ -54,7 +54,7 @@ fun LoginPageView(
             Spacer(modifier = Modifier.height(30.dp))
 
             TextField(
-                loginPageViewModel.password.value,
+                viewmodel.password.value,
                 label = { Text("Password: ") },
                 onValueChange = { viewmodel.invoke(LoginPageViewEvent.PasswordEvent, it) },
                 leadingIcon = {
@@ -80,7 +80,7 @@ fun LoginPageView(
             Button(
                 onClick = {
                     viewmodel.invoke(LoginPageViewEvent.SignInEvent, 1)
-                    if (loginPageViewModel.loggedin) {
+                    if (viewmodel.loggedin) {
                         onSignInClick()
                     }
                 }) {
