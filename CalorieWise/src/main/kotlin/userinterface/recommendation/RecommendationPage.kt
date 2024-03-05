@@ -42,10 +42,10 @@ fun RecommendationPage(basicInformationViewModel: BasicInformationViewModel, use
                 verticalArrangement = Arrangement.spacedBy(35.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                recommendationRow("Food", "Daily Calorie Intake", "${basicInformationViewModel.calorie} Cals")
-                recommendationRow("Drink", "Daily Water Intake", "${basicInformationViewModel.waterIntake} Ounces")
+                recommendationRow("Food", "Calorie Intake", "${basicInformationViewModel.calorie} Cals")
+                recommendationRow("Drink", "Water Intake", "${basicInformationViewModel.waterIntake} Ounces")
                 // TODO: add customized exercise time
-                recommendationRow("Exercise", "Daily Exercise", "30 Min")
+                recommendationRow("Exercise", "Exercise", "30 Min")
 
                 Spacer(modifier = Modifier.height(20.dp))
 
@@ -82,6 +82,11 @@ fun recommendationRow(type: String, label: String, value: String) {
             text = value,
             style = MaterialTheme.typography.h5.copy(color = MaterialTheme.colors.secondary),
             modifier = Modifier.padding(10.dp)
+        )
+        Text(
+            text = "/day",
+            style = MaterialTheme.typography.h5.copy(color = MaterialTheme.colors.primaryVariant),
+            modifier = Modifier.padding(5.dp)
         )
     }
 }
