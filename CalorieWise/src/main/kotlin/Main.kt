@@ -5,15 +5,14 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
-import controller.*
 import model.UserModel
-import userinterface.*
+import userinterface.UserView
+import userinterface.UserViewModel
 import userinterface.theme.MyApplicationTheme
 
 fun main() = application {
     val userModel = UserModel()
     val userViewModel = UserViewModel(userModel)
-    val userController = UserController(userModel)
 
     Window(
         title = "CalorieWise",
@@ -25,7 +24,7 @@ fun main() = application {
         onCloseRequest = ::exitApplication
     ) {
         MyApplicationTheme {
-            UserView(userViewModel, userController)
+            UserView(userViewModel)
         }
     }
 }

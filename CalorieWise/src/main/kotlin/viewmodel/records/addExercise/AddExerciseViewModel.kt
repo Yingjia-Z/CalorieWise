@@ -1,4 +1,4 @@
-package userinterface.records.addExercise
+package viewmodel.records.addExercise
 
 import androidx.compose.runtime.mutableStateOf
 import model.UserModel

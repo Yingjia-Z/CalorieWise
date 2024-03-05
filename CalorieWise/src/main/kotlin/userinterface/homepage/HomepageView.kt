@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
-import controller.homepage.HomepageController
+import viewmodel.homepage.HomepageViewModel
 
 
 enum class HomepageComponent {
@@ -32,16 +32,16 @@ enum class HomepageComponent {
 @Composable
 fun PieChart(modifier: Modifier = Modifier) {
     Box(
-            contentAlignment = Alignment.Center,
-            modifier = modifier
-                    .size(100.dp)
-                    .border(2.dp, Color.Transparent, RoundedCornerShape(10.dp))
+        contentAlignment = Alignment.Center,
+        modifier = modifier
+            .size(100.dp)
+            .border(2.dp, Color.Transparent, RoundedCornerShape(10.dp))
     ) {
         Canvas(modifier = Modifier.fillMaxSize()) {
             drawCircle(
-                    color = Color.Blue,
-                    radius = size.minDimension / 2,
-                    style = Stroke(width = 2.dp.toPx())
+                color = Color.Blue,
+                radius = size.minDimension / 2,
+                style = Stroke(width = 2.dp.toPx())
             )
         }
     }
@@ -50,31 +50,30 @@ fun PieChart(modifier: Modifier = Modifier) {
 @Composable
 fun HistoryEntry(name: String, calorie: String, quantity: String) {
     Row(
-            modifier = Modifier.border(1.dp, Color.Gray),
-            verticalAlignment = Alignment.CenterVertically
+        modifier = Modifier.border(1.dp, Color.Gray),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
-                modifier = Modifier
-                        .padding(5.dp)
-                        .weight(1f)
-                        .align(Alignment.CenterVertically)
+            modifier = Modifier
+                .padding(5.dp)
+                .weight(1f)
+                .align(Alignment.CenterVertically)
         ) {
             Text(text = name, color = Color.Black)
             Text(text = "$calorie kcal", color = Color.Gray)
         }
         Text(
-                text = quantity,
-                color = Color.Black,
-                modifier = Modifier.align(Alignment.CenterVertically).padding(5.dp)
+            text = quantity,
+            color = Color.Black,
+            modifier = Modifier.align(Alignment.CenterVertically).padding(5.dp)
         )
     }
 }
 
 
 @Composable
-fun HomepageView(homepageViewModel: HomepageViewModel, homepageController: HomepageController) {
+fun HomepageView(homepageViewModel: HomepageViewModel) {
     val viewModel by remember { mutableStateOf(homepageViewModel) }
-    val controller by remember { mutableStateOf(homepageController) }
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -100,17 +99,14 @@ fun HomepageView(homepageViewModel: HomepageViewModel, homepageController: Homep
                         // add details here
                         Row(horizontalArrangement = Arrangement.SpaceEvenly) {
                             Button(onClick = {
-                                controller.invoke(HomepageComponent.UppercaseEvent, null)
                             }) {
                                 Text("Today")
                             }
                             Button(onClick = {
-                                controller.invoke(HomepageComponent.LowercaseEvent, null)
                             }) {
                                 Text("Week")
                             }
                             Button(onClick = {
-                                controller.invoke(HomepageComponent.ResetEvent, null)
                             }) {
                                 Text("Month")
                             }
@@ -146,7 +142,6 @@ fun HomepageView(homepageViewModel: HomepageViewModel, homepageController: Homep
                             ) {
                                 Text(text = "Add Food", style = MaterialTheme.typography.h6)
                                 Button(onClick = {
-                                    controller.invoke(HomepageComponent.LowercaseEvent, null)
                                 }, shape = CircleShape) {
                                     Text("+")
                                 }
@@ -161,7 +156,6 @@ fun HomepageView(homepageViewModel: HomepageViewModel, homepageController: Homep
                             ) {
                                 Text(text = "Add Drinks", style = MaterialTheme.typography.h6)
                                 Button(onClick = {
-                                    controller.invoke(HomepageComponent.LowercaseEvent, null)
                                 }, shape = CircleShape) {
                                     Text("+")
                                 }
@@ -176,7 +170,6 @@ fun HomepageView(homepageViewModel: HomepageViewModel, homepageController: Homep
                             ) {
                                 Text(text = "Add Exercise", style = MaterialTheme.typography.h6)
                                 Button(onClick = {
-                                    controller.invoke(HomepageComponent.LowercaseEvent, null)
                                 }, shape = CircleShape) {
                                     Text("+")
                                 }

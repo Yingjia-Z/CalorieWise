@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import controller.addDrink.AddDrinkController
+import viewmodel.records.addDrink.AddDrinkViewModel
 
 
 enum class AddDrinkEvent {
@@ -32,8 +32,7 @@ enum class AddDrinkEvent {
 
 
 @Composable
-fun DrinkEntry(name: String, quantity: String, controller: AddDrinkController) {
-//    val controller by remember { mutableStateOf(addDrinkController) }
+fun DrinkEntry(name: String, quantity: String) {
     Card(
         modifier = Modifier.width(360.dp),
         backgroundColor = Color.White
@@ -50,7 +49,6 @@ fun DrinkEntry(name: String, quantity: String, controller: AddDrinkController) {
             )
             Button(
                 onClick = {
-                    controller.invoke(AddDrinkEvent.LowercaseEvent, null)
                 },
                 shape = CircleShape,
                 modifier = Modifier.padding(5.dp)
@@ -63,50 +61,49 @@ fun DrinkEntry(name: String, quantity: String, controller: AddDrinkController) {
 }
 
 @Composable
-fun AddDrinkView(addDrinkViewModel: AddDrinkViewModel, addDrinkController: AddDrinkController) {
+fun AddDrinkView(addDrinkViewModel: AddDrinkViewModel) {
     val viewModel by remember { mutableStateOf(addDrinkViewModel) }
-    val controller by remember { mutableStateOf(addDrinkController) }
 
     Box(
-            modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Image(
+            painter = painterResource("icons/DrinkIcon.png"),
+            contentDescription = "Drink Page Background",
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Fit
+        )
+        LazyColumn(
+            modifier = Modifier.align(Alignment.TopCenter)
         ) {
-            Image(
-                painter = painterResource("icons/DrinkIcon.png"),
-                contentDescription = "Drink Page Background",
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Fit
-            )
-            LazyColumn(
-                modifier = Modifier.align(Alignment.TopCenter)
-            ) {
-                item {
-                    Spacer(modifier = Modifier.height(25.dp))
-                    Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-                        Button(
-                            onClick = { controller.invoke(AddDrinkEvent.UppercaseEvent, null) },
-                            modifier = Modifier.width(118.dp)
-                        ) {
-                            Text("New")
-                        }
-                        Button(
-                            onClick = { controller.invoke(AddDrinkEvent.UppercaseEvent, null) },
-                            modifier = Modifier.width(118.dp)
-                        ) {
-                            Text("Favourite")
-                        }
-                        Button(
-                            onClick = { controller.invoke(AddDrinkEvent.UppercaseEvent, null) },
-                            modifier = Modifier.width(118.dp)
-                        ) {
-                            Text("Recent")
-                        }
+            item {
+                Spacer(modifier = Modifier.height(25.dp))
+                Row(horizontalArrangement = Arrangement.SpaceEvenly) {
+                    Button(
+                        onClick = { },
+                        modifier = Modifier.width(118.dp)
+                    ) {
+                        Text("New")
                     }
-                    Spacer(modifier = Modifier.height(25.dp))
-
-                    DrinkEntry("Water", "200 ml", controller)
-                    DrinkEntry("Water", "200 ml", controller)
+                    Button(
+                        onClick = { },
+                        modifier = Modifier.width(118.dp)
+                    ) {
+                        Text("Favourite")
+                    }
+                    Button(
+                        onClick = { },
+                        modifier = Modifier.width(118.dp)
+                    ) {
+                        Text("Recent")
+                    }
                 }
+                Spacer(modifier = Modifier.height(25.dp))
+
+                DrinkEntry("Water", "200 ml")
+                DrinkEntry("Water", "200 ml")
             }
+        }
 
     }
 }

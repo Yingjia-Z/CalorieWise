@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import controller.login.LoginPageController
 import userinterface.composables.Appname
+import viewmodel.login.LoginPageViewModel
 
 enum class LoginPageViewEvent {
     EmailEvent, PasswordEvent, SignInEvent
@@ -23,10 +23,9 @@ enum class LoginPageViewEvent {
 
 @Composable
 fun LoginPageView(
-    loginPageViewModel: LoginPageViewModel, loginPageController: LoginPageController, onSignInClick: () -> Unit
+    loginPageViewModel: LoginPageViewModel, onSignInClick: () -> Unit
 ) {
-    val viewModel by remember { mutableStateOf(loginPageViewModel) }
-    val controller by remember { mutableStateOf(loginPageController) }
+    val viewmodel by remember { mutableStateOf(loginPageViewModel) }
 
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
         Column(
@@ -39,9 +38,9 @@ fun LoginPageView(
             Spacer(modifier = Modifier.height(25.dp))
 
             TextField(
-                viewModel.email.value,
+                loginPageViewModel.email.value,
                 label = { Text("E-mail: ") },
-                onValueChange = { controller.invoke(LoginPageViewEvent.EmailEvent, it) },
+                onValueChange = { viewmodel.invoke(LoginPageViewEvent.EmailEvent, it) },
                 leadingIcon = {
                     Icon(
                         painter = painterResource("icons/EmailIcon.png"),
@@ -55,9 +54,9 @@ fun LoginPageView(
             Spacer(modifier = Modifier.height(30.dp))
 
             TextField(
-                viewModel.password.value,
+                loginPageViewModel.password.value,
                 label = { Text("Password: ") },
-                onValueChange = { controller.invoke(LoginPageViewEvent.PasswordEvent, it) },
+                onValueChange = { viewmodel.invoke(LoginPageViewEvent.PasswordEvent, it) },
                 leadingIcon = {
                     Icon(
                         painter = painterResource("icons/PasswordIcon.png"),
@@ -80,8 +79,8 @@ fun LoginPageView(
 
             Button(
                 onClick = {
-                    controller.invoke(LoginPageViewEvent.SignInEvent, 1)
-                    if (viewModel.loggedin) {
+                    viewmodel.invoke(LoginPageViewEvent.SignInEvent, 1)
+                    if (loginPageViewModel.loggedin) {
                         onSignInClick()
                     }
                 }) {

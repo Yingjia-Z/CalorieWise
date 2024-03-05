@@ -10,13 +10,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import controller.UserController
+import viewmodel.basicInfo.BasicInformationViewModel
 
 @Composable
-fun BasicInformationPage(userViewModel: BasicInformationViewModel, userController: UserController,
-                         onNextStepClick: () -> Unit) {
+fun BasicInformationPage(
+    userViewModel: BasicInformationViewModel,
+    onNextStepClick: () -> Unit
+) {
     val viewModel by remember { mutableStateOf(userViewModel) }
-    val controller by remember { mutableStateOf(userController) }
     var gender by remember { mutableStateOf("") }
     var age by remember { mutableStateOf("") }
     var height by remember { mutableStateOf("") }
@@ -41,7 +42,7 @@ fun BasicInformationPage(userViewModel: BasicInformationViewModel, userControlle
 
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment= Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally
 
 
             ) {

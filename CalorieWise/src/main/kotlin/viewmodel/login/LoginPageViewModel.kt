@@ -1,5 +1,6 @@
-package controller.login
+package viewmodel.login
 
+import androidx.compose.runtime.mutableStateOf
 import model.UserModel
 import userinterface.login.LoginPageViewEvent
 import java.sql.Connection
@@ -7,8 +8,12 @@ import java.sql.DriverManager
 import java.sql.SQLException
 
 
-class LoginPageController(val model: UserModel) {
+class LoginPageViewModel(val model: UserModel) {
     // we can cast `Any` later since each event has an associated type
+    var email = mutableStateOf("")
+    var password = mutableStateOf("")
+    var loggedin = false
+
 
     private fun signInOrSignUp() {
         val connection = connect()
