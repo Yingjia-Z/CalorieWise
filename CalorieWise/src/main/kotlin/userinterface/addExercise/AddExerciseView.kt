@@ -67,7 +67,6 @@ fun AddExerciseView(addExerciseViewModel: AddExerciseViewModel, addExerciseContr
     val viewModel by remember { mutableStateOf(addExerciseViewModel) }
     val controller by remember { mutableStateOf(addExerciseController) }
 
-    MaterialTheme {
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -110,5 +109,4 @@ fun AddExerciseView(addExerciseViewModel: AddExerciseViewModel, addExerciseContr
             }
 
         }
-    }
 }

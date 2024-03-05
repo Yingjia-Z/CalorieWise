@@ -30,12 +30,13 @@ fun LoginPageView(
         Column(
             verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource("SignIn.png"),
-                contentDescription = "SignIn Image",
-                modifier = Modifier.size(150.dp),
-                contentScale = ContentScale.Fit
+
+            Text(
+                text = "SIGN IN",
+                style = MaterialTheme.typography.subtitle2,
+                modifier = Modifier.padding(30.dp)
             )
+            Spacer(modifier = Modifier.height(25.dp))
 
             TextField(
                 viewModel.email.value,
@@ -89,9 +90,7 @@ fun LoginPageView(
                     if (viewModel.loggedin) {
                         onSignInClick()
                     }
-                }, colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.Red, contentColor = Color.White
-                )
+                }
             ) {
                 Text("Sign In")
             }

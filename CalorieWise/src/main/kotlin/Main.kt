@@ -8,6 +8,7 @@ import androidx.compose.ui.window.application
 import controller.*
 import model.UserModel
 import userinterface.*
+import userinterface.theme.MyApplicationTheme
 
 fun main() = application {
     val userModel = UserModel()
@@ -23,6 +24,8 @@ fun main() = application {
         resizable = false,
         onCloseRequest = ::exitApplication
     ) {
-        UserView(userViewModel, userController)
+        MyApplicationTheme {
+            UserView(userViewModel, userController)
+        }
     }
 }

@@ -67,8 +67,7 @@ fun AddDrinkView(addDrinkViewModel: AddDrinkViewModel, addDrinkController: AddDr
     val viewModel by remember { mutableStateOf(addDrinkViewModel) }
     val controller by remember { mutableStateOf(addDrinkController) }
 
-    MaterialTheme {
-        Box(
+    Box(
             modifier = Modifier.fillMaxSize()
         ) {
             Image(
@@ -109,6 +108,5 @@ fun AddDrinkView(addDrinkViewModel: AddDrinkViewModel, addDrinkController: AddDr
                 }
             }
 
-        }
     }
 }
