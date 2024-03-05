@@ -1,10 +1,10 @@
-package userinterface.addDrink
+package userinterface.records.addExercise
 
 import androidx.compose.runtime.mutableStateOf
 import model.UserModel
 import userinterface.ISubscriber
 
-class AddDrinkViewModel(val model: UserModel) : ISubscriber {
+class AddExerciseViewModel(val model: UserModel) : ISubscriber {
     var firstname = mutableStateOf("")
     var lastname = mutableStateOf("")
 

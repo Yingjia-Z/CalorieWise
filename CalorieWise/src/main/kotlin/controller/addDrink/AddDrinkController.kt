@@ -1,7 +1,7 @@
 package controller.addDrink
 
 import model.UserModel
-import userinterface.addDrink.AddDrinkEvent
+import userinterface.records.addDrink.AddDrinkEvent
 
 class AddDrinkController(val model: UserModel) {
     // we can cast `Any` later since each event has an associated type

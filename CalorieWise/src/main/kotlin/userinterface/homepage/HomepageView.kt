@@ -195,7 +195,7 @@ fun HomepageView(homepageViewModel: HomepageViewModel, homepageController: Homep
                     modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Text("Intake and Workout of the day", style = MaterialTheme.typography.h5)
+                    Text("Intake and Workout of the day", style = MaterialTheme.typography.subtitle2)
                     // add details here
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(16.dp),

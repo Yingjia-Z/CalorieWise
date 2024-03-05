@@ -1,7 +1,7 @@
 package controller.addFood
 
 import model.UserModel
-import userinterface.addFood.AddFoodEvent
+import userinterface.records.addFood.AddFoodEvent
 
 class AddFoodController(val model: UserModel) {
     // we can cast `Any` later since each event has an associated type

@@ -1,4 +1,4 @@
-package userinterface.addFood
+package userinterface.records.addExercise
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -19,10 +19,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import controller.addFood.AddFoodController
+import controller.addExercise.AddExerciseController
 
 
-enum class AddFoodEvent {
+enum class AddExerciseEvent {
     FirstNameEvent,
     LastNameEvent,
     UppercaseEvent,
@@ -32,8 +32,8 @@ enum class AddFoodEvent {
 
 
 @Composable
-fun FoodEntry(name: String, quantity: String, controller: AddFoodController) {
-//    val controller by remember { mutableStateOf(addFoodController) }
+fun ExerciseEntry(name: String, quantity: String, controller: AddExerciseController) {
+//    val controller by remember { mutableStateOf(addExerciseController) }
     Card(
         modifier = Modifier.width(360.dp),
         backgroundColor = Color.White
@@ -50,7 +50,7 @@ fun FoodEntry(name: String, quantity: String, controller: AddFoodController) {
             )
             Button(
                 onClick = {
-                    controller.invoke(AddFoodEvent.LowercaseEvent, null)
+                    controller.invoke(AddExerciseEvent.LowercaseEvent, null)
                 },
                 shape = CircleShape,
                 modifier = Modifier.padding(5.dp)
@@ -63,16 +63,16 @@ fun FoodEntry(name: String, quantity: String, controller: AddFoodController) {
 }
 
 @Composable
-fun AddFoodView(addFoodViewModel: AddFoodViewModel, addFoodController: AddFoodController) {
-    val viewModel by remember { mutableStateOf(addFoodViewModel) }
-    val controller by remember { mutableStateOf(addFoodController) }
+fun AddExerciseView(addExerciseViewModel: AddExerciseViewModel, addExerciseController: AddExerciseController) {
+    val viewModel by remember { mutableStateOf(addExerciseViewModel) }
+    val controller by remember { mutableStateOf(addExerciseController) }
 
-    Box(
+        Box(
             modifier = Modifier.fillMaxSize()
         ) {
             Image(
-                painter = painterResource("icons/FoodIcon.png"),
-                contentDescription = "Food Page Background",
+                painter = painterResource("icons/ExerciseIcon.png"),
+                contentDescription = "Exercise Page Background",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Fit
             )
@@ -83,19 +83,19 @@ fun AddFoodView(addFoodViewModel: AddFoodViewModel, addFoodController: AddFoodCo
                     Spacer(modifier = Modifier.height(25.dp))
                     Row(horizontalArrangement = Arrangement.SpaceEvenly) {
                         Button(
-                            onClick = { controller.invoke(AddFoodEvent.UppercaseEvent, null) },
+                            onClick = { controller.invoke(AddExerciseEvent.UppercaseEvent, null) },
                             modifier = Modifier.width(118.dp)
                         ) {
                             Text("New")
                         }
                         Button(
-                            onClick = { controller.invoke(AddFoodEvent.UppercaseEvent, null) },
+                            onClick = { controller.invoke(AddExerciseEvent.UppercaseEvent, null) },
                             modifier = Modifier.width(118.dp)
                         ) {
                             Text("Favourite")
                         }
                         Button(
-                            onClick = { controller.invoke(AddFoodEvent.UppercaseEvent, null) },
+                            onClick = { controller.invoke(AddExerciseEvent.UppercaseEvent, null) },
                             modifier = Modifier.width(118.dp)
                         ) {
                             Text("Recent")
@@ -103,11 +103,10 @@ fun AddFoodView(addFoodViewModel: AddFoodViewModel, addFoodController: AddFoodCo
                     }
                     Spacer(modifier = Modifier.height(25.dp))
 
-                    FoodEntry("Noodle", "20 g", controller)
-                    FoodEntry("Noodle", "20 g", controller)
+                    ExerciseEntry("Jogging", "20 min", controller)
+                    ExerciseEntry("Jogging", "20 min", controller)
                 }
             }
 
         }
-
 }
