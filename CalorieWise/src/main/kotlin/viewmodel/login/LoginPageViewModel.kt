@@ -15,6 +15,8 @@ class LoginPageViewModel(val model: UserModel) : ISubscriber {
     val password = mutableStateOf("")
     var loggedin = false
     var loginFailed = false
+    var loginMessage = mutableStateOf("")
+
 
     init {
         model.subscribe(this)

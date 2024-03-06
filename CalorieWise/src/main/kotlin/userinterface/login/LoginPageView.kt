@@ -83,7 +83,7 @@ fun LoginPageView(
                     if (viewmodel.loggedin) {
                         onSignInSuccess()
                     } else {
-                        onSignInFail()
+                        viewmodel.loginMessage.value = "Wrong Password. Please try again. "
                     }
                 }) {
                 Text("Log In / Sign Up")
@@ -91,7 +91,7 @@ fun LoginPageView(
 
             Spacer(modifier = Modifier.height(45.dp))
 
-//            Text("Don't have an account?")
+            Text(viewmodel.loginMessage.value, color = Color.Red)
 //            TextButton(
 //                onClick = {},
 //                colors = ButtonDefaults.textButtonColors(contentColor = Color.Red)
