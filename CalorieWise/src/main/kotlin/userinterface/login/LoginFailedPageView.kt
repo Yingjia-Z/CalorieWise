@@ -17,13 +17,9 @@ import androidx.compose.ui.unit.dp
 import userinterface.composables.Appname
 import viewmodel.login.LoginPageViewModel
 
-enum class LoginPageViewEvent {
-    EmailEvent, PasswordEvent, SignInEvent
-}
-
 @Composable
-fun LoginPageView(
-    loginPageViewModel: LoginPageViewModel, onSignInSuccess: () -> Unit, onSignInFail: () -> Unit
+fun LoginFailedPageView(
+    loginPageViewModel: LoginPageViewModel, onSignInClick: () -> Unit
 ) {
     val viewmodel by remember { mutableStateOf(loginPageViewModel) }
 
@@ -81,17 +77,15 @@ fun LoginPageView(
                 onClick = {
                     viewmodel.invoke(LoginPageViewEvent.SignInEvent, 1)
                     if (viewmodel.loggedin) {
-                        onSignInSuccess()
-                    } else {
-                        onSignInFail()
+                        onSignInClick()
                     }
                 }) {
-                Text("Log In / Sign Up")
+                Text("Sign In / Up")
             }
 
             Spacer(modifier = Modifier.height(45.dp))
 
-//            Text("Don't have an account?")
+            Text("Wrong Password!")
 //            TextButton(
 //                onClick = {},
 //                colors = ButtonDefaults.textButtonColors(contentColor = Color.Red)

@@ -14,6 +14,7 @@ class LoginPageViewModel(val model: UserModel) : ISubscriber {
     val email = mutableStateOf("")
     val password = mutableStateOf("")
     var loggedin = false
+    var loginFailed = false
 
     init {
         model.subscribe(this)
@@ -30,6 +31,7 @@ class LoginPageViewModel(val model: UserModel) : ISubscriber {
             if (signUpSuccessCode == 1) {
                 println("Great, you are signed up!")
                 model.loggedIn = true
+                return
             }
         } else if (exist == 1) {
             println("Welcome! You are a returning user. Logging you in.")
@@ -37,6 +39,7 @@ class LoginPageViewModel(val model: UserModel) : ISubscriber {
             if (logInSuccessCode == 1) {
                 model.loggedIn = true
                 println("Welcome! You are logged in!")
+                return
             } else if (logInSuccessCode == 0) {
                 println("Password incorrect!")
             } else {
@@ -45,6 +48,7 @@ class LoginPageViewModel(val model: UserModel) : ISubscriber {
         } else {
             println("??????? Something wrong happened during exist check ???????")
         }
+        loginFailed = true
     }
 
     private fun Connection.signUp(username: String, password: String): Int {
