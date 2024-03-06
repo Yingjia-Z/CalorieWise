@@ -18,6 +18,7 @@ import userinterface.basicInfo.BasicInformationPage
 import userinterface.basicInfo.recommendation.RecommendationPage
 import userinterface.composables.Screens
 import userinterface.homepage.HomepageView
+import userinterface.login.LoginFailedPageView
 import userinterface.login.LoginPageView
 import userinterface.records.RecordsView
 import userinterface.records.addDrink.AddDrinkView
@@ -79,7 +80,7 @@ fun UserView(userViewModel: UserViewModel) {
             modifier = Modifier.fillMaxSize()
         ) {
             // Check if the current screen is not the LoginPage, then display the sidebar
-            if (currentScreen != Screens.Login.screen) {
+            if (currentScreen != Screens.Login.screen && currentScreen != Screens.LoginFailed.screen) {
                 // Sidebar with buttons to navigate to different screens
                 LazyColumn(
                     modifier = Modifier.align(Alignment.CenterVertically)
@@ -104,7 +105,15 @@ fun UserView(userViewModel: UserViewModel) {
                     basicInformationViewModel,
                     { currentScreen = Screens.Homepage.screen })
 
-                Screens.Login.screen -> LoginPageView(loginPageViewModel, { currentScreen = Screens.BasicInfo.screen })
+                Screens.Login.screen -> LoginPageView(
+                    loginPageViewModel,
+                    { currentScreen = Screens.BasicInfo.screen },
+                    { currentScreen = Screens.LoginFailed.screen })
+
+                Screens.LoginFailed.screen -> LoginFailedPageView(loginPageViewModel) {
+                    currentScreen = Screens.BasicInfo.screen
+                }
+
                 Screens.Records.screen -> RecordsView(
                     recordsViewModel,
                     { currentScreen = Screens.AddFood.screen },
