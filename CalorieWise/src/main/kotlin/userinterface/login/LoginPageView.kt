@@ -23,7 +23,7 @@ enum class LoginPageViewEvent {
 
 @Composable
 fun LoginPageView(
-    loginPageViewModel: LoginPageViewModel, onSignInSuccess: () -> Unit, onSignInFail: () -> Unit
+    loginPageViewModel: LoginPageViewModel, onSignInSuccess: () -> Unit
 ) {
     val viewmodel by remember { mutableStateOf(loginPageViewModel) }
 
