@@ -24,31 +24,31 @@ class LoginPageViewModel(val model: UserModel) : ISubscriber {
 
     private fun signInOrSignUp() {
         val connection = connect()
-        println("Checking if your username exist in our database. ")
+//        println("Checking if your username exist in our database. ")
         val exist = connection?.checkUserExist(model.email)
-        println("Your exist status is ${exist}. ")
+//        println("Your exist status is ${exist}. ")
         if (exist == 0) {
-            println("Welcome! You are a new user. Signing you up.")
+//            println("Welcome! You are a new user. Signing you up.")
             val signUpSuccessCode = connection.signUp(model.email, model.password)
             if (signUpSuccessCode == 1) {
-                println("Great, you are signed up!")
+//                println("Great, you are signed up!")
                 model.loggedIn = true
                 return
             }
         } else if (exist == 1) {
-            println("Welcome! You are a returning user. Logging you in.")
+//            println("Welcome! You are a returning user. Logging you in.")
             val logInSuccessCode = connection.logInOrInterrupt(model.email, model.password)
             if (logInSuccessCode == 1) {
                 model.loggedIn = true
-                println("Welcome! You are logged in!")
+//                println("Welcome! You are logged in!")
                 return
             } else if (logInSuccessCode == 0) {
-                println("Password incorrect!")
+//                println("Password incorrect!")
             } else {
-                println("??????? Something wrong happened during login ???????")
+//                println("??????? Something wrong happened during login ???????")
             }
         } else {
-            println("??????? Something wrong happened during exist check ???????")
+//            println("??????? Something wrong happened during exist check ???????")
         }
         loginFailed = true
     }
