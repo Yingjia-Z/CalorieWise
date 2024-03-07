@@ -14,10 +14,10 @@ import viewmodel.basicInfo.BasicInformationViewModel
 
 @Composable
 fun BasicInformationPage(
-    userViewModel: BasicInformationViewModel,
+    basicInformationViewModel: BasicInformationViewModel,
     onNextStepClick: () -> Unit
 ) {
-    val viewModel by remember { mutableStateOf(userViewModel) }
+    val viewModel by remember { mutableStateOf(basicInformationViewModel) }
     var gender by remember { mutableStateOf("") }
     var age by remember { mutableStateOf("") }
     var height by remember { mutableStateOf("") }
@@ -82,18 +82,18 @@ fun BasicInformationPage(
             Spacer(modifier = Modifier.height(25.dp))
             Button(
                 onClick = {
-                    userViewModel.setGender(gender)
-                    userViewModel.setAge(age)
-                    userViewModel.setHeight(height)
-                    userViewModel.setWeight(weight)
-                    userViewModel.setGoalWeight(goalWeight)
-                    val c = userViewModel.calculateCalroieIntake()
-                    userViewModel.setCalorieIntake(c)
-                    val w = userViewModel.calculateWaterIntake()
-                    userViewModel.setwaterIntake(w)
-                    val e = userViewModel.calculateExercise()
-                    userViewModel.setExerciseIntake(e)
-                    userViewModel.updateBasicInformation(gender, age, height, weight, goalWeight, c, w, e)
+                    basicInformationViewModel.setGender(gender)
+                    basicInformationViewModel.setAge(age)
+                    basicInformationViewModel.setHeight(height)
+                    basicInformationViewModel.setWeight(weight)
+                    basicInformationViewModel.setGoalWeight(goalWeight)
+                    val c = basicInformationViewModel.calculateCalroieIntake()
+                    basicInformationViewModel.setCalorieIntake(c)
+                    val w = basicInformationViewModel.calculateWaterIntake()
+                    basicInformationViewModel.setwaterIntake(w)
+                    val e = basicInformationViewModel.calculateExercise()
+                    basicInformationViewModel.setExerciseIntake(e)
+                    basicInformationViewModel.updateBasicInformation(gender, age, height, weight, goalWeight, c, w, e)
                     onNextStepClick()
                 },
                 modifier = Modifier.padding(top = 20.dp)

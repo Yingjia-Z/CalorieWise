@@ -101,7 +101,7 @@ fun HomepageView(homepageViewModel: HomepageViewModel,
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = "Add Food", style = MaterialTheme.typography.h6)
+                        Text(text = "Add Food", style = MaterialTheme.typography.h5)
                         Button(onClick = { onAddFoodClick() },
                             shape = CircleShape) {
                             Text("+")
@@ -115,7 +115,7 @@ fun HomepageView(homepageViewModel: HomepageViewModel,
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = "Add Drinks", style = MaterialTheme.typography.h6)
+                        Text(text = "Add Drinks", style = MaterialTheme.typography.h5)
                         Button(onClick = { onAddDrinkClick() },
                             shape = CircleShape) {
                             Text("+")
@@ -129,7 +129,7 @@ fun HomepageView(homepageViewModel: HomepageViewModel,
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = "Add Exercise", style = MaterialTheme.typography.h6)
+                        Text(text = "Add Exercise", style = MaterialTheme.typography.h5)
                         Button(onClick = { onAddExerciseClick() },
                             shape = CircleShape) {
                             Text("+")
