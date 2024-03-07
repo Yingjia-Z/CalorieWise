@@ -1,4 +1,4 @@
-package userinterface.homepage
+package userinterface.analysis
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border
@@ -18,16 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
-import viewmodel.homepage.HomepageViewModel
-
-
-enum class HomepageComponent {
-    FirstNameEvent,
-    LastNameEvent,
-    UppercaseEvent,
-    LowercaseEvent,
-    ResetEvent
-}
+import viewmodel.analysis.AnalysisPageViewModel
 
 @Composable
 fun PieChart(modifier: Modifier = Modifier) {
@@ -72,68 +63,42 @@ fun HistoryEntry(name: String, calorie: String, quantity: String) {
 
 
 @Composable
-fun HomepageView(homepageViewModel: HomepageViewModel) {
-    val viewModel by remember { mutableStateOf(homepageViewModel) }
+fun AnalysisPageView(analysisPageViewModel: AnalysisPageViewModel) {
+    val viewModel by remember { mutableStateOf(analysisPageViewModel) }
 
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-
-        // Calorie Tracker
+        // Nutrients Board
         Card(
             modifier = Modifier.fillMaxSize().padding(16.dp),
             elevation = 4.dp
         ) {
             Column(
                 modifier = Modifier.padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                Text("Calorie Tracker", style = MaterialTheme.typography.subtitle2)
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally) {
+                Text("Nutrients Board", style = MaterialTheme.typography.subtitle2)
                 // add details here
-                PieChart()
-                Card(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(text = "Add Food", style = MaterialTheme.typography.h6)
-                        Button(onClick = {
-                        }, shape = CircleShape) {
-                            Text("+")
-                        }
+                Row(horizontalArrangement = Arrangement.SpaceEvenly) {
+                    Button(onClick = {
+                    }) {
+                        Text("Today")
+                    }
+                    Button(onClick = {
+                    }) {
+                        Text("Week")
+                    }
+                    Button(onClick = {
+                    }) {
+                        Text("Month")
                     }
                 }
-                Card(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(text = "Add Drinks", style = MaterialTheme.typography.h6)
-                        Button(onClick = {
-                        }, shape = CircleShape) {
-                            Text("+")
-                        }
-                    }
-                }
-                Card(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(text = "Add Exercise", style = MaterialTheme.typography.h6)
-                        Button(onClick = {
-                        }, shape = CircleShape) {
-                            Text("+")
-                        }
-                    }
+                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    PieChart()
+                    PieChart()
+                    PieChart()
                 }
             }
         }
