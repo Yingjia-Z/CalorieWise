@@ -73,13 +73,15 @@ fun RecordsView(
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = "Add Food", style = MaterialTheme.typography.h6)
+                        Text(text = "Add Food", style = MaterialTheme.typography.h5)
                         Button(
                             onClick = {
                                 overlayVisible = true
                                 recordType = "food"
-                                /*onAddFoodClick()*/ },
-                            shape = CircleShape) {
+                                /*onAddFoodClick()*/
+                            },
+                            shape = CircleShape
+                        ) {
                             Text("+")
                         }
                     }
@@ -91,13 +93,15 @@ fun RecordsView(
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = "Add Drinks", style = MaterialTheme.typography.h6)
+                        Text(text = "Add Drinks", style = MaterialTheme.typography.h5)
                         Button(
                             onClick = {
                                 overlayVisible = true
                                 recordType = "drink"
-                                /*onAddDrinkClick()*/ },
-                            shape = CircleShape) {
+                                /*onAddDrinkClick()*/
+                            },
+                            shape = CircleShape
+                        ) {
                             Text("+")
                         }
                     }
@@ -109,13 +113,15 @@ fun RecordsView(
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = "Add Exercise", style = MaterialTheme.typography.h6)
+                        Text(text = "Add Exercise", style = MaterialTheme.typography.h5)
                         Button(
                             onClick = {
                                 overlayVisible = true
                                 recordType = "exercise"
-                                /*onAddExerciseClick()*/ },
-                            shape = CircleShape) {
+                                /*onAddExerciseClick()*/
+                            },
+                            shape = CircleShape
+                        ) {
                             Text("+")
                         }
                     }
@@ -140,30 +146,30 @@ fun RecordsView(
                     ) {
                         /* TODO: Calculate the calories of food/water/exercise */
                         Card(modifier = Modifier.fillMaxSize().weight(1f)) {
-                            Column (verticalArrangement = Arrangement.spacedBy(25.dp)) {
-                                Text(text = "Food", style = MaterialTheme.typography.h6)
+                            Column(verticalArrangement = Arrangement.spacedBy(25.dp)) {
+                                Text(text = "Food", style = MaterialTheme.typography.h5)
                                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                                    foodRecords.forEach {record ->
+                                    foodRecords.forEach { record ->
                                         HistoryEntry(record.first, "+ 70", record.second.toString() + " g")
                                     }
                                 }
                             }
                         }
                         Card(modifier = Modifier.fillMaxSize().weight(1f)) {
-                            Column (verticalArrangement = Arrangement.spacedBy(25.dp)) {
-                                Text(text = "Drink", style = MaterialTheme.typography.h6)
+                            Column(verticalArrangement = Arrangement.spacedBy(25.dp)) {
+                                Text(text = "Drink", style = MaterialTheme.typography.h5)
                                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                                    drinkRecords.forEach {record ->
+                                    drinkRecords.forEach { record ->
                                         HistoryEntry(record.first, "+ 0", record.second.toString() + " mL")
                                     }
                                 }
                             }
                         }
                         Card(modifier = Modifier.fillMaxSize().weight(1f)) {
-                            Column (verticalArrangement = Arrangement.spacedBy(25.dp)) {
-                                Text(text = "Exercise", style = MaterialTheme.typography.h6)
+                            Column(verticalArrangement = Arrangement.spacedBy(25.dp)) {
+                                Text(text = "Exercise", style = MaterialTheme.typography.h5)
                                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                                    exerciseRecords.forEach {record ->
+                                    exerciseRecords.forEach { record ->
                                         HistoryEntry(record.first, "- 70", record.second.toString() + " min")
                                     }
                                 }
@@ -193,20 +199,20 @@ fun RecordsView(
                     Column(
                         modifier = Modifier.padding(16.dp)
                     ) {
-                        Row (horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                        Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                             TextField(
                                 value = recordItem,
                                 onValueChange = { recordItem = it },
                                 label = {
                                     var inputTypePrompt =
-                                        when(recordType) {
+                                        when (recordType) {
                                             "food" -> "food you consumed"
                                             "drink" -> "drink you consumed"
                                             "exercise" -> "exercise you performed"
                                             else -> assert(false)
                                         }
                                     Text("Please enter the name of the $inputTypePrompt")
-                                        },
+                                },
                                 modifier = Modifier.width(450.dp)
                             )
                             TextField(
@@ -214,25 +220,35 @@ fun RecordsView(
                                 onValueChange = { recordAmount = it },
                                 label = {
                                     var inputAmountPrompt =
-                                        when(recordType) {
+                                        when (recordType) {
                                             "food" -> "Amount (g)"
                                             "drink" -> "Amount (mL)"
                                             "exercise" -> "Duration (min)"
                                             else -> assert(false)
                                         }
                                     Text("$inputAmountPrompt")
-                                        },
+                                },
                                 modifier = Modifier.width(150.dp)
                             )
+                            Spacer(modifier = Modifier.width(10.dp))
                             Button(
                                 onClick = {
                                     recordsViewModel.addRecord(recordItem, recordAmount, recordType)
                                     recordItem = ""
                                     recordAmount = ""
                                     overlayVisible = false
-                                }
+                                },
+                                modifier = Modifier.width(100.dp)
                             ) {
                                 Text("Add")
+                            }
+                            Button(
+                                onClick = {
+                                    overlayVisible = false
+                                },
+                                modifier = Modifier.width(100.dp)
+                            ) {
+                                Text("Cancel")
                             }
                         }
                     }
