@@ -9,6 +9,5 @@ sealed class Screens(val screen: String) {
     data object AddFood : Screens("AddFood")
     data object AddDrink : Screens("AddDrink")
     data object AddExercise : Screens("AddExercise")
-
-    /* TODO: Analysis Page missing */
+    data object Analysis : Screens("Analysis")
 }

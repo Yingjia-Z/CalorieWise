@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import userinterface.analysis.AnalysisPageView
 import userinterface.basicInfo.BasicInformationPage
 import userinterface.basicInfo.recommendation.RecommendationPage
 import userinterface.composables.Screens
@@ -25,6 +26,7 @@ import userinterface.records.addExercise.AddExerciseView
 import userinterface.records.addFood.AddFoodView
 import userinterface.theme.AppColors
 import userinterface.theme.MyApplicationTheme
+import viewmodel.analysis.AnalysisPageViewModel
 import viewmodel.basicInfo.BasicInformationViewModel
 import viewmodel.homepage.HomepageViewModel
 import viewmodel.login.LoginPageViewModel
@@ -44,6 +46,7 @@ fun UserView(userViewModel: UserViewModel) {
     val addExerciseViewModel = AddExerciseViewModel(viewModel.model)
     val basicInformationViewModel = BasicInformationViewModel(viewModel.model)
     val recordsViewModel = RecordsViewModel(viewModel.model)
+    val analysisPageViewModel = AnalysisPageViewModel(viewModel.model)
 
     // Maintain the current screen using rememberSaveable
     var currentScreen by rememberSaveable { mutableStateOf(Screens.Login.screen) }
@@ -86,7 +89,7 @@ fun UserView(userViewModel: UserViewModel) {
                 ) {
                     item {
                         SidebarImageButton("icons/Home.png") { currentScreen = Screens.Homepage.screen }
-                        SidebarImageButton("icons/Graph.png") { currentScreen = Screens.AddFood.screen }
+                        SidebarImageButton("icons/Graph.png") { currentScreen = Screens.Analysis.screen }
                         SidebarImageButton("icons/My-Nutrition.png") { currentScreen = Screens.Records.screen }
                         SidebarImageButton("icons/Profile.png") { currentScreen = Screens.BasicInfo.screen }
                     }
@@ -119,7 +122,7 @@ fun UserView(userViewModel: UserViewModel) {
                 Screens.AddDrink.screen -> AddDrinkView(addDrinkViewModel)
                 Screens.AddExercise.screen -> AddExerciseView(addExerciseViewModel)
 
-                /* TODO: Food Recommendation Page missing */
+                Screens.Analysis.screen -> AnalysisPageView(analysisPageViewModel)
             }
         }
     }
