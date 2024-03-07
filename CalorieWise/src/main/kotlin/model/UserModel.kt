@@ -43,5 +43,9 @@ class UserModel : IPublisher() {
             field = value
             notifySubscribers()
         }
+
+    var recordItem: String = ""
+    var recordType: String = ""
+    var recordAmount: Int = -1
 }
 

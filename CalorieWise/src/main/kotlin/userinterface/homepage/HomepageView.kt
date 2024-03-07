@@ -72,7 +72,8 @@ fun HistoryEntry(name: String, calorie: String, quantity: String) {
 
 
 @Composable
-fun HomepageView(homepageViewModel: HomepageViewModel) {
+fun HomepageView(homepageViewModel: HomepageViewModel,
+                 onAddFoodClick: () -> Unit, onAddDrinkClick: () -> Unit, onAddExerciseClick: () -> Unit,) {
     val viewModel by remember { mutableStateOf(homepageViewModel) }
 
     Box(
@@ -101,8 +102,8 @@ fun HomepageView(homepageViewModel: HomepageViewModel) {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(text = "Add Food", style = MaterialTheme.typography.h6)
-                        Button(onClick = {
-                        }, shape = CircleShape) {
+                        Button(onClick = { onAddFoodClick() },
+                            shape = CircleShape) {
                             Text("+")
                         }
                     }
@@ -115,8 +116,8 @@ fun HomepageView(homepageViewModel: HomepageViewModel) {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(text = "Add Drinks", style = MaterialTheme.typography.h6)
-                        Button(onClick = {
-                        }, shape = CircleShape) {
+                        Button(onClick = { onAddDrinkClick() },
+                            shape = CircleShape) {
                             Text("+")
                         }
                     }
@@ -129,8 +130,8 @@ fun HomepageView(homepageViewModel: HomepageViewModel) {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(text = "Add Exercise", style = MaterialTheme.typography.h6)
-                        Button(onClick = {
-                        }, shape = CircleShape) {
+                        Button(onClick = { onAddExerciseClick() },
+                            shape = CircleShape) {
                             Text("+")
                         }
                     }

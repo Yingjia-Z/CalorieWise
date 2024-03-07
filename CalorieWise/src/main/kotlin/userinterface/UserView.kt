@@ -51,6 +51,8 @@ fun UserView(userViewModel: UserViewModel) {
     // Maintain the current screen using rememberSaveable
     var currentScreen by rememberSaveable { mutableStateOf(Screens.Login.screen) }
     var focusedButton by rememberSaveable { mutableStateOf("") }
+    var recordsOverlay = false
+    var recordsType = ""
 
     @Composable
     fun SidebarImageButton(imageRes: String, onClick: () -> Unit) {
@@ -98,32 +100,68 @@ fun UserView(userViewModel: UserViewModel) {
 
             // Content area
             when (currentScreen) {
-                Screens.Homepage.screen -> HomepageView(homepageViewModel)
-                Screens.BasicInfo.screen -> BasicInformationPage(
-                    basicInformationViewModel,
-                    { currentScreen = Screens.Recommendation.screen })
+                Screens.Homepage.screen -> {
+                    HomepageView(
+                        homepageViewModel,
+                        {
+                            currentScreen = Screens.Records.screen
+                            recordsOverlay = true
+                            recordsType = "food"
+                        },
+                        {
+                            currentScreen = Screens.Records.screen
+                            recordsOverlay = true
+                            recordsType = "drink"
+                        },
+                        {
+                            currentScreen = Screens.Records.screen
+                            recordsOverlay = true
+                            recordsType = "exercise"
+                        }
+                    )
+                    focusedButton = "icons/Home.png"
+                }
+                Screens.BasicInfo.screen -> {
+                    BasicInformationPage(
+                        basicInformationViewModel,
+                        { currentScreen = Screens.Recommendation.screen })
+                    focusedButton = "icons/Profile.png"
+                }
 
-                Screens.Recommendation.screen -> RecommendationPage(
-                    basicInformationViewModel,
-                    { currentScreen = Screens.Homepage.screen })
+                Screens.Recommendation.screen -> {
+                    RecommendationPage(
+                        basicInformationViewModel,
+                        { currentScreen = Screens.Homepage.screen })
+                    focusedButton = "icons/Profile.png"
+                }
 
                 Screens.Login.screen -> LoginPageView(
                     loginPageViewModel,
                     { currentScreen = Screens.BasicInfo.screen })
 
-                Screens.Records.screen -> RecordsView(
-                    recordsViewModel,
-                    { currentScreen = Screens.AddFood.screen },
-                    { currentScreen = Screens.AddDrink.screen },
-                    { currentScreen = Screens.AddExercise.screen }
-                )
+                Screens.Records.screen -> {
+                    RecordsView(
+                        recordsViewModel,
+                        { currentScreen = Screens.AddFood.screen },
+                        { currentScreen = Screens.AddDrink.screen },
+                        { currentScreen = Screens.AddExercise.screen },
+                        recordsOverlay,
+                        recordsType
+                    )
+                    focusedButton = "icons/My-Nutrition.png"
+                }
 
                 Screens.AddFood.screen -> AddFoodView(addFoodViewModel)
                 Screens.AddDrink.screen -> AddDrinkView(addDrinkViewModel)
                 Screens.AddExercise.screen -> AddExerciseView(addExerciseViewModel)
 
-                Screens.Analysis.screen -> AnalysisPageView(analysisPageViewModel)
+                Screens.Analysis.screen -> {
+                    AnalysisPageView(analysisPageViewModel)
+                    focusedButton = "icons/Graph.png"
+                }
             }
+            recordsOverlay = false
+            recordsType = ""
         }
     }
 }
