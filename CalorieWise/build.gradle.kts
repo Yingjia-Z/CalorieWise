@@ -22,6 +22,9 @@ dependencies {
     implementation("org.xerial:sqlite-jdbc:3.42.0.0")
     implementation(compose.desktop.currentOs)
     testImplementation(kotlin("test"))
+    implementation("org.jetbrains.exposed", "exposed-core", "0.40.1")
+    implementation("org.jetbrains.exposed", "exposed-dao", "0.40.1")
+    implementation("org.jetbrains.exposed", "exposed-jdbc", "0.40.1")
 }
 
 compose.desktop {

@@ -11,6 +11,8 @@ import userinterface.UserViewModel
 import userinterface.theme.MyApplicationTheme
 
 fun main() = application {
+    DatabaseUtils.copyDatabaseIfNotExists()
+
     val userModel = UserModel()
     val userViewModel = UserViewModel(userModel)
 

@@ -7,6 +7,7 @@ import userinterface.login.LoginPageViewEvent
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
+import java.io.File
 
 
 class LoginPageViewModel(val model: UserModel) : ISubscriber {
@@ -117,7 +118,11 @@ class LoginPageViewModel(val model: UserModel) : ISubscriber {
     fun connect(): Connection? {
         var connection: Connection? = null
         try {
-            val url = "jdbc:sqlite:src/main/kotlin/data/data.db"
+            val appDataDir = System.getProperty("user.home") + File.separator + ".CalorieWise"
+            val dbPath = "$appDataDir${File.separator}data.db"
+            val url = "jdbc:sqlite:$dbPath"
+
+//            val url = "jdbc:sqlite:src/main/kotlin/data/data.db"
             connection = DriverManager.getConnection(url)
             println("Connection is valid.")
         } catch (e: SQLException) {
