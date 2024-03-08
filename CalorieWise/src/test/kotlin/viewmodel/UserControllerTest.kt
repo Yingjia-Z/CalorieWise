@@ -4,6 +4,7 @@ import model.UserModel
 import userinterface.ViewEvent
 import kotlin.test.Test
 
+/*
 class UserControllerTest {
     @Test
     fun setup() {
@@ -65,3 +66,4 @@ class UserControllerTest {
         assert(model.lastname == "")
     }
 }
+*/

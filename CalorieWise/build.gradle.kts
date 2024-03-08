@@ -29,9 +29,10 @@ compose.desktop {
         mainClass = "MainKt"
 
         nativeDistributions {
+            includeAllModules = true
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "CalorieWise"
-            packageVersion = "1.0.0"
+            packageVersion = "2.0.0"
         }
     }
 }
