@@ -15,8 +15,6 @@
 ## Team Meeting Journal:
 [Team Meeting Journal](https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/TEAM-6-MEETING-JOURNAL)
 
-## Sprint 1 Release Notes:
-https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Sprint-1-Release-Notes
-
-## Sprint 2 Release Notes:
-https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Sprint-2-Release-Notes
+## Release Notes:
+- [Sprint 1](https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Sprint-1-Release-Notes)
+- [Sprint 2](https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Sprint-2-Release-Notes)
