@@ -95,13 +95,18 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         val weight = weight.toDouble()
         val height = height.toDouble()
         val age = age.toDouble()
-
+        val exerciseIndex = 1.4625
         if (gender.equals("M")) {
             calories = 66 + (13.7 * weight) + (5 * height) - (6.8 * age)
         } else if (gender.equals("F")) {
             calories = 655 + (9.6 * weight) + (1.8 * height) - (4.7 * age)
         }
-        return calories.roundToInt()
+        if (goalWeight.toDouble() > weight){
+            calories *= 1.15
+        }else{
+            calories *= 0.85
+        }
+        return (calories * exerciseIndex).roundToInt()
     }
 
     fun calculateWaterIntake(): Int {
