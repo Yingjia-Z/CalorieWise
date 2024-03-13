@@ -17,9 +17,9 @@ val playfulFont = FontFamily(
     )
 )
 
-val shineTypewriterFont = FontFamily(
+val superBloomFont = FontFamily(
     Font(
-        resource = "font/ShineTypewriter-lgwzd.ttf",
+        resource = "font/SuperBloom-R9pPV.ttf",
         weight = FontWeight.W400,
         style = FontStyle.Normal
     )
@@ -29,10 +29,10 @@ val shineTypewriterFont = FontFamily(
 val AppTypography = Typography(
     // subtitle2 used as emphasized subtitle
     subtitle2 = TextStyle(
-        fontFamily = shineTypewriterFont,
-        fontWeight = FontWeight.Bold,
-        fontSize = 30.sp,
-        letterSpacing = 0.sp
+        fontFamily = superBloomFont,
+        fontWeight = FontWeight.ExtraLight,
+        fontSize = 43.sp,
+        letterSpacing = 8.sp
     ),
     h1 = TextStyle(
         fontFamily = FontFamily.SansSerif,
@@ -44,16 +44,10 @@ val AppTypography = Typography(
     h4 = TextStyle(
         fontFamily = playfulFont,
         fontWeight = FontWeight.Thin,
-        fontSize = 75.sp,
-        letterSpacing = 7.sp
+        fontSize = 78.sp,
+        letterSpacing = 8.sp
     ),
     // h5 used as small subtitle
-    h5 = TextStyle(
-        fontFamily = shineTypewriterFont,
-        fontWeight = FontWeight.Thin,
-        fontSize = 25.sp,
-        letterSpacing = 0.sp
-    ),
     body1 = TextStyle(
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Normal,

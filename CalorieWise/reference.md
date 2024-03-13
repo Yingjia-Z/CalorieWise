@@ -11,4 +11,4 @@ Color Palette:
 
 Font Resources:
 - https://www.fontspace.com/playful-time-star-font-f109394
-- https://www.fontspace.com/shine-typewriter-font-f86822
+- https://www.fontspace.com/super-bloom-font-f112500
