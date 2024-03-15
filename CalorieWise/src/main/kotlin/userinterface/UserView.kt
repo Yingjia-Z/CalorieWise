@@ -121,6 +121,7 @@ fun UserView(userViewModel: UserViewModel) {
                     )
                     focusedButton = "icons/Home.png"
                 }
+
                 Screens.BasicInfo.screen -> {
                     BasicInformationPage(
                         basicInformationViewModel,

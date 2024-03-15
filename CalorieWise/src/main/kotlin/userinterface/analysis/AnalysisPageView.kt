@@ -3,7 +3,6 @@ package userinterface.analysis
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Card
@@ -78,7 +77,8 @@ fun AnalysisPageView(analysisPageViewModel: AnalysisPageViewModel) {
             Column(
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally) {
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Text("Nutrients Board", style = MaterialTheme.typography.subtitle2)
                 // add details here
                 Row(horizontalArrangement = Arrangement.SpaceEvenly) {
