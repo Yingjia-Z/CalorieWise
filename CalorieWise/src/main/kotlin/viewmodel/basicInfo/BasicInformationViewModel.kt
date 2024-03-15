@@ -17,6 +17,10 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
     var calorie: Int = 0
     var waterIntake: Int = 0
     var exercise: Int = 0
+    var fat:Int = 0
+    var protein:Int = 0
+    var sugar:Int = 0
+
 
     init {
         model.subscribe(this)
@@ -31,6 +35,9 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         calorie = model.recommendedCaloryIntake
         waterIntake = model.recommendedWaterIntake
         exercise = model.recommendedExercistIntake
+        fat = model.recommendedFatIntake
+        protein = model.recommendedProteinIntake
+        sugar = model.recommendedSugarIntake
     }
 
     //update the model with information from user input.
@@ -42,7 +49,10 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         goalWeight: String,
         calorieIntake: Int,
         waterIntake: Int,
-        exerciseIntake: Int
+        exerciseIntake: Int,
+        fat: Int,
+        sugar:Int,
+        protein: Int
     ) {
         model.gender = gender
         model.age = age.toInt()
@@ -52,6 +62,9 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         model.recommendedCaloryIntake = calorieIntake
         model.recommendedWaterIntake = waterIntake
         model.recommendedExercistIntake = exerciseIntake
+        model.recommendedFatIntake = fat
+        model.recommendedSugarIntake = sugar
+        model.recommendedProteinIntake = protein
         insertOrAddUserBasicInfo(model.email, model.height, model.weight, model.goalWeight, model.age, gender)
         model.notifySubscribers()
     }
@@ -88,6 +101,16 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         exercise = value
     }
 
+    fun setFatIntake(value:Int) {
+        fat = value
+    }
+    fun setSugarIntake(value:Int) {
+        sugar = value
+    }
+    fun setProteinIntake(value:Int) {
+        protein = value
+    }
+
     fun calculateCalroieIntake(): Int {
         //for women: BMR = 655 + (9.6 × body weight in kg) + (1.8 × body height in cm) - (4.7 × age in years);
         // for men: BMR = 66 + (13.7 × weight in kg) + (5 × height in cm) - (6.8 × age in years).
@@ -119,6 +142,26 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
 
     fun calculateExercise(): Int {/*TODO: no formula found???*/
         return 0
+    }
+    fun calculateFatIntake():Int {
+        val cal = calorie.toDouble()
+
+        return (((cal * 0.275)/4).roundToInt())
+    }
+
+    fun calculateSugarIntake():Int {
+        if(gender.equals("F")){
+            return 25
+        }else{
+            return 36
+        }
+
+    }
+
+    fun calculateProteinIntake():Int {
+        val cal = calorie.toDouble()
+
+        return( ((cal * 0.225)/4).roundToInt())
     }
 
     fun connect(): Connection? {
@@ -195,6 +238,7 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
     }
 
     private fun insertOrAddUserBasicInfo(
+        /*TODO: add calorie/fat/carbs/protein intake to db too?*/
         username: String,
         height: Int,
         weight: Int,
