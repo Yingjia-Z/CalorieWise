@@ -108,7 +108,7 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         val calorie: Int
         if (type == "food" || type == "drink") {
             val apikey = "Z42q0ajL9oxbsMkdlrIylA==a3w338OixwhNmIEt"
-            val query = "${amount}g%20${item}"
+            val query = "${amount}g%20${item}".replace(" ", "%20")
             val uri = URI("https://api.api-ninjas.com/v1/nutrition?x-api-key=${apikey}&query=${query}")
             val url = uri.toURL()
             val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
