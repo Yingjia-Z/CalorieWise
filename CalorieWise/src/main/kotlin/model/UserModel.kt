@@ -36,6 +36,10 @@ class UserModel : IPublisher() {
     var recommendedCaloryIntake: Int = 0
     var recommendedWaterIntake: Int = 0
     var recommendedExercistIntake: Int = 0
+    var recommendedFatIntake: Int = 0
+    var recommendedProteinIntake: Int = 0
+    var recommendedSugarIntake: Int = 0
+
 
 
     var loggedIn: Boolean = false

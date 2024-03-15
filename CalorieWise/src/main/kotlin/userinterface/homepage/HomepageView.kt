@@ -1,5 +1,6 @@
 package userinterface.homepage
 
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -9,63 +10,68 @@ import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import viewmodel.homepage.HomepageViewModel
 
-
-enum class HomepageComponent {
-    FirstNameEvent,
-    LastNameEvent,
-    UppercaseEvent,
-    LowercaseEvent,
-    ResetEvent
-}
-
 @Composable
-fun PieChart(modifier: Modifier = Modifier) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = modifier
-            .size(100.dp)
-            .border(2.dp, Color.Transparent, RoundedCornerShape(10.dp))
-    ) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            drawCircle(
-                color = Color.Blue,
-                radius = size.minDimension / 2,
-                style = Stroke(width = 2.dp.toPx())
-            )
-        }
+fun PieChart(eaten: Int, totalCal: Int, burned: Int,modifier: Modifier = Modifier) {
+    val total = totalCal + burned
+    val sweepAngle by animateFloatAsState(
+        targetValue = if (total > 0) (eaten.toFloat() / total) * 360f else 0f,
+        animationSpec = tween(
+            durationMillis = 2000,
+            easing = LinearOutSlowInEasing
+        )
+    )
+    val strokeWidth = 30
+
+    Canvas(modifier = modifier.size(250.dp)) {
+        drawArc(
+            color = Color.Red,
+            startAngle = -90f,
+            sweepAngle = 360f,
+            useCenter = false,
+            style = Stroke(width = strokeWidth.toFloat())
+        )
+
+        drawArc(
+            color = Color.LightGray,
+            startAngle = -90f,
+            sweepAngle = sweepAngle,
+            useCenter = false,
+            style = Stroke(width = strokeWidth.toFloat(), cap = StrokeCap.Round )
+        )
     }
 }
 
 @Composable
-fun HistoryEntry(name: String, calorie: String, quantity: String) {
-    Row(
-        modifier = Modifier.border(1.dp, Color.Gray),
-        verticalAlignment = Alignment.CenterVertically
+fun tracker(eaten: Int, totalCal: Int, burned: Int) {
+    Box(
+        contentAlignment = Alignment.Center,
     ) {
-        Column(
-            modifier = Modifier
-                .padding(5.dp)
-                .weight(1f)
-                .align(Alignment.CenterVertically)
-        ) {
-            Text(text = name, color = Color.Black)
-            Text(text = "$calorie kcal", color = Color.Gray)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = "$eaten kcal eaten",
+                modifier = Modifier.padding(end = 16.dp)
+            )
+            PieChart(eaten = eaten, totalCal = totalCal, burned = burned)
+            Text(
+                text = "$burned kcal burned",
+                modifier = Modifier.padding(start = 16.dp)
+            )
         }
+
         Text(
-            text = quantity,
-            color = Color.Black,
-            modifier = Modifier.align(Alignment.CenterVertically).padding(5.dp)
+            text = "${totalCal - eaten + burned} kcal remaining"
         )
     }
 }
@@ -77,7 +83,9 @@ fun HomepageView(
     onAddFoodClick: () -> Unit, onAddDrinkClick: () -> Unit, onAddExerciseClick: () -> Unit,
 ) {
     val viewModel by remember { mutableStateOf(homepageViewModel) }
-
+    val eaten = homepageViewModel.calorieEaten.value
+    val totalCal = homepageViewModel.calorieIntake.value
+    val burned = homepageViewModel.calorieBurned.value
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -94,8 +102,7 @@ fun HomepageView(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text("Calorie Tracker", style = MaterialTheme.typography.subtitle2)
-                // add details here
-                PieChart()
+                tracker(eaten,totalCal,burned)
                 Card(
                     modifier = Modifier.fillMaxWidth()
                 ) {

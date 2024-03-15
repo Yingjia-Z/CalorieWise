@@ -5,15 +5,17 @@ import model.UserModel
 import userinterface.ISubscriber
 
 class HomepageViewModel(val model: UserModel) : ISubscriber {
-    var firstname = mutableStateOf("")
-    var lastname = mutableStateOf("")
+    var calorieEaten = mutableStateOf(model.calorieTaken)
+    var calorieIntake = mutableStateOf(model.recommendedCaloryIntake)
+    var calorieBurned = mutableStateOf(model.calorieBurned)
 
     init {
         model.subscribe(this)
     }
 
     override fun update() {
-        firstname.value = model.firstname
-        lastname.value = model.lastname
+        calorieEaten.value = model.calorieTaken
+        calorieIntake.value = model.recommendedCaloryIntake
+        calorieBurned.value = model.calorieBurned
     }
 }
