@@ -33,9 +33,9 @@ class UserModel : IPublisher() {
     var weight: Int = -1
 
     var goalWeight: Int = -1
-    var calorieIntake: Int = 0
-    var waterIntake: Int = 0
-    var exerciseIntake: Int = 0
+    var recommendedCaloryIntake: Int = 0
+    var recommendedWaterIntake: Int = 0
+    var recommendedExercistIntake: Int = 0
 
 
     var loggedIn: Boolean = false
@@ -44,8 +44,40 @@ class UserModel : IPublisher() {
             notifySubscribers()
         }
 
-    var recordItem: String = ""
-    var recordType: String = ""
-    var recordAmount: Int = -1
+    var calorieTaken: Int = 0
+        set(value) {
+            field = value
+            notifySubscribers()
+        }
+
+    var calorieBurned: Int = 0
+        set(value) {
+            field = value
+            notifySubscribers()
+        }
+
+    var waterTaken: Int = 0
+        set(value) {
+            field = value
+            notifySubscribers()
+        }
+
+    var fatTaken: Int = 0
+        set(value) {
+            field = value
+            notifySubscribers()
+        }
+
+    var proteinTaken: Int = 0
+        set(value) {
+            field = value
+            notifySubscribers()
+        }
+
+    var sugerTaken: Int = 0
+        set(value) {
+            field = value
+            notifySubscribers()
+        }
 }
 

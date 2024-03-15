@@ -150,7 +150,11 @@ fun RecordsView(
                                 Text(text = "Food", style = MaterialTheme.typography.h5)
                                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                                     foodRecords.forEach { record ->
-                                        HistoryEntry(record.first, "+ 70", record.second.toString() + " g")
+                                        HistoryEntry(
+                                            record.first,
+                                            record.second[1].toString(),
+                                            record.second[0].toString() + " g"
+                                        )
                                     }
                                 }
                             }
@@ -160,7 +164,11 @@ fun RecordsView(
                                 Text(text = "Drink", style = MaterialTheme.typography.h5)
                                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                                     drinkRecords.forEach { record ->
-                                        HistoryEntry(record.first, "+ 0", record.second.toString() + " mL")
+                                        HistoryEntry(
+                                            record.first,
+                                            record.second[1].toString(),
+                                            record.second[0].toString() + " mL"
+                                        )
                                     }
                                 }
                             }
@@ -170,7 +178,11 @@ fun RecordsView(
                                 Text(text = "Exercise", style = MaterialTheme.typography.h5)
                                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                                     exerciseRecords.forEach { record ->
-                                        HistoryEntry(record.first, "- 70", record.second.toString() + " min")
+                                        HistoryEntry(
+                                            record.first,
+                                            record.second[1].toString(),
+                                            record.second[0].toString() + " min"
+                                        )
                                     }
                                 }
                             }

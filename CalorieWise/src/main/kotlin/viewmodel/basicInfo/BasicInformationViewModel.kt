@@ -28,9 +28,9 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         age = model.age.toString()
         height = model.height.toString()
         goalWeight = model.goalWeight.toString()
-        calorie = model.calorieIntake
-        waterIntake = model.waterIntake
-        exercise = model.exerciseIntake
+        calorie = model.recommendedCaloryIntake
+        waterIntake = model.recommendedWaterIntake
+        exercise = model.recommendedExercistIntake
     }
 
     //update the model with information from user input.
@@ -49,9 +49,9 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         model.height = height.toInt()
         model.weight = weight.toInt()
         model.goalWeight = goalWeight.toInt()
-        model.calorieIntake = calorieIntake
-        model.waterIntake = waterIntake
-        model.exerciseIntake = exerciseIntake
+        model.recommendedCaloryIntake = calorieIntake
+        model.recommendedWaterIntake = waterIntake
+        model.recommendedExercistIntake = exerciseIntake
         insertOrAddUserBasicInfo(model.email, model.height, model.weight, model.goalWeight, model.age, gender)
         model.notifySubscribers()
     }
@@ -101,9 +101,9 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         } else if (gender.equals("F")) {
             calories = 655 + (9.6 * weight) + (1.8 * height) - (4.7 * age)
         }
-        if (goalWeight.toDouble() > weight){
+        if (goalWeight.toDouble() > weight) {
             calories *= 1.15
-        }else{
+        } else {
             calories *= 0.85
         }
         return (calories * exerciseIndex).roundToInt()
