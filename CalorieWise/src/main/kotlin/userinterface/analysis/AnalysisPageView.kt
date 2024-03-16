@@ -119,7 +119,7 @@ fun AnalysisPageView(analysisPageViewModel: AnalysisPageViewModel) {
                         ){
                             PieChart(sugarEaten,sugarTotal)//change parameters
                             val percentage = if (sugarTotal > 0) {
-                                (sugarEaten.toFloat() / fatTotal * 100).roundToInt()
+                                (sugarEaten.toFloat() / sugarTotal * 100).roundToInt()
                             } else {
                                 0
                             }
