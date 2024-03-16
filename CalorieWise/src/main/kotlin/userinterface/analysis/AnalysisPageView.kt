@@ -131,7 +131,7 @@ fun AnalysisPageView(analysisPageViewModel: AnalysisPageViewModel) {
                         ){
                             PieChart(proteinEaten,proteinTotal)//change
                             val percentage = if (proteinTotal > 0) {
-                                (proteinEaten.toFloat() / fatTotal * 100).roundToInt()
+                                (proteinEaten.toFloat() / proteinTotal * 100).roundToInt()
                             } else {
                                 0
                             }
