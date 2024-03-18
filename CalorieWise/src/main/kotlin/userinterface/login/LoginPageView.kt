@@ -1,10 +1,7 @@
 package userinterface.login
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -91,10 +88,10 @@ fun LoginPageView(
 
             Spacer(modifier = Modifier.height(45.dp))
 
-            Text(viewmodel.loginMessage.value, color = Color.Red)
+            Text(viewmodel.loginMessage.value, color = MaterialTheme.colors.error)
 //            TextButton(
 //                onClick = {},
-//                colors = ButtonDefaults.textButtonColors(contentColor = Color.Red)
+//                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colors.error)
 //            ) {
 //                Text("Sign Up")
 //            }

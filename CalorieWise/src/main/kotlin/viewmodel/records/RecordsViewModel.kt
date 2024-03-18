@@ -94,7 +94,7 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
                         model.calorieTaken += resultCalorie
                         model.fatTaken += resultFat
                         model.proteinTaken += resultProtein
-                        model.sugerTaken += resultSugar
+                        model.sugarTaken += resultSugar
                     }
 
                     "drink" -> {
@@ -102,7 +102,7 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
                         model.calorieTaken += resultCalorie
                         model.fatTaken += resultFat
                         model.proteinTaken += resultProtein
-                        model.sugerTaken += resultSugar
+                        model.sugarTaken += resultSugar
                     }
 
                     "exercise" -> {
@@ -163,7 +163,7 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
             }
             model.fatTaken += fat
             model.proteinTaken += protein
-            model.sugerTaken += sugar
+            model.sugarTaken += sugar
             model.calorieTaken += calorie
         } else {
             calorie = 100

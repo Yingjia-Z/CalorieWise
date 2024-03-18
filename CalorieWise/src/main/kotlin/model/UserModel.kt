@@ -35,7 +35,7 @@ class UserModel : IPublisher() {
     var goalWeight: Int = -1
     var recommendedCalorieIntake: Int = 0
     var recommendedWaterIntake: Int = 0
-    var recommendedExerviseIntake: Int = 0
+    var recommendedExerciseIntake: Int = 0
     var recommendedFatIntake: Int = 0
     var recommendedProteinIntake: Int = 0
     var recommendedSugarIntake: Int = 0
@@ -77,7 +77,7 @@ class UserModel : IPublisher() {
             notifySubscribers()
         }
 
-    var sugerTaken: Int = 0
+    var sugarTaken: Int = 0
         set(value) {
             field = value
             notifySubscribers()

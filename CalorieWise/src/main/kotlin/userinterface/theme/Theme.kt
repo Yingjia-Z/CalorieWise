@@ -11,7 +11,8 @@ private val LightColorPalette = lightColors(
     primaryVariant = AppColors.DarkerIndigo,
     onPrimary = AppColors.WhiteSmoke,
     secondary = AppColors.Red,
-    error = AppColors.Red,
+    secondaryVariant = AppColors.LightViolet,
+    error = Color.Red,
     background = AppColors.WhiteSmoke
 )
 
@@ -19,8 +20,9 @@ private val DarkColorPalette = darkColors(
     primary = AppColors.LightBlue,
     primaryVariant = Color.LightGray,
     secondary = AppColors.Red,
+    secondaryVariant = AppColors.LightViolet,
     onPrimary = AppColors.Dark300,
-    error = AppColors.Red,
+    error = Color.Red,
     background = AppColors.Dark300
 )
 
