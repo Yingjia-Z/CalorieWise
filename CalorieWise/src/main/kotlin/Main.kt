@@ -25,7 +25,7 @@ fun main() = application {
         resizable = false,
         onCloseRequest = ::exitApplication
     ) {
-        MyApplicationTheme {
+        MyApplicationTheme(isInDarkTheme = userModel.isInDarkTheme) {
             UserView(userViewModel)
         }
     }

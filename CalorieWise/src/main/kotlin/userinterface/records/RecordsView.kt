@@ -26,12 +26,11 @@ fun HistoryEntry(name: String, calorie: String, quantity: String) {
                 .weight(1f)
                 .align(Alignment.CenterVertically)
         ) {
-            Text(text = name, color = Color.Black)
+            Text(text = name)
             Text(text = "$calorie kcal", color = Color.Gray)
         }
         Text(
             text = quantity,
-            color = Color.Black,
             modifier = Modifier.align(Alignment.CenterVertically).padding(5.dp)
         )
     }

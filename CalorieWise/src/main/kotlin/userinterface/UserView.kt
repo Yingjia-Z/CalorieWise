@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -24,6 +26,7 @@ import userinterface.records.RecordsView
 import userinterface.records.addDrink.AddDrinkView
 import userinterface.records.addExercise.AddExerciseView
 import userinterface.records.addFood.AddFoodView
+import userinterface.settings.SettingsView
 import userinterface.theme.AppColors
 import userinterface.theme.MyApplicationTheme
 import viewmodel.analysis.AnalysisPageViewModel
@@ -34,6 +37,7 @@ import viewmodel.records.RecordsViewModel
 import viewmodel.records.addDrink.AddDrinkViewModel
 import viewmodel.records.addExercise.AddExerciseViewModel
 import viewmodel.records.addFood.AddFoodViewModel
+import viewmodel.settings.SettingsViewModel
 
 @Composable
 fun UserView(userViewModel: UserViewModel) {
@@ -48,6 +52,7 @@ fun UserView(userViewModel: UserViewModel) {
     val recordsViewModel = RecordsViewModel(viewModel.model)
     val analysisPageViewModel = AnalysisPageViewModel(viewModel.model)
     recordsViewModel.updateView()
+    val settingsViewModel = SettingsViewModel(viewModel.model)
 
     // Maintain the current screen using rememberSaveable
     var currentScreen by rememberSaveable { mutableStateOf(Screens.Login.screen) }
@@ -79,91 +84,99 @@ fun UserView(userViewModel: UserViewModel) {
         }
     }
 
-    MyApplicationTheme {
-        // Content area
-        Row(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            // Check if the current screen is not the LoginPage, then display the sidebar
-            if (currentScreen != Screens.Login.screen) {
-                // Sidebar with buttons to navigate to different screens
-                LazyColumn(
-                    modifier = Modifier.align(Alignment.CenterVertically)
-                ) {
-                    item {
-                        SidebarImageButton("icons/Home.png") { currentScreen = Screens.Homepage.screen }
-                        SidebarImageButton("icons/Graph.png") { currentScreen = Screens.Analysis.screen }
-                        SidebarImageButton("icons/My-Nutrition.png") { currentScreen = Screens.Records.screen }
-                        SidebarImageButton("icons/Profile.png") { currentScreen = Screens.BasicInfo.screen }
+    MyApplicationTheme(isInDarkTheme = viewModel.isInDarkTheme.value) {
+        Surface(color = MaterialTheme.colors.background) {
+            // Content area
+            Row(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                // Check if the current screen is not the LoginPage, then display the sidebar
+                if (currentScreen != Screens.Login.screen) {
+                    // Sidebar with buttons to navigate to different screens
+                    LazyColumn(
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    ) {
+                        item {
+                            SidebarImageButton("icons/Home.png") { currentScreen = Screens.Homepage.screen }
+                            SidebarImageButton("icons/Graph.png") { currentScreen = Screens.Analysis.screen }
+                            SidebarImageButton("icons/My-Nutrition.png") { currentScreen = Screens.Records.screen }
+                            SidebarImageButton("icons/Profile.png") { currentScreen = Screens.BasicInfo.screen }
+                            SidebarImageButton("icons/Settings.png") { currentScreen = Screens.Settings.screen }
+                        }
                     }
                 }
+
+                // Content area
+                when (currentScreen) {
+                    Screens.Homepage.screen -> {
+                        HomepageView(
+                            homepageViewModel,
+                            {
+                                currentScreen = Screens.Records.screen
+                                recordsOverlay = true
+                                recordsType = "food"
+                            },
+                            {
+                                currentScreen = Screens.Records.screen
+                                recordsOverlay = true
+                                recordsType = "drink"
+                            },
+                            {
+                                currentScreen = Screens.Records.screen
+                                recordsOverlay = true
+                                recordsType = "exercise"
+                            }
+                        )
+                        focusedButton = "icons/Home.png"
+                    }
+
+                    Screens.BasicInfo.screen -> {
+                        BasicInformationPage(
+                            basicInformationViewModel,
+                            { currentScreen = Screens.Recommendation.screen })
+                        focusedButton = "icons/Profile.png"
+                    }
+
+                    Screens.Recommendation.screen -> {
+                        RecommendationPage(
+                            basicInformationViewModel,
+                            { currentScreen = Screens.Homepage.screen })
+                        focusedButton = "icons/Profile.png"
+                    }
+
+                    Screens.Login.screen -> LoginPageView(
+                        loginPageViewModel,
+                        { currentScreen = Screens.BasicInfo.screen })
+
+                    Screens.Records.screen -> {
+                        RecordsView(
+                            recordsViewModel,
+                            { currentScreen = Screens.AddFood.screen },
+                            { currentScreen = Screens.AddDrink.screen },
+                            { currentScreen = Screens.AddExercise.screen },
+                            recordsOverlay,
+                            recordsType
+                        )
+                        focusedButton = "icons/My-Nutrition.png"
+                    }
+
+                    Screens.AddFood.screen -> AddFoodView(addFoodViewModel)
+                    Screens.AddDrink.screen -> AddDrinkView(addDrinkViewModel)
+                    Screens.AddExercise.screen -> AddExerciseView(addExerciseViewModel)
+
+                    Screens.Analysis.screen -> {
+                        AnalysisPageView(analysisPageViewModel)
+                        focusedButton = "icons/Graph.png"
+                    }
+
+                    Screens.Settings.screen -> {
+                        SettingsView(settingsViewModel) { currentScreen = Screens.Login.screen }
+                        focusedButton = "icons/Settings.png"
+                    }
+                }
+                recordsOverlay = false
+                recordsType = ""
             }
-
-            // Content area
-            when (currentScreen) {
-                Screens.Homepage.screen -> {
-                    HomepageView(
-                        homepageViewModel,
-                        {
-                            currentScreen = Screens.Records.screen
-                            recordsOverlay = true
-                            recordsType = "food"
-                        },
-                        {
-                            currentScreen = Screens.Records.screen
-                            recordsOverlay = true
-                            recordsType = "drink"
-                        },
-                        {
-                            currentScreen = Screens.Records.screen
-                            recordsOverlay = true
-                            recordsType = "exercise"
-                        }
-                    )
-                    focusedButton = "icons/Home.png"
-                }
-
-                Screens.BasicInfo.screen -> {
-                    BasicInformationPage(
-                        basicInformationViewModel,
-                        { currentScreen = Screens.Recommendation.screen })
-                    focusedButton = "icons/Profile.png"
-                }
-
-                Screens.Recommendation.screen -> {
-                    RecommendationPage(
-                        basicInformationViewModel,
-                        { currentScreen = Screens.Homepage.screen })
-                    focusedButton = "icons/Profile.png"
-                }
-
-                Screens.Login.screen -> LoginPageView(
-                    loginPageViewModel,
-                    { currentScreen = Screens.BasicInfo.screen })
-
-                Screens.Records.screen -> {
-                    RecordsView(
-                        recordsViewModel,
-                        { currentScreen = Screens.AddFood.screen },
-                        { currentScreen = Screens.AddDrink.screen },
-                        { currentScreen = Screens.AddExercise.screen },
-                        recordsOverlay,
-                        recordsType
-                    )
-                    focusedButton = "icons/My-Nutrition.png"
-                }
-
-                Screens.AddFood.screen -> AddFoodView(addFoodViewModel)
-                Screens.AddDrink.screen -> AddDrinkView(addDrinkViewModel)
-                Screens.AddExercise.screen -> AddExerciseView(addExerciseViewModel)
-
-                Screens.Analysis.screen -> {
-                    AnalysisPageView(analysisPageViewModel)
-                    focusedButton = "icons/Graph.png"
-                }
-            }
-            recordsOverlay = false
-            recordsType = ""
         }
     }
 }

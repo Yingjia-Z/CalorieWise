@@ -82,5 +82,13 @@ class UserModel : IPublisher() {
             field = value
             notifySubscribers()
         }
+
+    // Remember to clear newly added data in SettingsViewModel.kt/signOut()
+
+    var isInDarkTheme: Boolean = false
+        set(value) {
+            field = value
+            notifySubscribers()
+        }
 }
 
