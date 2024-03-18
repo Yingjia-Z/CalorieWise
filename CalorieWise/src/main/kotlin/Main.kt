@@ -22,7 +22,7 @@ fun main() = application {
             position = WindowPosition(Alignment.Center),
             size = DpSize(1366.dp, 768.dp)
         ),
-        resizable = false,
+        resizable = true,
         onCloseRequest = ::exitApplication
     ) {
         MyApplicationTheme(isInDarkTheme = userModel.isInDarkTheme) {
