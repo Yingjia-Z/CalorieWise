@@ -4,9 +4,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
@@ -25,7 +23,7 @@ import viewmodel.analysis.AnalysisPageViewModel
 import kotlin.math.roundToInt
 
 @Composable
-fun PieChart(eaten: Int, total: Int,modifier: Modifier = Modifier) {
+fun PieChart(eaten: Int, total: Int, modifier: Modifier = Modifier) {
     val sweepAngle by animateFloatAsState(
         targetValue = if (total > 0) (eaten.toFloat() / total) * 360f else 0f,
         animationSpec = tween(
@@ -49,20 +47,19 @@ fun PieChart(eaten: Int, total: Int,modifier: Modifier = Modifier) {
             startAngle = -90f,
             sweepAngle = sweepAngle,
             useCenter = false,
-            style = Stroke(width = strokeWidth.toFloat(), cap = StrokeCap.Round )
+            style = Stroke(width = strokeWidth.toFloat(), cap = StrokeCap.Round)
         )
     }
 }
 
 
-
 @Composable
 fun AnalysisPageView(analysisPageViewModel: AnalysisPageViewModel) {
-   // val viewModel by remember { mutableStateOf(analysisPageViewModel) }
+    // val viewModel by remember { mutableStateOf(analysisPageViewModel) }
     val selectedButton = remember { mutableStateOf("Today") }
     val fatTotal = analysisPageViewModel.fatIntake.value
     val fatEaten = analysisPageViewModel.fatEaten.value
- //also carbs and protein
+    //also carbs and protein
     val sugarTotal = analysisPageViewModel.sugarIntake.value
     val sugarEaten = analysisPageViewModel.sugarEaten.value
     val proteinTotal = analysisPageViewModel.proteinIntake.value
@@ -97,18 +94,19 @@ fun AnalysisPageView(analysisPageViewModel: AnalysisPageViewModel) {
                     Modifier.padding(bottom = 20.dp)
                 }
                 if (selectedButton.value == "Today") {
-                    Row(horizontalArrangement = Arrangement.spacedBy(50.dp),
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(50.dp),
 
                         ) {
                         Box(
                             modifier = Modifier.weight(1f).padding(8.dp),
                             contentAlignment = Alignment.Center
-                        ){
-                            PieChart(fatEaten,fatTotal)
+                        ) {
+                            PieChart(fatEaten, fatTotal)
                             val percentage = if (fatTotal > 0) {
                                 (fatEaten.toFloat() / fatTotal * 100).roundToInt()
                             } else {
-                                0
+                                '?'
                             }
                             Text(text = "$percentage% of recommended \n Fats consumed")
                         }
@@ -116,24 +114,24 @@ fun AnalysisPageView(analysisPageViewModel: AnalysisPageViewModel) {
                         Box(
                             modifier = Modifier.weight(1f).padding(8.dp),
                             contentAlignment = Alignment.Center
-                        ){
-                            PieChart(sugarEaten,sugarTotal)//change parameters
+                        ) {
+                            PieChart(sugarEaten, sugarTotal)//change parameters
                             val percentage = if (sugarTotal > 0) {
                                 (sugarEaten.toFloat() / sugarTotal * 100).roundToInt()
                             } else {
-                                0
+                                '?'
                             }
                             Text(text = "$percentage% of recommended \n Sugar consumed")
                         }
                         Box(
                             modifier = Modifier.weight(1f).padding(8.dp),
                             contentAlignment = Alignment.Center
-                        ){
-                            PieChart(proteinEaten,proteinTotal)//change
+                        ) {
+                            PieChart(proteinEaten, proteinTotal)//change
                             val percentage = if (proteinTotal > 0) {
                                 (proteinEaten.toFloat() / proteinTotal * 100).roundToInt()
                             } else {
-                                0
+                                '?'
                             }
                             Text(text = "$percentage% of recommended \n Protein consumed")
                         }

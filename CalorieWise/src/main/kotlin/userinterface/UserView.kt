@@ -47,6 +47,7 @@ fun UserView(userViewModel: UserViewModel) {
     val basicInformationViewModel = BasicInformationViewModel(viewModel.model)
     val recordsViewModel = RecordsViewModel(viewModel.model)
     val analysisPageViewModel = AnalysisPageViewModel(viewModel.model)
+    recordsViewModel.updateView()
 
     // Maintain the current screen using rememberSaveable
     var currentScreen by rememberSaveable { mutableStateOf(Screens.Login.screen) }

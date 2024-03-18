@@ -7,6 +7,7 @@ import userinterface.ISubscriber
 class AnalysisPageViewModel(val model: UserModel) : ISubscriber {
     var fatEaten = mutableStateOf(model.fatTaken)
     var fatIntake = mutableStateOf(model.recommendedFatIntake)
+
     //another two nutrients
     var sugarIntake = mutableStateOf(model.recommendedSugarIntake)
     var sugarEaten = mutableStateOf(model.sugerTaken)
@@ -21,8 +22,8 @@ class AnalysisPageViewModel(val model: UserModel) : ISubscriber {
         fatEaten.value = model.fatTaken
         fatIntake.value = model.recommendedFatIntake
         sugarIntake.value = model.recommendedSugarIntake
-        sugarEaten.value=model.sugerTaken
-        proteinIntake.value=model.recommendedProteinIntake
-        proteinEaten.value=model.proteinTaken
+        sugarEaten.value = model.sugerTaken
+        proteinIntake.value = model.recommendedProteinIntake
+        proteinEaten.value = model.proteinTaken
     }
 }

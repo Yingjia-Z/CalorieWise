@@ -33,13 +33,12 @@ class UserModel : IPublisher() {
     var weight: Int = -1
 
     var goalWeight: Int = -1
-    var recommendedCaloryIntake: Int = 0
+    var recommendedCalorieIntake: Int = 0
     var recommendedWaterIntake: Int = 0
-    var recommendedExercistIntake: Int = 0
+    var recommendedExerviseIntake: Int = 0
     var recommendedFatIntake: Int = 0
     var recommendedProteinIntake: Int = 0
     var recommendedSugarIntake: Int = 0
-
 
 
     var loggedIn: Boolean = false

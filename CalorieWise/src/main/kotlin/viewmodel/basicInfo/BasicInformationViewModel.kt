@@ -17,9 +17,9 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
     var calorie: Int = 0
     var waterIntake: Int = 0
     var exercise: Int = 0
-    var fat:Int = 0
-    var protein:Int = 0
-    var sugar:Int = 0
+    var fat: Int = 0
+    var protein: Int = 0
+    var sugar: Int = 0
 
 
     init {
@@ -32,9 +32,9 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         age = model.age.toString()
         height = model.height.toString()
         goalWeight = model.goalWeight.toString()
-        calorie = model.recommendedCaloryIntake
+        calorie = model.recommendedCalorieIntake
         waterIntake = model.recommendedWaterIntake
-        exercise = model.recommendedExercistIntake
+        exercise = model.recommendedExerviseIntake
         fat = model.recommendedFatIntake
         protein = model.recommendedProteinIntake
         sugar = model.recommendedSugarIntake
@@ -51,7 +51,7 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         waterIntake: Int,
         exerciseIntake: Int,
         fat: Int,
-        sugar:Int,
+        sugar: Int,
         protein: Int
     ) {
         model.gender = gender
@@ -59,9 +59,9 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         model.height = height.toInt()
         model.weight = weight.toInt()
         model.goalWeight = goalWeight.toInt()
-        model.recommendedCaloryIntake = calorieIntake
+        model.recommendedCalorieIntake = calorieIntake
         model.recommendedWaterIntake = waterIntake
-        model.recommendedExercistIntake = exerciseIntake
+        model.recommendedExerviseIntake = exerciseIntake
         model.recommendedFatIntake = fat
         model.recommendedSugarIntake = sugar
         model.recommendedProteinIntake = protein
@@ -101,13 +101,15 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         exercise = value
     }
 
-    fun setFatIntake(value:Int) {
+    fun setFatIntake(value: Int) {
         fat = value
     }
-    fun setSugarIntake(value:Int) {
+
+    fun setSugarIntake(value: Int) {
         sugar = value
     }
-    fun setProteinIntake(value:Int) {
+
+    fun setProteinIntake(value: Int) {
         protein = value
     }
 
@@ -143,25 +145,26 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
     fun calculateExercise(): Int {/*TODO: no formula found???*/
         return 0
     }
-    fun calculateFatIntake():Int {
+
+    fun calculateFatIntake(): Int {
         val cal = calorie.toDouble()
 
-        return (((cal * 0.275)/4).roundToInt())
+        return (((cal * 0.275) / 4).roundToInt())
     }
 
-    fun calculateSugarIntake():Int {
-        if(gender.equals("F")){
+    fun calculateSugarIntake(): Int {
+        if (gender.equals("F")) {
             return 25
-        }else{
+        } else {
             return 36
         }
 
     }
 
-    fun calculateProteinIntake():Int {
+    fun calculateProteinIntake(): Int {
         val cal = calorie.toDouble()
 
-        return( ((cal * 0.225)/4).roundToInt())
+        return (((cal * 0.225) / 4).roundToInt())
     }
 
     fun connect(): Connection? {

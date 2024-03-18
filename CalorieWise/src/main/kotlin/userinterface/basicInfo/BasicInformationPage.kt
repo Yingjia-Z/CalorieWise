@@ -99,7 +99,19 @@ fun BasicInformationPage(
                     basicInformationViewModel.setFatIntake(s)
                     val p = basicInformationViewModel.calculateProteinIntake()
                     basicInformationViewModel.setFatIntake(p)
-                    basicInformationViewModel.updateBasicInformation(gender, age, height, weight, goalWeight, c, w, e,f,s,p)
+                    basicInformationViewModel.updateBasicInformation(
+                        gender,
+                        age,
+                        height,
+                        weight,
+                        goalWeight,
+                        c,
+                        w,
+                        e,
+                        f,
+                        s,
+                        p
+                    )
                     onNextStepClick()
                 },
                 modifier = Modifier.padding(top = 20.dp)
