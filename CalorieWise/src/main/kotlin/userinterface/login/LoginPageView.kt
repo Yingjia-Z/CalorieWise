@@ -20,7 +20,7 @@ enum class LoginPageViewEvent {
 
 @Composable
 fun LoginPageView(
-    loginPageViewModel: LoginPageViewModel, onSignInSuccess: () -> Unit
+    loginPageViewModel: LoginPageViewModel, onSignInSuccess: () -> Unit, onReturningUser: () -> Unit
 ) {
     val viewmodel by remember { mutableStateOf(loginPageViewModel) }
 
@@ -78,7 +78,11 @@ fun LoginPageView(
                 onClick = {
                     viewmodel.invoke(LoginPageViewEvent.SignInEvent, 1)
                     if (viewmodel.loggedin) {
-                        onSignInSuccess()
+                        if(viewmodel.returning){
+                            onReturningUser()
+                        }else{
+                            onSignInSuccess()
+                        }
                     } else {
                         viewmodel.loginMessage.value = "Wrong Password. Please try again. "
                     }

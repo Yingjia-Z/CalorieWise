@@ -147,7 +147,8 @@ fun UserView(userViewModel: UserViewModel) {
 
                     Screens.Login.screen -> LoginPageView(
                         loginPageViewModel,
-                        { currentScreen = Screens.BasicInfo.screen })
+                        { currentScreen = Screens.BasicInfo.screen },
+                        {currentScreen = Screens.Homepage.screen})
 
                     Screens.Records.screen -> {
                         RecordsView(
