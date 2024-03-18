@@ -10,16 +10,12 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import viewmodel.records.addExercise.AddExerciseViewModel
 
 
 enum class AddExerciseEvent {
@@ -61,8 +57,7 @@ fun ExerciseEntry(name: String, quantity: String) {
 }
 
 @Composable
-fun AddExerciseView(addExerciseViewModel: AddExerciseViewModel) {
-    val viewModel by remember { mutableStateOf(addExerciseViewModel) }
+fun AddExerciseView() {
 
     Box(
         modifier = Modifier.fillMaxSize()
