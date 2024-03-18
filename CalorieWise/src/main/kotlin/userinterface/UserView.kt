@@ -33,9 +33,6 @@ import viewmodel.basicInfo.BasicInformationViewModel
 import viewmodel.homepage.HomepageViewModel
 import viewmodel.login.LoginPageViewModel
 import viewmodel.records.RecordsViewModel
-import viewmodel.records.addDrink.AddDrinkViewModel
-import viewmodel.records.addExercise.AddExerciseViewModel
-import viewmodel.records.addFood.AddFoodViewModel
 import viewmodel.settings.SettingsViewModel
 
 @Composable
@@ -44,9 +41,6 @@ fun UserView(userViewModel: UserViewModel) {
 
     val loginPageViewModel = LoginPageViewModel(viewModel.model)
     val homepageViewModel = HomepageViewModel(viewModel.model)
-    val addFoodViewModel = AddFoodViewModel(viewModel.model)
-    val addDrinkViewModel = AddDrinkViewModel(viewModel.model)
-    val addExerciseViewModel = AddExerciseViewModel(viewModel.model)
     val basicInformationViewModel = BasicInformationViewModel(viewModel.model)
     val recordsViewModel = RecordsViewModel(viewModel.model)
     val analysisPageViewModel = AnalysisPageViewModel(viewModel.model)
@@ -148,7 +142,7 @@ fun UserView(userViewModel: UserViewModel) {
                     Screens.Login.screen -> LoginPageView(
                         loginPageViewModel,
                         { currentScreen = Screens.BasicInfo.screen },
-                        {currentScreen = Screens.Homepage.screen})
+                        { currentScreen = Screens.Homepage.screen })
 
                     Screens.Records.screen -> {
                         RecordsView(
@@ -162,9 +156,9 @@ fun UserView(userViewModel: UserViewModel) {
                         focusedButton = "icons/My-Nutrition.png"
                     }
 
-                    Screens.AddFood.screen -> AddFoodView(addFoodViewModel)
-                    Screens.AddDrink.screen -> AddDrinkView(addDrinkViewModel)
-                    Screens.AddExercise.screen -> AddExerciseView(addExerciseViewModel)
+                    Screens.AddFood.screen -> AddFoodView()
+                    Screens.AddDrink.screen -> AddDrinkView()
+                    Screens.AddExercise.screen -> AddExerciseView()
 
                     Screens.Analysis.screen -> {
                         AnalysisPageView(analysisPageViewModel)

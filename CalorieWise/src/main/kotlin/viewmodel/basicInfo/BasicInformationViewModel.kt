@@ -147,12 +147,12 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         val goal = goalWeight.toDouble()
         var weight = weight.toDouble()
         var age = age.toInt()
-        if(age in 5..17){
+        if (age in 5..17) {
             time = 60
-        }else if (age >= 18){
+        } else if (age >= 18) {
             time = 30
         }
-        if(goal < weight){
+        if (goal < weight) {
             time = 40
         }
 

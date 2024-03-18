@@ -143,16 +143,21 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         var fat: Int = 0
         var protein: Int = 0
         var sugar: Int = 0
+        val newAmount = amount.replace(" ", "%20")
+        val newItem = item.replace(" ", "%20")
+        val apikey = "Z42q0ajL9oxbsMkdlrIylA==a3w338OixwhNmIEt"
+        val uri = if (type == "food" || type == "drink") {
+            URI("https://api.api-ninjas.com/v1/nutrition?x-api-key=${apikey}&query=${newAmount}g%20${newItem}")
+        } else {
+            URI("https://api.api-ninjas.com/v1/caloriesburned?x-api-key=${apikey}&activity=${newItem}&duration=${newAmount}")
+        }
+        val url = uri.toURL()
+        val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
+        connection.setRequestProperty("accept", "application/json")
+        val responseStream: InputStream = connection.inputStream
+        val mapper = ObjectMapper()
+        val root: JsonNode = mapper.readTree(responseStream)
         if (type == "food" || type == "drink") {
-            val apikey = "Z42q0ajL9oxbsMkdlrIylA==a3w338OixwhNmIEt"
-            val query = "${amount}g%20${item}".replace(" ", "%20")
-            val uri = URI("https://api.api-ninjas.com/v1/nutrition?x-api-key=${apikey}&query=${query}")
-            val url = uri.toURL()
-            val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
-            connection.setRequestProperty("accept", "application/json")
-            val responseStream: InputStream = connection.inputStream
-            val mapper = ObjectMapper()
-            val root: JsonNode = mapper.readTree(responseStream)
             if (root.size() == 0 || root.isNull) {
                 calorie = 70
             } else {
@@ -166,7 +171,11 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
             model.sugarTaken += sugar
             model.calorieTaken += calorie
         } else {
-            calorie = 100
+            if (root.size() == 0 || root.isNull) {
+                calorie = 70
+            } else {
+                calorie = root[0]["total_calories"].asInt()
+            }
             model.calorieBurned += calorie
         }
         return listOf(calorie, fat, protein, sugar)
@@ -176,6 +185,11 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         foodRecords.clear()
         drinkRecords.clear()
         exerciseRecords.clear()
+        model.calorieBurned = 0
+        model.fatTaken = 0
+        model.calorieTaken = 0
+        model.proteinTaken = 0
+        model.sugarTaken = 0
         val connection = connect()
         val updateViewSuccessCode = connection?.updateView()
         assert(updateViewSuccessCode == 1)

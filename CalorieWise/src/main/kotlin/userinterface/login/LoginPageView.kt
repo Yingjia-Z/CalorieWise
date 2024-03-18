@@ -78,9 +78,9 @@ fun LoginPageView(
                 onClick = {
                     viewmodel.invoke(LoginPageViewEvent.SignInEvent, 1)
                     if (viewmodel.loggedin) {
-                        if(viewmodel.returning){
+                        if (viewmodel.returning) {
                             onReturningUser()
-                        }else{
+                        } else {
                             onSignInSuccess()
                         }
                     } else {
