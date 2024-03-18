@@ -197,7 +197,7 @@ fun RecordsView(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp)
-                    .background(Color.White.copy(alpha = 0.8f), shape = RectangleShape),
+                    .background(MaterialTheme.colors.background.copy(alpha = 0.8f), shape = RectangleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Card(

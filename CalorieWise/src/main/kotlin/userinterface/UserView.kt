@@ -27,7 +27,6 @@ import userinterface.records.addDrink.AddDrinkView
 import userinterface.records.addExercise.AddExerciseView
 import userinterface.records.addFood.AddFoodView
 import userinterface.settings.SettingsView
-import userinterface.theme.AppColors
 import userinterface.theme.MyApplicationTheme
 import viewmodel.analysis.AnalysisPageViewModel
 import viewmodel.basicInfo.BasicInformationViewModel
@@ -59,6 +58,8 @@ fun UserView(userViewModel: UserViewModel) {
     var focusedButton by rememberSaveable { mutableStateOf("") }
     var recordsOverlay = false
     var recordsType = ""
+    var settingsOverlay = false
+    var settingsType = ""
 
     @Composable
     fun SidebarImageButton(imageRes: String, onClick: () -> Unit) {
@@ -71,7 +72,7 @@ fun UserView(userViewModel: UserViewModel) {
                     focusedButton = imageRes
                 }
                 .background(
-                    color = if (focusedButton == imageRes) AppColors.LightViolet else Color.Transparent,
+                    color = if (focusedButton == imageRes) MaterialTheme.colors.secondaryVariant else Color.Transparent,
                     shape = RoundedCornerShape(50)
                 )
         ) {
@@ -170,7 +171,10 @@ fun UserView(userViewModel: UserViewModel) {
                     }
 
                     Screens.Settings.screen -> {
-                        SettingsView(settingsViewModel) { currentScreen = Screens.Login.screen }
+                        SettingsView(
+                            settingsViewModel, { currentScreen = Screens.Login.screen },
+                            settingsOverlay, settingsType
+                        )
                         focusedButton = "icons/Settings.png"
                     }
                 }

@@ -34,7 +34,7 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         goalWeight = model.goalWeight.toString()
         calorie = model.recommendedCalorieIntake
         waterIntake = model.recommendedWaterIntake
-        exercise = model.recommendedExerviseIntake
+        exercise = model.recommendedExerciseIntake
         fat = model.recommendedFatIntake
         protein = model.recommendedProteinIntake
         sugar = model.recommendedSugarIntake
@@ -61,7 +61,7 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         model.goalWeight = goalWeight.toInt()
         model.recommendedCalorieIntake = calorieIntake
         model.recommendedWaterIntake = waterIntake
-        model.recommendedExerviseIntake = exerciseIntake
+        model.recommendedExerciseIntake = exerciseIntake
         model.recommendedFatIntake = fat
         model.recommendedSugarIntake = sugar
         model.recommendedProteinIntake = protein
