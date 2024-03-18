@@ -10,4 +10,5 @@ sealed class Screens(val screen: String) {
     data object AddDrink : Screens("AddDrink")
     data object AddExercise : Screens("AddExercise")
     data object Analysis : Screens("Analysis")
+    data object Settings : Screens("Settings")
 }
