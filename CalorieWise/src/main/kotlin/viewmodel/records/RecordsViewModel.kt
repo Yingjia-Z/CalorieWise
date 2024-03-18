@@ -26,8 +26,12 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
     }
 
     fun addRecord(item: String, amount: String, type: String) {
-        val calorie = calculateCalorieofNewIntake(item, amount, type)
-        insertRecord(item, amount, type, calorie)
+        val nutritionInfo = calculateCalorieofNewIntake(item, amount, type)
+        val calorie = nutritionInfo[0]
+        val fat = nutritionInfo[1]
+        val protein = nutritionInfo[2]
+        val sugar = nutritionInfo[3]
+        insertRecord(item, amount, type, calorie, fat, protein, sugar)
         updateView()
         model.notifySubscribers()
     }
@@ -53,14 +57,14 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         item: String,
         amount: Int,
         type: String,
-        calorie: Int
+        calorie: Int, fat: Int, protein: Int, sugar: Int
 //      TODO: add date: Int
     ): Int {
         try {
             val stmt = createStatement()
             stmt.executeUpdate(
-                "INSERT INTO Records (username, recordItem, recordType, recordAmount, recordCalorie) " +
-                        "VALUES ('${username}', '${item}', '${type}', ${amount}, ${calorie});"
+                "INSERT INTO Records (username, recordItem, recordType, recordAmount, recordCalorie, recordFat, recordProtein, recordSugar) " +
+                        "VALUES ('${username}', '${item}', '${type}', ${amount}, ${calorie}, ${fat}, ${protein}, ${sugar});"
             )
             stmt.close()
             return 1
@@ -73,7 +77,7 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
     private fun Connection.updateView(): Int {
         try {
             val query = prepareStatement(
-                "SELECT recordItem, recordAmount, recordType, recordCalorie FROM Records WHERE username = '${model.email}';"
+                "SELECT recordItem, recordAmount, recordType, recordCalorie, recordFat, recordProtein, recordSugar FROM Records WHERE username = '${model.email}';"
             )
             val result = query.executeQuery()
             while (result.next()) {
@@ -81,12 +85,34 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
                 val resultItem = result.getString("recordItem")
                 val resultAmount = result.getInt("recordAmount")
                 val resultCalorie = result.getInt("recordCalorie")
+                val resultProtein = result.getInt("recordProtein")
+                val resultSugar = result.getInt("recordSugar")
+                val resultFat = result.getInt("recordFat")
                 when (resultType) {
-                    "food" -> foodRecords.add(Pair(resultItem, listOf(resultAmount, resultCalorie)))
-                    "drink" -> drinkRecords.add(Pair(resultItem, listOf(resultAmount, resultCalorie)))
-                    "exercise" -> exerciseRecords.add(Pair(resultItem, listOf(resultAmount, resultCalorie)))
+                    "food" -> {
+                        foodRecords.add(Pair(resultItem, listOf(resultAmount, resultCalorie)))
+                        model.calorieTaken += resultCalorie
+                        model.fatTaken += resultFat
+                        model.proteinTaken += resultProtein
+                        model.sugerTaken += resultSugar
+                    }
+
+                    "drink" -> {
+                        drinkRecords.add(Pair(resultItem, listOf(resultAmount, resultCalorie)))
+                        model.calorieTaken += resultCalorie
+                        model.fatTaken += resultFat
+                        model.proteinTaken += resultProtein
+                        model.sugerTaken += resultSugar
+                    }
+
+                    "exercise" -> {
+                        exerciseRecords.add(Pair(resultItem, listOf(resultAmount, resultCalorie)))
+                        model.calorieBurned += resultCalorie
+                    }
+
                     else -> assert(false)
                 }
+
             }
             result.close()
             query.close()
@@ -97,15 +123,26 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         }
     }
 
-    private fun insertRecord(item: String, amount: String, type: String, calorie: Int) {
+    private fun insertRecord(
+        item: String,
+        amount: String,
+        type: String,
+        calorie: Int,
+        fat: Int,
+        protein: Int,
+        sugar: Int
+    ) {
         val connection = connect()
         val insertSuccessCode =
-            connection?.insertRecord(model.email, item, amount.toInt(), type, calorie)
+            connection?.insertRecord(model.email, item, amount.toInt(), type, calorie, fat, protein, sugar)
         assert(insertSuccessCode == 1)
     }
 
-    private fun calculateCalorieofNewIntake(item: String, amount: String, type: String): Int {
-        val calorie: Int
+    private fun calculateCalorieofNewIntake(item: String, amount: String, type: String): List<Int> {
+        var calorie: Int = 0
+        var fat: Int = 0
+        var protein: Int = 0
+        var sugar: Int = 0
         if (type == "food" || type == "drink") {
             val apikey = "Z42q0ajL9oxbsMkdlrIylA==a3w338OixwhNmIEt"
             val query = "${amount}g%20${item}".replace(" ", "%20")
@@ -120,19 +157,19 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
                 calorie = 70
             } else {
                 calorie = root[0]["calories"].asInt()
-                val fat = root[0]["fat_total_g"].asInt()
-                val protein = root[0]["protein_g"].asInt()
-                val sugar = root[0]["sugar_g"].asInt()
-                model.fatTaken += fat
-                model.proteinTaken += protein
-                model.sugerTaken += sugar
+                fat = root[0]["fat_total_g"].asInt()
+                protein = root[0]["protein_g"].asInt()
+                sugar = root[0]["sugar_g"].asInt()
             }
+            model.fatTaken += fat
+            model.proteinTaken += protein
+            model.sugerTaken += sugar
             model.calorieTaken += calorie
         } else {
-            calorie = -100
+            calorie = 100
             model.calorieBurned += calorie
         }
-        return calorie
+        return listOf(calorie, fat, protein, sugar)
     }
 
     fun updateView() {

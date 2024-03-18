@@ -1,29 +1,29 @@
 package userinterface.homepage
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import viewmodel.homepage.HomepageViewModel
 
 @Composable
-fun PieChart(eaten: Int, totalCal: Int, burned: Int,modifier: Modifier = Modifier) {
+fun PieChart(eaten: Int, totalCal: Int, burned: Int, modifier: Modifier = Modifier) {
     val total = totalCal + burned
     val sweepAngle by animateFloatAsState(
         targetValue = if (total > 0) (eaten.toFloat() / total) * 360f else 0f,
@@ -48,7 +48,7 @@ fun PieChart(eaten: Int, totalCal: Int, burned: Int,modifier: Modifier = Modifie
             startAngle = -90f,
             sweepAngle = sweepAngle,
             useCenter = false,
-            style = Stroke(width = strokeWidth.toFloat(), cap = StrokeCap.Round )
+            style = Stroke(width = strokeWidth.toFloat(), cap = StrokeCap.Round)
         )
     }
 }
@@ -102,7 +102,7 @@ fun HomepageView(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text("Calorie Tracker", style = MaterialTheme.typography.subtitle2)
-                tracker(eaten,totalCal,burned)
+                tracker(eaten, totalCal, burned)
                 Card(
                     modifier = Modifier.fillMaxWidth()
                 ) {
