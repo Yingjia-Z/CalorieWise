@@ -35,9 +35,9 @@ class SettingsViewModel(val model: UserModel) : ISubscriber {
         model.height = -1
         model.weight = -1
         model.goalWeight = -1
-        model.recommendedCaloryIntake = 0
+        model.recommendedCalorieIntake = 0
         model.recommendedWaterIntake = 0
-        model.recommendedExercistIntake = 0
+        model.recommendedExerviseIntake = 0
         model.recommendedFatIntake = 0
         model.recommendedProteinIntake = 0
         model.recommendedSugarIntake = 0
