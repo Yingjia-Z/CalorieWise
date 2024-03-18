@@ -17,6 +17,7 @@ class LoginPageViewModel(val model: UserModel) : ISubscriber {
     var loggedin = false
     var loginFailed = false
     var loginMessage = mutableStateOf("")
+    var returning = false
 
 
     init {
@@ -38,6 +39,7 @@ class LoginPageViewModel(val model: UserModel) : ISubscriber {
             }
         } else if (exist == 1) {
 //            println("Welcome! You are a returning user. Logging you in.")
+            returning = true
             val logInSuccessCode = connection.logInOrInterrupt(model.email, model.password)
             if (logInSuccessCode == 1) {
                 model.loggedIn = true

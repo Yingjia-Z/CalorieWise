@@ -142,8 +142,22 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         return (weight * 0.67).roundToInt()
     }
 
-    fun calculateExercise(): Int {/*TODO: no formula found???*/
-        return 0
+    fun calculateExercise(): Int {
+        var time = 0
+        val goal = goalWeight.toDouble()
+        var weight = weight.toDouble()
+        var age = age.toInt()
+        if(age in 5..17){
+            time = 60
+        }else if (age >= 18){
+            time = 30
+        }
+        if(goal < weight){
+            time = 40
+        }
+
+        return time
+
     }
 
     fun calculateFatIntake(): Int {

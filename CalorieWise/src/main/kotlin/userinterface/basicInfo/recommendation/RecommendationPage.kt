@@ -44,7 +44,7 @@ fun RecommendationPage(
                 recommendationRow("Food", "Calorie Intake", "${basicInformationViewModel.calorie} Cals")
                 recommendationRow("Drink", "Water Intake", "${basicInformationViewModel.waterIntake} Ounces")
                 // TODO: add customized exercise time
-                recommendationRow("Exercise", "Exercise", "30 Min")
+                recommendationRow("Exercise", "Exercise", "${basicInformationViewModel.exercise} Minutes")
 
                 Spacer(modifier = Modifier.height(20.dp))
 
