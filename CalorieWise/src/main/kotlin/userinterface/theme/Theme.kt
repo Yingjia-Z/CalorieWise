@@ -1,8 +1,10 @@
 package userinterface.theme
 
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
 private val LightColorPalette = lightColors(
     primary = AppColors.Indigo,
@@ -10,14 +12,31 @@ private val LightColorPalette = lightColors(
     onPrimary = AppColors.WhiteSmoke,
     secondary = AppColors.Red,
     error = AppColors.Red,
+    background = AppColors.WhiteSmoke
+)
+
+private val DarkColorPalette = darkColors(
+    primary = AppColors.LightBlue,
+    primaryVariant = Color.LightGray,
+    secondary = AppColors.Red,
+    onPrimary = AppColors.Dark300,
+    error = AppColors.Red,
+    background = AppColors.Dark300
 )
 
 @Composable
 fun MyApplicationTheme(
+    isInDarkTheme: Boolean,
     content: @Composable () -> Unit
 ) {
+    val colors = if (isInDarkTheme) {
+        DarkColorPalette
+    } else {
+        LightColorPalette
+    }
+
     MaterialTheme(
-        colors = LightColorPalette,
+        colors = colors,
         typography = AppTypography,
         shapes = AppShapes,
         content = content

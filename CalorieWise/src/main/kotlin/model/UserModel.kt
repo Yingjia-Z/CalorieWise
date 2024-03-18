@@ -41,7 +41,6 @@ class UserModel : IPublisher() {
     var recommendedSugarIntake: Int = 0
 
 
-
     var loggedIn: Boolean = false
         set(value) {
             field = value
@@ -79,6 +78,14 @@ class UserModel : IPublisher() {
         }
 
     var sugerTaken: Int = 0
+        set(value) {
+            field = value
+            notifySubscribers()
+        }
+
+    // Remember to clear newly added data in SettingsViewModel.kt/signOut()
+
+    var isInDarkTheme: Boolean = false
         set(value) {
             field = value
             notifySubscribers()
