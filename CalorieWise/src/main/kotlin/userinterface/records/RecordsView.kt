@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
+import userinterface.composables.*
 import viewmodel.records.RecordsViewModel
 
 @Composable
@@ -149,10 +150,12 @@ fun RecordsView(
                                 Text(text = "Food", style = MaterialTheme.typography.h5)
                                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                                     foodRecords.forEach { record ->
+                                        val displayQuantity =
+                                            updateFoodUnits(record.second[0], viewModel.foodUnits.value)
                                         HistoryEntry(
                                             record.first,
                                             record.second[1].toString(),
-                                            record.second[0].toString() + " g"
+                                            displayQuantity.toString() + " ${viewModel.foodUnits.value}"
                                         )
                                     }
                                 }
@@ -163,10 +166,12 @@ fun RecordsView(
                                 Text(text = "Drink", style = MaterialTheme.typography.h5)
                                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                                     drinkRecords.forEach { record ->
+                                        val displayQuantity =
+                                            updateDrinkUnits(record.second[0], viewModel.drinkUnits.value)
                                         HistoryEntry(
                                             record.first,
                                             record.second[1].toString(),
-                                            record.second[0].toString() + " mL"
+                                            displayQuantity.toString() + " ${viewModel.drinkUnits.value}"
                                         )
                                     }
                                 }
@@ -177,10 +182,12 @@ fun RecordsView(
                                 Text(text = "Exercise", style = MaterialTheme.typography.h5)
                                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                                     exerciseRecords.forEach { record ->
+                                        val displayQuantity =
+                                            updateExerciseUnits(record.second[0].toInt(), viewModel.exerciseUnits.value)
                                         HistoryEntry(
                                             record.first,
                                             record.second[1].toString(),
-                                            record.second[0].toString() + " min"
+                                            displayQuantity.toString() + " ${viewModel.exerciseUnits.value}"
                                         )
                                     }
                                 }
@@ -226,15 +233,39 @@ fun RecordsView(
                                 },
                                 modifier = Modifier.width(450.dp)
                             )
+
+                            var displayAmount by remember { mutableStateOf("") }
+
                             TextField(
-                                value = recordAmount,
-                                onValueChange = { recordAmount = it },
+                                value = displayAmount,
+                                onValueChange = {
+                                    displayAmount = it
+                                    recordAmount =
+                                        when (recordType) {
+                                            "food" -> defaultFoodUnits(
+                                                displayAmount,
+                                                viewModel.foodUnits.value
+                                            ).toString()
+
+                                            "drink" -> defaultDrinkUnits(
+                                                displayAmount,
+                                                viewModel.drinkUnits.value
+                                            ).toString()
+
+                                            "exercise" -> defaultExerciseUnits(
+                                                displayAmount,
+                                                viewModel.exerciseUnits.value
+                                            ).toString()
+
+                                            else -> assert(false).toString()
+                                        }
+                                },
                                 label = {
                                     var inputAmountPrompt =
                                         when (recordType) {
-                                            "food" -> "Amount (g)"
-                                            "drink" -> "Amount (mL)"
-                                            "exercise" -> "Duration (min)"
+                                            "food" -> "Amount (${viewModel.foodUnits.value})"
+                                            "drink" -> "Amount (${viewModel.drinkUnits.value})"
+                                            "exercise" -> "Duration (${viewModel.exerciseUnits.value})"
                                             else -> assert(false)
                                         }
                                     Text("$inputAmountPrompt")

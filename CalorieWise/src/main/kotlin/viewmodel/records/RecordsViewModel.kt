@@ -1,5 +1,6 @@
 package viewmodel.records
 
+import androidx.compose.runtime.mutableStateOf
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import model.UserModel
@@ -18,11 +19,18 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
     val drinkRecords: MutableList<Pair<String, List<Int>>> = mutableListOf()
     val exerciseRecords: MutableList<Pair<String, List<Int>>> = mutableListOf()
 
+    var foodUnits = mutableStateOf("")
+    var drinkUnits = mutableStateOf("")
+    var exerciseUnits = mutableStateOf("")
+
     init {
         model.subscribe(this)
     }
 
     override fun update() {
+        foodUnits.value = model.foodUnits
+        drinkUnits.value = model.drinkUnits
+        exerciseUnits.value = model.exerciseUnits
     }
 
     fun addRecord(item: String, amount: String, type: String) {
