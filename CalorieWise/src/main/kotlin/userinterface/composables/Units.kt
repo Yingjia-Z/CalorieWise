@@ -83,7 +83,7 @@ fun updateDrinkUnits(currentAmount: Int, desiredUnits: String): Double {
     // store data as "milliliters"
     val desiredAmount = when (desiredUnits) {
         "milliliters" -> currentAmount.toDouble()
-        "liters" -> currentAmount / 1000
+        "liters" -> currentAmount / 1000.0
         "cup" -> currentAmount / 236.6
         "pint" -> currentAmount / 473.2
         "quart" -> currentAmount / 946.4

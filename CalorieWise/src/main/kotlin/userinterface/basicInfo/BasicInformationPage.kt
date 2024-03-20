@@ -98,7 +98,6 @@ fun BasicInformationPage(
             Spacer(modifier = Modifier.height(25.dp))
             Button(
                 onClick = {
-                    println(height)
                     viewModel.setGender(gender)
                     viewModel.setAge(age)
                     viewModel.setHeight(height)
