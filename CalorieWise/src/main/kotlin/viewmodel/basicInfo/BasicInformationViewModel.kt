@@ -3,6 +3,7 @@ package viewmodel.basicInfo
 import androidx.compose.runtime.mutableStateOf
 import model.UserModel
 import userinterface.ISubscriber
+import userinterface.composables.defaultDrinkUnits
 import java.io.File
 import java.sql.Connection
 import java.sql.DriverManager
@@ -23,6 +24,8 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
     var sugar: Int = 0
     var heightUnits = mutableStateOf("")
     var weightUnits = mutableStateOf("")
+    var drinkUnits = mutableStateOf("")
+    var exerciseUnits = mutableStateOf("")
 
     init {
         model.subscribe(this)
@@ -42,6 +45,8 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         sugar = model.recommendedSugarIntake
         heightUnits.value = model.heightUnits
         weightUnits.value = model.weightUnits
+        drinkUnits.value = model.drinkUnits
+        exerciseUnits.value = model.exerciseUnits
     }
 
     //update the model with information from user input.
@@ -139,11 +144,14 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
     }
 
     fun calculateWaterIntake(): Int {
-        //multuply by 67%, gives answer in ounces
+        //multuply by 67%
         var water = 0.0
         val weight = weight.toDouble()
 
-        return (weight * 0.67).roundToInt()
+        // in ounces
+        val result = (weight * 0.67)
+
+        return defaultDrinkUnits(result.toString(), "ounce")
     }
 
     fun calculateExercise(): Int {

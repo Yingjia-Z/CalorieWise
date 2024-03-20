@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import userinterface.composables.updateDrinkUnits
+import userinterface.composables.updateExerciseUnits
 import viewmodel.basicInfo.BasicInformationViewModel
 
 @Composable
@@ -41,10 +43,13 @@ fun RecommendationPage(
                 verticalArrangement = Arrangement.spacedBy(35.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                recommendationRow("Food", "Calorie Intake", "${basicInformationViewModel.calorie} Cals")
-                recommendationRow("Drink", "Water Intake", "${basicInformationViewModel.waterIntake} Ounces")
-                // TODO: add customized exercise time
-                recommendationRow("Exercise", "Exercise", "${basicInformationViewModel.exercise} Minutes")
+                recommendationRow("Food", "Calorie Intake", "${viewModel.calorie} Cals")
+
+                val displayDrink = updateDrinkUnits(viewModel.waterIntake.toInt(), viewModel.drinkUnits.value)
+                recommendationRow("Drink", "Water Intake", "${displayDrink} ${viewModel.drinkUnits.value}")
+
+                val displayExercise = updateExerciseUnits(viewModel.exercise.toInt(), viewModel.exerciseUnits.value)
+                recommendationRow("Exercise", "Exercise", "${displayExercise} ${viewModel.exerciseUnits.value}")
 
                 Spacer(modifier = Modifier.height(20.dp))
 
