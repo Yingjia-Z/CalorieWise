@@ -134,8 +134,11 @@ fun UserView(userViewModel: UserViewModel) {
 
                     Screens.Recommendation.screen -> {
                         RecommendationPage(
-                            basicInformationViewModel,
-                            { currentScreen = Screens.Homepage.screen })
+                            basicInformationViewModel
+                        ) {
+                            recordsViewModel.updateView()
+                            currentScreen = Screens.Homepage.screen
+                        }
                         focusedButton = "icons/Profile.png"
                     }
 
