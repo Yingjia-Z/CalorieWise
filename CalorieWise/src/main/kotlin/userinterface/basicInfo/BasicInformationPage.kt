@@ -10,6 +10,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import userinterface.composables.defaultHeightUnits
+import userinterface.composables.defaultWeightUnits
 import viewmodel.basicInfo.BasicInformationViewModel
 
 @Composable
@@ -43,8 +45,6 @@ fun BasicInformationPage(
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
-
-
             ) {
                 item {
                     TextField(
@@ -59,22 +59,38 @@ fun BasicInformationPage(
                         label = { Text("AGE") },
                     )
                     Spacer(modifier = Modifier.height(25.dp))
+
+                    var displayHeight by remember { mutableStateOf("") }
                     TextField(
-                        value = height,
-                        onValueChange = { height = it },
-                        label = { Text("HEIGHT(cm)") },
+                        value = displayHeight,
+                        onValueChange = {
+                            displayHeight = it
+                            height = defaultHeightUnits(displayHeight, viewModel.heightUnits.value).toString()
+                        },
+                        label = { Text("HEIGHT (${viewModel.heightUnits.value})") },
+                    )
+
+                    Spacer(modifier = Modifier.height(25.dp))
+
+                    var displayWeight by remember { mutableStateOf("") }
+                    TextField(
+                        value = displayWeight,
+                        onValueChange = {
+                            displayWeight = it
+                            weight = defaultWeightUnits(displayWeight, viewModel.weightUnits.value).toString()
+                        },
+                        label = { Text("WEIGHT (${viewModel.weightUnits.value})") },
                     )
                     Spacer(modifier = Modifier.height(25.dp))
+
+                    var displayGoalWeight by remember { mutableStateOf("") }
                     TextField(
-                        value = weight,
-                        onValueChange = { weight = it },
-                        label = { Text("WEIGHT(kg)") },
-                    )
-                    Spacer(modifier = Modifier.height(25.dp))
-                    TextField(
-                        value = goalWeight,
-                        onValueChange = { goalWeight = it },
-                        label = { Text("GOAL WEIGHT(kg)") },
+                        value = displayGoalWeight,
+                        onValueChange = {
+                            displayGoalWeight = it
+                            goalWeight = defaultWeightUnits(displayGoalWeight, viewModel.weightUnits.value).toString()
+                        },
+                        label = { Text("GOAL WEIGHT (${viewModel.weightUnits.value})") },
                     )
 
                 }
@@ -82,24 +98,25 @@ fun BasicInformationPage(
             Spacer(modifier = Modifier.height(25.dp))
             Button(
                 onClick = {
-                    basicInformationViewModel.setGender(gender)
-                    basicInformationViewModel.setAge(age)
-                    basicInformationViewModel.setHeight(height)
-                    basicInformationViewModel.setWeight(weight)
-                    basicInformationViewModel.setGoalWeight(goalWeight)
-                    val c = basicInformationViewModel.calculateCalroieIntake()
-                    basicInformationViewModel.setCalorieIntake(c)
-                    val w = basicInformationViewModel.calculateWaterIntake()
-                    basicInformationViewModel.setwaterIntake(w)
-                    val e = basicInformationViewModel.calculateExercise()
-                    basicInformationViewModel.setExerciseIntake(e)
-                    val f = basicInformationViewModel.calculateFatIntake()
-                    basicInformationViewModel.setFatIntake(f)
-                    val s = basicInformationViewModel.calculateSugarIntake()
-                    basicInformationViewModel.setFatIntake(s)
-                    val p = basicInformationViewModel.calculateProteinIntake()
-                    basicInformationViewModel.setFatIntake(p)
-                    basicInformationViewModel.updateBasicInformation(
+                    println(height)
+                    viewModel.setGender(gender)
+                    viewModel.setAge(age)
+                    viewModel.setHeight(height)
+                    viewModel.setWeight(weight)
+                    viewModel.setGoalWeight(goalWeight)
+                    val c = viewModel.calculateCalroieIntake()
+                    viewModel.setCalorieIntake(c)
+                    val w = viewModel.calculateWaterIntake()
+                    viewModel.setwaterIntake(w)
+                    val e = viewModel.calculateExercise()
+                    viewModel.setExerciseIntake(e)
+                    val f = viewModel.calculateFatIntake()
+                    viewModel.setFatIntake(f)
+                    val s = viewModel.calculateSugarIntake()
+                    viewModel.setFatIntake(s)
+                    val p = viewModel.calculateProteinIntake()
+                    viewModel.setFatIntake(p)
+                    viewModel.updateBasicInformation(
                         gender,
                         age,
                         height,

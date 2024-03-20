@@ -1,5 +1,6 @@
 package viewmodel.basicInfo
 
+import androidx.compose.runtime.mutableStateOf
 import model.UserModel
 import userinterface.ISubscriber
 import java.io.File
@@ -20,7 +21,8 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
     var fat: Int = 0
     var protein: Int = 0
     var sugar: Int = 0
-
+    var heightUnits = mutableStateOf("")
+    var weightUnits = mutableStateOf("")
 
     init {
         model.subscribe(this)
@@ -38,6 +40,8 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         fat = model.recommendedFatIntake
         protein = model.recommendedProteinIntake
         sugar = model.recommendedSugarIntake
+        heightUnits.value = model.heightUnits
+        weightUnits.value = model.weightUnits
     }
 
     //update the model with information from user input.

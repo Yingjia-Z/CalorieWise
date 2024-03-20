@@ -90,5 +90,35 @@ class UserModel : IPublisher() {
             field = value
             notifySubscribers()
         }
+
+    var heightUnits: String = "centimeters"
+        set(value) {
+            field = value
+            notifySubscribers()
+        }
+
+    var weightUnits: String = "kilograms"
+        set(value) {
+            field = value
+            notifySubscribers()
+        }
+
+    var foodUnits: String = "grams"
+        set(value) {
+            field = value
+            notifySubscribers()
+        }
+
+    var drinkUnits: String = "milliliters"
+        set(value) {
+            field = value
+            notifySubscribers()
+        }
+
+    var exerciseUnits: String = "minutes"
+        set(value) {
+            field = value
+            notifySubscribers()
+        }
 }
 

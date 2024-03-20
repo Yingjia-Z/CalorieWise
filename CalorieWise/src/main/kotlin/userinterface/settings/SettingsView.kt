@@ -12,11 +12,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import userinterface.composables.*
 import viewmodel.settings.SettingsViewModel
 
+
 enum class SettingsViewEvent {
-    SignOutEvent, ChangePasswordEvent, ChangeThemeEvent, UnitConversionEvent, FavoritesEditingEvent
+    SignOutEvent, ChangePasswordEvent, ChangeThemeEvent, UnitsConversionEvent, FavoritesEditingEvent
 }
+
 
 @Composable
 fun SettingsView(
@@ -78,7 +81,7 @@ fun SettingsView(
 
             Button(
                 onClick = {
-                    viewmodel.invoke(SettingsViewEvent.ChangePasswordEvent, viewmodel.password.value)
+                    viewmodel.invoke(SettingsViewEvent.ChangePasswordEvent, viewmodel.password.value, 1)
                     viewmodel.passwordEdited = false
                 },
                 enabled = viewmodel.passwordEdited,
@@ -105,11 +108,80 @@ fun SettingsView(
                 checked = viewmodel.isInDarkTheme.value,
                 onCheckedChange = {
                     viewmodel.isInDarkTheme.value = it
-                    viewmodel.invoke(SettingsViewEvent.ChangeThemeEvent, 1)
+                    viewmodel.invoke(SettingsViewEvent.ChangeThemeEvent, 1, 1)
                 }
             )
         }
     }
+
+    @Composable
+    fun unitsDropDown(type: String) {
+        var expanded by remember { mutableStateOf(false) }
+
+        Box(modifier = Modifier.width(350.dp)) {
+            Row(
+                modifier = Modifier.padding(10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                val description =
+                    when (type) {
+                        "height" -> viewmodel.heightUnits.value
+                        "weight" -> viewmodel.weightUnits.value
+                        "food" -> viewmodel.foodUnits.value
+                        "drink" -> viewmodel.drinkUnits.value
+                        "exercise" -> viewmodel.exerciseUnits.value
+                        else -> assert(false)
+                    }
+                Text("$description ($type)", modifier = Modifier.weight(1f))
+
+                // Button to trigger the dropdown menu
+                Button(onClick = { expanded = !expanded }, modifier = Modifier.width(130.dp)) {
+                    Text("Select Units")
+                }
+
+                // DropdownMenu
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    val items =
+                        when (type) {
+                            "height" -> heightUnitsList
+                            "weight" -> weightUnitsList
+                            "food" -> foodUnitsList
+                            "drink" -> drinkUnitsList
+                            "exercise" -> exerciseUnitsList
+                            else -> listOf<String>()
+                        }
+
+                    items.forEach { item ->
+                        DropdownMenuItem(onClick = {
+                            viewmodel.invoke(SettingsViewEvent.UnitsConversionEvent, type, item)
+                            viewmodel.settingsMessage.value = "$type units changes to $item"
+                            expanded = false
+                        }) {
+                            Text(item)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun changeUnitPrompt() {
+        Column(
+            modifier = Modifier.padding(15.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            unitsDropDown("height")
+            unitsDropDown("weight")
+            unitsDropDown("food")
+            unitsDropDown("drink")
+            unitsDropDown("exercise")
+        }
+    }
+
 
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
         Column(
@@ -120,95 +192,95 @@ fun SettingsView(
             Spacer(modifier = Modifier.height(40.dp))
 
             LazyColumn(
-                modifier = Modifier.padding(20.dp),
-                verticalArrangement = Arrangement.spacedBy(25.dp),
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(20.dp),
             ) {
 
                 // Change password
                 item {
-                    Button(
+                    OutlinedButton(
                         onClick = {
                             overlayVisible = true
                             settingsType = "password"
                         },
-                        modifier = Modifier.width(300.dp)
+                        modifier = Modifier.width(275.dp)
                     ) {
                         Text(
                             "Change Password",
                             style = MaterialTheme.typography.h5,
-                            modifier = Modifier.padding(8.dp)
+                            modifier = Modifier.padding(5.dp)
                         )
                     }
                 }
 
                 // Theme switch
                 item {
-                    Button(
+                    OutlinedButton(
                         onClick = {
                             overlayVisible = true
                             settingsType = "theme"
                         },
-                        modifier = Modifier.width(300.dp)
+                        modifier = Modifier.width(275.dp)
                     ) {
                         Text(
                             "Change Theme",
                             style = MaterialTheme.typography.h5,
-                            modifier = Modifier.padding(8.dp)
+                            modifier = Modifier.padding(5.dp)
                         )
                     }
                 }
 
                 // Unit conversion
                 item {
-                    Button(
+                    OutlinedButton(
                         onClick = {
                             overlayVisible = true
                             settingsType = "unit"
                         },
-                        modifier = Modifier.width(300.dp)
+                        modifier = Modifier.width(275.dp)
                     ) {
                         Text(
                             "Change Units",
                             style = MaterialTheme.typography.h5,
-                            modifier = Modifier.padding(8.dp)
+                            modifier = Modifier.padding(5.dp)
                         )
                     }
                 }
 
                 // Favorite editing
                 item {
-                    Button(
+                    OutlinedButton(
                         onClick = {
                             overlayVisible = true
                             settingsType = "favorite"
                         },
-                        modifier = Modifier.width(300.dp)
+                        modifier = Modifier.width(275.dp)
                     ) {
                         Text(
                             "Edit Favorites",
                             style = MaterialTheme.typography.h5,
-                            modifier = Modifier.padding(8.dp)
+                            modifier = Modifier.padding(5.dp)
                         )
                     }
                 }
 
                 // Logout
                 item {
-                    Button(
+                    OutlinedButton(
                         onClick = {
-                            viewmodel.invoke(SettingsViewEvent.SignOutEvent, 1)
+                            viewmodel.invoke(SettingsViewEvent.SignOutEvent, 1, 1)
                             if (!viewmodel.loggedin) {
                                 onSignOutSuccess()
                             } else {
                                 viewmodel.settingsMessage.value = "Something went wrong, you are still logged in."
                             }
                         },
-                        modifier = Modifier.width(300.dp)
+                        modifier = Modifier.width(275.dp)
                     ) {
                         Text(
                             "Log out",
                             style = MaterialTheme.typography.h5,
-                            modifier = Modifier.padding(8.dp)
+                            modifier = Modifier.padding(5.dp)
                         )
                     }
                 }
@@ -239,7 +311,7 @@ fun SettingsView(
                         when (settingsType) {
                             "password" -> changePasswordPrompt()
                             "theme" -> themeSwitch()
-                            "unit" -> TODO()
+                            "unit" -> changeUnitPrompt()
                             "favorite" -> TODO()
                             else -> assert(false)
                         }
@@ -255,11 +327,13 @@ fun SettingsView(
                             Text("Back")
                         }
 
+                        Spacer(modifier = Modifier.height(12.dp))
                         Text(
                             viewmodel.settingsMessage.value,
                             color = MaterialTheme.colors.error,
                             modifier = Modifier.padding(16.dp)
                         )
+                        Spacer(modifier = Modifier.height(12.dp))
                     }
                 }
             }

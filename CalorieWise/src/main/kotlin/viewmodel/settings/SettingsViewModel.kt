@@ -17,6 +17,11 @@ class SettingsViewModel(val model: UserModel) : ISubscriber {
     var passwordEdited = false
     var settingsMessage = mutableStateOf("")
     var isInDarkTheme = mutableStateOf(false)
+    var heightUnits = mutableStateOf("")
+    var weightUnits = mutableStateOf("")
+    var foodUnits = mutableStateOf("")
+    var drinkUnits = mutableStateOf("")
+    var exerciseUnits = mutableStateOf("")
 
     init {
         model.subscribe(this)
@@ -88,12 +93,23 @@ class SettingsViewModel(val model: UserModel) : ISubscriber {
         model.notifySubscribers()
     }
 
-    fun invoke(event: SettingsViewEvent, value: Any?) {
+    private fun updateUnits(type: String, units: String) {
+        when (type) {
+            "height" -> model.heightUnits = units
+            "weight" -> model.weightUnits = units
+            "food" -> model.foodUnits = units
+            "drink" -> model.drinkUnits = units
+            "exercise" -> model.exerciseUnits = units
+            else -> assert(false)
+        }
+    }
+
+    fun invoke(event: SettingsViewEvent, value1: Any?, value2: Any?) {
         when (event) {
             SettingsViewEvent.SignOutEvent -> signOut()
-            SettingsViewEvent.ChangePasswordEvent -> updatePassword(value as String)
+            SettingsViewEvent.ChangePasswordEvent -> updatePassword(value1 as String)
             SettingsViewEvent.ChangeThemeEvent -> model.isInDarkTheme = !model.isInDarkTheme
-            SettingsViewEvent.UnitConversionEvent -> TODO()
+            SettingsViewEvent.UnitsConversionEvent -> updateUnits(value1 as String, value2 as String)
             SettingsViewEvent.FavoritesEditingEvent -> TODO()
         }
     }
@@ -103,5 +119,10 @@ class SettingsViewModel(val model: UserModel) : ISubscriber {
         password.value = model.password
         loggedin = model.loggedIn
         isInDarkTheme.value = model.isInDarkTheme
+        heightUnits.value = model.heightUnits
+        weightUnits.value = model.weightUnits
+        foodUnits.value = model.foodUnits
+        drinkUnits.value = model.drinkUnits
+        exerciseUnits.value = model.exerciseUnits
     }
 }
