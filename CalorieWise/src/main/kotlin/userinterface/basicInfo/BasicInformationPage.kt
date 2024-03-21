@@ -6,13 +6,17 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import userinterface.composables.defaultHeightUnits
 import userinterface.composables.defaultWeightUnits
 import viewmodel.basicInfo.BasicInformationViewModel
+import java.util.*
 
 @Composable
 fun BasicInformationPage(
@@ -20,11 +24,6 @@ fun BasicInformationPage(
     onNextStepClick: () -> Unit
 ) {
     val viewModel by remember { mutableStateOf(basicInformationViewModel) }
-    var gender by remember { mutableStateOf("") }
-    var age by remember { mutableStateOf("") }
-    var height by remember { mutableStateOf("") }
-    var weight by remember { mutableStateOf("") }
-    var goalWeight by remember { mutableStateOf("") }
 
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
         Column(
@@ -48,47 +47,53 @@ fun BasicInformationPage(
             ) {
                 item {
                     TextField(
-                        value = gender,
-                        onValueChange = { gender = it },
+                        value = viewModel.gender.value.uppercase(Locale.getDefault()),
+                        onValueChange = { viewModel.gender.value = it },
                         label = { Text("SEX(M/F)") },
                     )
                     Spacer(modifier = Modifier.height(25.dp))
                     TextField(
-                        value = age,
-                        onValueChange = { age = it },
+                        value = viewModel.age.value,
+                        onValueChange = { viewModel.age.value = it },
                         label = { Text("AGE") },
                     )
                     Spacer(modifier = Modifier.height(25.dp))
 
-                    var displayHeight by remember { mutableStateOf("") }
                     TextField(
-                        value = displayHeight,
+                        value = viewModel.displayHeight.value,
                         onValueChange = {
-                            displayHeight = it
-                            height = defaultHeightUnits(displayHeight, viewModel.heightUnits.value).toString()
+                            viewModel.displayHeight.value = it
+                            viewModel.height.value = defaultHeightUnits(
+                                viewModel.displayHeight.value,
+                                viewModel.heightUnits.value
+                            ).toString()
                         },
                         label = { Text("HEIGHT (${viewModel.heightUnits.value})") },
                     )
 
                     Spacer(modifier = Modifier.height(25.dp))
 
-                    var displayWeight by remember { mutableStateOf("") }
                     TextField(
-                        value = displayWeight,
+                        value = viewModel.displayWeight.value,
                         onValueChange = {
-                            displayWeight = it
-                            weight = defaultWeightUnits(displayWeight, viewModel.weightUnits.value).toString()
+                            viewModel.displayWeight.value = it
+                            viewModel.weight.value = defaultWeightUnits(
+                                viewModel.displayWeight.value,
+                                viewModel.weightUnits.value
+                            ).toString()
                         },
                         label = { Text("WEIGHT (${viewModel.weightUnits.value})") },
                     )
                     Spacer(modifier = Modifier.height(25.dp))
 
-                    var displayGoalWeight by remember { mutableStateOf("") }
                     TextField(
-                        value = displayGoalWeight,
+                        value = viewModel.displayGoalWeight.value,
                         onValueChange = {
-                            displayGoalWeight = it
-                            goalWeight = defaultWeightUnits(displayGoalWeight, viewModel.weightUnits.value).toString()
+                            viewModel.displayGoalWeight.value = it
+                            viewModel.goalWeight.value = defaultWeightUnits(
+                                viewModel.displayGoalWeight.value,
+                                viewModel.weightUnits.value
+                            ).toString()
                         },
                         label = { Text("GOAL WEIGHT (${viewModel.weightUnits.value})") },
                     )
@@ -98,36 +103,7 @@ fun BasicInformationPage(
             Spacer(modifier = Modifier.height(25.dp))
             Button(
                 onClick = {
-                    viewModel.setGender(gender)
-                    viewModel.setAge(age)
-                    viewModel.setHeight(height)
-                    viewModel.setWeight(weight)
-                    viewModel.setGoalWeight(goalWeight)
-                    val c = viewModel.calculateCalroieIntake()
-                    viewModel.setCalorieIntake(c)
-                    val w = viewModel.calculateWaterIntake()
-                    viewModel.setwaterIntake(w)
-                    val e = viewModel.calculateExercise()
-                    viewModel.setExerciseIntake(e)
-                    val f = viewModel.calculateFatIntake()
-                    viewModel.setFatIntake(f)
-                    val s = viewModel.calculateSugarIntake()
-                    viewModel.setFatIntake(s)
-                    val p = viewModel.calculateProteinIntake()
-                    viewModel.setFatIntake(p)
-                    viewModel.updateBasicInformation(
-                        gender,
-                        age,
-                        height,
-                        weight,
-                        goalWeight,
-                        c,
-                        w,
-                        e,
-                        f,
-                        s,
-                        p
-                    )
+                    viewModel.updateBasicInformation()
                     onNextStepClick()
                 },
                 modifier = Modifier.padding(top = 20.dp)

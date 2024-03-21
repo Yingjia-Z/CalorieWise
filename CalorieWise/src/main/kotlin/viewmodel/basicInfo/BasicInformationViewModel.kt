@@ -4,6 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import model.UserModel
 import userinterface.ISubscriber
 import userinterface.composables.defaultDrinkUnits
+import userinterface.composables.updateHeightUnits
+import userinterface.composables.updateWeightUnits
 import java.io.File
 import java.sql.Connection
 import java.sql.DriverManager
@@ -11,17 +13,23 @@ import java.sql.SQLException
 import kotlin.math.roundToInt
 
 class BasicInformationViewModel(val model: UserModel) : ISubscriber {
-    private var gender: String = ""
-    private var age: String = ""
-    private var height: String = ""
-    private var weight: String = ""
-    private var goalWeight: String = ""
-    var calorie: Int = 0
-    var waterIntake: Int = 0
-    var exercise: Int = 0
-    var fat: Int = 0
-    var protein: Int = 0
-    var sugar: Int = 0
+    var gender = mutableStateOf("")
+    var age = mutableStateOf("")
+    var height = mutableStateOf("")
+    var weight = mutableStateOf("")
+    var goalWeight = mutableStateOf("")
+
+    var displayHeight = mutableStateOf("")
+    var displayWeight = mutableStateOf("")
+    var displayGoalWeight = mutableStateOf("")
+
+    var calorie = mutableStateOf(0)
+    var waterIntake = mutableStateOf(0)
+    var exerciseIntake = mutableStateOf(0)
+    var fat = mutableStateOf(0)
+    var protein = mutableStateOf(0)
+    var sugar = mutableStateOf(0)
+
     var heightUnits = mutableStateOf("")
     var weightUnits = mutableStateOf("")
     var drinkUnits = mutableStateOf("")
@@ -33,16 +41,19 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
 
     //get the latest data from the model.
     override fun update() {
-        gender = model.gender
-        age = model.age.toString()
-        height = model.height.toString()
-        goalWeight = model.goalWeight.toString()
-        calorie = model.recommendedCalorieIntake
-        waterIntake = model.recommendedWaterIntake
-        exercise = model.recommendedExerciseIntake
-        fat = model.recommendedFatIntake
-        protein = model.recommendedProteinIntake
-        sugar = model.recommendedSugarIntake
+        gender.value = model.gender
+        age.value = model.age.toString()
+        height.value = model.height.toString()
+        weight.value = model.weight.toString()
+        goalWeight.value = model.goalWeight.toString()
+
+        calorie.value = model.recommendedCalorieIntake
+        waterIntake.value = model.recommendedWaterIntake
+        exerciseIntake.value = model.recommendedExerciseIntake
+        fat.value = model.recommendedFatIntake
+        protein.value = model.recommendedProteinIntake
+        sugar.value = model.recommendedSugarIntake
+
         heightUnits.value = model.heightUnits
         weightUnits.value = model.weightUnits
         drinkUnits.value = model.drinkUnits
@@ -50,115 +61,90 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
     }
 
     //update the model with information from user input.
-    fun updateBasicInformation(
-        gender: String,
-        age: String,
-        height: String,
-        weight: String,
-        goalWeight: String,
-        calorieIntake: Int,
-        waterIntake: Int,
-        exerciseIntake: Int,
-        fat: Int,
-        sugar: Int,
-        protein: Int
-    ) {
-        model.gender = gender
-        model.age = age.toInt()
-        model.height = height.toInt()
-        model.weight = weight.toInt()
-        model.goalWeight = goalWeight.toInt()
-        model.recommendedCalorieIntake = calorieIntake
-        model.recommendedWaterIntake = waterIntake
-        model.recommendedExerciseIntake = exerciseIntake
-        model.recommendedFatIntake = fat
-        model.recommendedSugarIntake = sugar
-        model.recommendedProteinIntake = protein
-        insertOrAddUserBasicInfo(model.email, model.height, model.weight, model.goalWeight, model.age, gender)
+    fun updateBasicInformation() {
+        model.gender = gender.value
+        model.age = age.value.toInt()
+        model.height = height.value.toInt()
+        model.weight = weight.value.toInt()
+        model.goalWeight = goalWeight.value.toInt()
+
+        calculateRecommendation()
+
+        insertOrAddUserBasicInfo(
+            model.email, model.height, model.weight, model.goalWeight, model.age,
+            gender.value
+        )
         model.notifySubscribers()
     }
 
-    fun setGender(value: String) {
-        gender = value
+    fun updateView() {
+
+        model.recommendedCalorieIntake = 0
+        model.recommendedWaterIntake = 0
+        model.recommendedExerciseIntake = 0
+        model.recommendedFatIntake = 0
+        model.recommendedProteinIntake = 0
+        model.recommendedSugarIntake = 0
+
+        calculateRecommendation()
+
+        displayHeight.value = updateHeightUnits(model.height, heightUnits.value).toString()
+        displayWeight.value = updateWeightUnits(model.weight, weightUnits.value).toString()
+        displayGoalWeight.value = updateWeightUnits(model.goalWeight, weightUnits.value).toString()
     }
 
-    fun setAge(value: String) {
-        age = value
+    fun calculateRecommendation() {
+        calculateCalroieIntake()
+        model.recommendedCalorieIntake = calorie.value
+        calculateWaterIntake()
+        model.recommendedWaterIntake = waterIntake.value
+        calculateExercise()
+        model.recommendedExerciseIntake = exerciseIntake.value
+        calculateFatIntake()
+        model.recommendedFatIntake = fat.value
+        calculateSugarIntake()
+        model.recommendedSugarIntake = sugar.value
+        calculateProteinIntake()
+        model.recommendedProteinIntake = protein.value
     }
 
-    fun setHeight(value: String) {
-        height = value
-    }
-
-    fun setWeight(value: String) {
-        weight = value
-    }
-
-    fun setGoalWeight(value: String) {
-        goalWeight = value
-    }
-
-    fun setCalorieIntake(value: Int) {
-        calorie = value
-    }
-
-    fun setwaterIntake(value: Int) {
-        waterIntake = value
-    }
-
-    fun setExerciseIntake(value: Int) {
-        exercise = value
-    }
-
-    fun setFatIntake(value: Int) {
-        fat = value
-    }
-
-    fun setSugarIntake(value: Int) {
-        sugar = value
-    }
-
-    fun setProteinIntake(value: Int) {
-        protein = value
-    }
-
-    fun calculateCalroieIntake(): Int {
+    fun calculateCalroieIntake() {
         //for women: BMR = 655 + (9.6 × body weight in kg) + (1.8 × body height in cm) - (4.7 × age in years);
         // for men: BMR = 66 + (13.7 × weight in kg) + (5 × height in cm) - (6.8 × age in years).
         var calories = 0.0
-        val weight = weight.toDouble()
-        val height = height.toDouble()
-        val age = age.toDouble()
+        val weight = weight.value.toDouble()
+        val height = height.value.toDouble()
+        val age = age.value.toDouble()
         val exerciseIndex = 1.4625
-        if (gender.equals("M")) {
+        if (gender.value == "M" || gender.value == "f") {
             calories = 66 + (13.7 * weight) + (5 * height) - (6.8 * age)
-        } else if (gender.equals("F")) {
+        } else if (gender.value == "F" || gender.value == "f") {
             calories = 655 + (9.6 * weight) + (1.8 * height) - (4.7 * age)
         }
-        if (goalWeight.toDouble() > weight) {
+        if (goalWeight.value.toDouble() > weight) {
             calories *= 1.15
         } else {
             calories *= 0.85
         }
-        return (calories * exerciseIndex).roundToInt()
+
+        calorie.value = (calories * exerciseIndex).roundToInt()
     }
 
-    fun calculateWaterIntake(): Int {
+    fun calculateWaterIntake() {
         //multuply by 67%
-        var water = 0.0
-        val weight = weight.toDouble()
+//        var water = 0.0
+        val weight = weight.value.toDouble()
 
         // in ounces
         val result = (weight * 0.67)
-
-        return defaultDrinkUnits(result.toString(), "ounce")
+        waterIntake.value = defaultDrinkUnits(result.toString(), "ounce")
     }
 
-    fun calculateExercise(): Int {
+    fun calculateExercise() {
         var time = 0
-        val goal = goalWeight.toDouble()
-        var weight = weight.toDouble()
-        var age = age.toInt()
+        val goal = goalWeight.value.toDouble()
+        var weight = weight.value.toDouble()
+        var age = age.value.toInt()
         if (age in 5..17) {
             time = 60
         } else if (age >= 18) {
@@ -168,29 +154,28 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
             time = 40
         }
 
-        return time
-
+        exerciseIntake.value = time
     }
 
-    fun calculateFatIntake(): Int {
-        val cal = calorie.toDouble()
+    fun calculateFatIntake() {
+        val cal = calorie.value.toDouble()
 
-        return (((cal * 0.275) / 4).roundToInt())
+        fat.value = (((cal * 0.275) / 4).roundToInt())
     }
 
-    fun calculateSugarIntake(): Int {
-        if (gender.equals("F")) {
-            return 25
+    fun calculateSugarIntake() {
+        if (gender.value == "F" || gender.value == "f") {
+            sugar.value = 25
         } else {
-            return 36
+            sugar.value = 36
         }
 
     }
 
-    fun calculateProteinIntake(): Int {
-        val cal = calorie.toDouble()
+    fun calculateProteinIntake() {
+        val cal = calorie.value.toDouble()
 
-        return (((cal * 0.225) / 4).roundToInt())
+        protein.value = (((cal * 0.225) / 4).roundToInt())
     }
 
     fun connect(): Connection? {
