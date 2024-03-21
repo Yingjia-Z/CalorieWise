@@ -150,9 +150,6 @@ fun UserView(userViewModel: UserViewModel) {
                     Screens.Records.screen -> {
                         RecordsView(
                             recordsViewModel,
-                            { currentScreen = Screens.AddFood.screen },
-                            { currentScreen = Screens.AddDrink.screen },
-                            { currentScreen = Screens.AddExercise.screen },
                             recordsOverlay,
                             recordsType
                         )

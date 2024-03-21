@@ -266,7 +266,7 @@ fun RecordsView(
                                         }
                                     Text("$inputAmountPrompt")
                                 },
-                                modifier = Modifier.width(150.dp)
+                                modifier = Modifier.width(200.dp)
                             )
                             Spacer(modifier = Modifier.width(10.dp))
                             Button(
