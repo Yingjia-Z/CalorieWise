@@ -5,9 +5,9 @@ import model.UserModel
 import userinterface.ISubscriber
 
 class HomepageViewModel(val model: UserModel) : ISubscriber {
-    var calorieEaten = mutableStateOf(model.calorieTaken)
-    var calorieIntake = mutableStateOf(model.recommendedCalorieIntake)
-    var calorieBurned = mutableStateOf(model.calorieBurned)
+    var calorieEaten = mutableStateOf(0)
+    var calorieIntake = mutableStateOf(0)
+    var calorieBurned = mutableStateOf(0)
 
     init {
         model.subscribe(this)

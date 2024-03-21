@@ -144,7 +144,6 @@ fun RecordsView(
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        /* TODO: Calculate the calories of food/water/exercise */
                         Card(modifier = Modifier.fillMaxSize().weight(1f)) {
                             Column(verticalArrangement = Arrangement.spacedBy(25.dp)) {
                                 Text(text = "Food", style = MaterialTheme.typography.h5)

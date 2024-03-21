@@ -43,12 +43,12 @@ fun RecommendationPage(
                 verticalArrangement = Arrangement.spacedBy(35.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                recommendationRow("Food", "Calorie Intake", "${viewModel.calorie} Cals")
+                recommendationRow("Food", "Calorie Intake", "${viewModel.calorie.value} Cals")
 
-                val displayDrink = updateDrinkUnits(viewModel.waterIntake.toInt(), viewModel.drinkUnits.value)
+                val displayDrink = updateDrinkUnits(viewModel.waterIntake.value, viewModel.drinkUnits.value)
                 recommendationRow("Drink", "Water Intake", "${displayDrink} ${viewModel.drinkUnits.value}")
 
-                val displayExercise = updateExerciseUnits(viewModel.exercise.toInt(), viewModel.exerciseUnits.value)
+                val displayExercise = updateExerciseUnits(viewModel.exerciseIntake.value, viewModel.exerciseUnits.value)
                 recommendationRow("Exercise", "Exercise", "${displayExercise} ${viewModel.exerciseUnits.value}")
 
                 Spacer(modifier = Modifier.height(20.dp))

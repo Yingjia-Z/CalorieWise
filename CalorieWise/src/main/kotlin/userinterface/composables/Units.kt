@@ -2,7 +2,7 @@ package userinterface.composables
 
 import kotlin.math.roundToInt
 
-val heightUnitsList = listOf("centimeters", "meters", "yard", "feet", "inches")
+val heightUnitsList = listOf("centimeters", "meters", "yards", "feet", "inches")
 val weightUnitsList = listOf("kilograms", "pounds")
 val foodUnitsList = listOf("grams", "pounds", "ounce")
 val drinkUnitsList = listOf("milliliters", "liters", "cup", "pint", "quart", "gallon", "ounce")
@@ -87,7 +87,7 @@ fun updateDrinkUnits(currentAmount: Int, desiredUnits: String): Double {
         "cup" -> currentAmount / 236.6
         "pint" -> currentAmount / 473.2
         "quart" -> currentAmount / 946.4
-        "gallon" -> currentAmount / 3785
+        "gallon" -> currentAmount / 3785.0
         "ounce" -> currentAmount / 29.574
         else -> throw IllegalArgumentException("Unsupported unit: $desiredUnits")
     }
