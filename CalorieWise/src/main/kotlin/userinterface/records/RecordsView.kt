@@ -40,7 +40,6 @@ fun HistoryEntry(name: String, calorie: String, quantity: String) {
 @Composable
 fun RecordsView(
     recordsViewModel: RecordsViewModel,
-    onAddFoodClick: () -> Unit, onAddDrinkClick: () -> Unit, onAddExerciseClick: () -> Unit,
     overlayVisible: Boolean, recordType: String
 ) {
     val viewModel by remember { mutableStateOf(recordsViewModel) }
@@ -78,7 +77,6 @@ fun RecordsView(
                             onClick = {
                                 overlayVisible = true
                                 recordType = "food"
-                                /*onAddFoodClick()*/
                             },
                             shape = CircleShape
                         ) {
@@ -98,7 +96,6 @@ fun RecordsView(
                             onClick = {
                                 overlayVisible = true
                                 recordType = "drink"
-                                /*onAddDrinkClick()*/
                             },
                             shape = CircleShape
                         ) {
@@ -118,7 +115,6 @@ fun RecordsView(
                             onClick = {
                                 overlayVisible = true
                                 recordType = "exercise"
-                                /*onAddExerciseClick()*/
                             },
                             shape = CircleShape
                         ) {

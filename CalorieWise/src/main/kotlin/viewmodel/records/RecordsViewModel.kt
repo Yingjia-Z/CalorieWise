@@ -66,13 +66,12 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         amount: Int,
         type: String,
         calorie: Int, fat: Int, protein: Int, sugar: Int
-//      TODO: add date: Int
     ): Int {
         try {
             val stmt = createStatement()
             stmt.executeUpdate(
-                "INSERT INTO Records (username, recordItem, recordType, recordAmount, recordCalorie, recordFat, recordProtein, recordSugar) " +
-                        "VALUES ('${username}', '${item}', '${type}', ${amount}, ${calorie}, ${fat}, ${protein}, ${sugar});"
+                "INSERT INTO Records (username, recordItem, recordType, recordAmount, date, recordCalorie, recordFat, recordProtein, recordSugar) " +
+                        "VALUES ('${username}', '${item}', '${type}', ${amount}, DATE('now'), ${calorie}, ${fat}, ${protein}, ${sugar});"
             )
             stmt.close()
             return 1
@@ -85,7 +84,8 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
     private fun Connection.updateView(): Int {
         try {
             val query = prepareStatement(
-                "SELECT recordItem, recordAmount, recordType, recordCalorie, recordFat, recordProtein, recordSugar FROM Records WHERE username = '${model.email}';"
+                "SELECT recordItem, recordAmount, recordType, date, recordCalorie, recordFat, recordProtein, recordSugar " +
+                        "FROM Records WHERE username = '${model.email}' AND date = DATE('now');"
             )
             val result = query.executeQuery()
             while (result.next()) {
