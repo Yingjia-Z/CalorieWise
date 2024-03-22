@@ -360,6 +360,8 @@ fun RecordsView(
                             }
                             Button(
                                 onClick = {
+                                    recordItem = ""
+                                    recordAmount = ""
                                     overlayVisible = false
                                 },
                                 modifier = Modifier.width(100.dp)
