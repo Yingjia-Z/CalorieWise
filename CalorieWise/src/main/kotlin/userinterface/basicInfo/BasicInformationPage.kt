@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import userinterface.composables.defaultHeightUnits
 import userinterface.composables.defaultWeightUnits
 import viewmodel.basicInfo.BasicInformationViewModel
-import java.util.*
 
 @Composable
 fun BasicInformationPage(
@@ -47,14 +46,20 @@ fun BasicInformationPage(
             ) {
                 item {
                     TextField(
-                        value = viewModel.gender.value.uppercase(Locale.getDefault()),
-                        onValueChange = { viewModel.gender.value = it },
+                        value = viewModel.displayGender.value.uppercase(),
+                        onValueChange = {
+                            viewModel.displayGender.value = it
+                            viewModel.gender.value = it
+                        },
                         label = { Text("SEX(M/F)") },
                     )
                     Spacer(modifier = Modifier.height(25.dp))
                     TextField(
-                        value = viewModel.age.value,
-                        onValueChange = { viewModel.age.value = it },
+                        value = viewModel.displayAge.value,
+                        onValueChange = {
+                            viewModel.displayAge.value = it
+                            viewModel.age.value = it
+                        },
                         label = { Text("AGE") },
                     )
                     Spacer(modifier = Modifier.height(25.dp))

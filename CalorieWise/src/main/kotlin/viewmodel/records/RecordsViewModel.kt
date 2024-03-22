@@ -56,7 +56,7 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
 
 //            val url = "jdbc:sqlite:src/main/kotlin/data/data.db"
             connection = DriverManager.getConnection(url)
-            println("Connection is valid.")
+            println("Connection1 is valid.")
         } catch (e: SQLException) {
             println(e.message)
         }
@@ -73,8 +73,10 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         try {
             var exist = -1
             val query =
-                prepareStatement("SELECT COUNT(*) AS record_count FROM Records " +
-                        "WHERE username = '${username}' AND recordItem = '${item}' AND recordType = '${type}' AND date = DATE('now');")
+                prepareStatement(
+                    "SELECT COUNT(*) AS record_count FROM Records " +
+                            "WHERE username = '${username}' AND recordItem = '${item}' AND recordType = '${type}' AND date = DATE('now');"
+                )
             val result = query.executeQuery()
             result.next()
             exist = result.getInt("record_count")
@@ -83,10 +85,11 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
 
             val stmt = createStatement()
             if (exist > 0) {
-                stmt.executeUpdate( "UPDATE Records " +
-                        "SET recordAmount = recordAmount + ${amount}, recordCalorie = recordCalorie + ${calorie}, " +
-                        "recordFat = recordFat + ${fat}, recordProtein = recordProtein + ${protein}, recordSugar = recordSugar + ${sugar}" +
-                        "WHERE username = '${model.email}' AND recordItem = '${item}' AND recordType = '${type}' AND date = DATE('now')"
+                stmt.executeUpdate(
+                    "UPDATE Records " +
+                            "SET recordAmount = recordAmount + ${amount}, recordCalorie = recordCalorie + ${calorie}, " +
+                            "recordFat = recordFat + ${fat}, recordProtein = recordProtein + ${protein}, recordSugar = recordSugar + ${sugar}" +
+                            "WHERE username = '${model.email}' AND recordItem = '${item}' AND recordType = '${type}' AND date = DATE('now')"
                 )
             } else {
                 stmt.executeUpdate(
@@ -154,10 +157,14 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
 
     private fun Connection.getSuggestionList(recordType: String, isRecent: Boolean): Int {
         try {
-            val query = if (isRecent) prepareStatement("SELECT DISTINCT recordItem, recordType FROM Records " +
-                            "WHERE username = '${model.email}' AND recordType = '${recordType}' ORDER BY ROWID DESC LIMIT 5;")
-                        else prepareStatement("SELECT DISTINCT recordItem, recordType, favourite FROM Records " +
-                            "WHERE username = '${model.email}' AND recordType = '${recordType}' AND favourite = '${1}';")
+            val query = if (isRecent) prepareStatement(
+                "SELECT DISTINCT recordItem, recordType FROM Records " +
+                        "WHERE username = '${model.email}' AND recordType = '${recordType}' ORDER BY ROWID DESC LIMIT 5;"
+            )
+            else prepareStatement(
+                "SELECT DISTINCT recordItem, recordType, favourite FROM Records " +
+                        "WHERE username = '${model.email}' AND recordType = '${recordType}' AND favourite = '${1}';"
+            )
             val result = query.executeQuery()
             while (result.next()) {
                 val resultItem = result.getString("recordItem")
@@ -189,8 +196,10 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
 
     private fun Connection.getFavourite(recordItem: String, recordType: String): Int {
         try {
-            val query = prepareStatement("SELECT favourite FROM Records " +
-                    "WHERE username = '${model.email}' AND recordItem = '${recordItem}' AND recordType = '${recordType}'")
+            val query = prepareStatement(
+                "SELECT favourite FROM Records " +
+                        "WHERE username = '${model.email}' AND recordItem = '${recordItem}' AND recordType = '${recordType}'"
+            )
             val result = query.executeQuery()
             while (result.next()) {
                 recordFav = result.getBoolean("favourite")

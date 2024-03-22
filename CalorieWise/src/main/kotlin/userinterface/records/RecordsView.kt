@@ -18,7 +18,7 @@ import userinterface.composables.*
 import viewmodel.records.RecordsViewModel
 
 @Composable
-fun HistoryEntry(name: String, calorie: String, quantity: String, favIconPath: String, onFavClicked: () -> Unit ) {
+fun HistoryEntry(name: String, calorie: String, quantity: String, favIconPath: String, onFavClicked: () -> Unit) {
     Row(
         modifier = Modifier.border(1.dp, Color.Gray),
         verticalAlignment = Alignment.CenterVertically
@@ -157,7 +157,14 @@ fun RecordsView(
                                     foodRecords.forEach { record ->
                                         val displayQuantity =
                                             updateFoodUnits(record.second[0], viewModel.foodUnits.value)
-                                        var favClicked by remember { mutableStateOf(viewModel.getFavourite(record.first, "food")) }
+                                        var favClicked by remember {
+                                            mutableStateOf(
+                                                viewModel.getFavourite(
+                                                    record.first,
+                                                    "food"
+                                                )
+                                            )
+                                        }
                                         HistoryEntry(
                                             record.first,
                                             record.second[1].toString(),
@@ -178,7 +185,14 @@ fun RecordsView(
                                     drinkRecords.forEach { record ->
                                         val displayQuantity =
                                             updateDrinkUnits(record.second[0], viewModel.drinkUnits.value)
-                                        var favClicked by remember { mutableStateOf(viewModel.getFavourite(record.first, "drink")) }
+                                        var favClicked by remember {
+                                            mutableStateOf(
+                                                viewModel.getFavourite(
+                                                    record.first,
+                                                    "drink"
+                                                )
+                                            )
+                                        }
                                         HistoryEntry(
                                             record.first,
                                             record.second[1].toString(),
@@ -199,7 +213,14 @@ fun RecordsView(
                                     exerciseRecords.forEach { record ->
                                         val displayQuantity =
                                             updateExerciseUnits(record.second[0].toInt(), viewModel.exerciseUnits.value)
-                                        var favClicked by remember { mutableStateOf(viewModel.getFavourite(record.first, "exercise")) }
+                                        var favClicked by remember {
+                                            mutableStateOf(
+                                                viewModel.getFavourite(
+                                                    record.first,
+                                                    "exercise"
+                                                )
+                                            )
+                                        }
                                         HistoryEntry(
                                             record.first,
                                             record.second[1].toString(),
@@ -272,7 +293,8 @@ fun RecordsView(
                                                     .size(30.dp)
                                                     .clickable {
                                                         expanded = !expanded
-                                                        isRecent = true }
+                                                        isRecent = true
+                                                    }
                                             )
                                             Icon(
                                                 painter = painterResource("icons/FavClicked.png"),
@@ -282,7 +304,8 @@ fun RecordsView(
                                                     .size(30.dp)
                                                     .clickable {
                                                         expanded = !expanded
-                                                        isRecent = false }
+                                                        isRecent = false
+                                                    }
                                             )
                                             Spacer(modifier = Modifier.width(5.dp))
                                         }

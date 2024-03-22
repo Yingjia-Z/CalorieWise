@@ -62,7 +62,7 @@ class SettingsViewModel(val model: UserModel) : ISubscriber {
             val url = "jdbc:sqlite:$dbPath"
 
             connection = DriverManager.getConnection(url)
-            println("Connection is valid.")
+            println("Connection4 is valid.")
         } catch (e: SQLException) {
             println(e.message)
         }

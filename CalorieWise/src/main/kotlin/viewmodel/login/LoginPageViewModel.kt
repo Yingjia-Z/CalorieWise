@@ -126,7 +126,7 @@ class LoginPageViewModel(val model: UserModel) : ISubscriber {
 
 //            val url = "jdbc:sqlite:src/main/kotlin/data/data.db"
             connection = DriverManager.getConnection(url)
-            println("Connection is valid.")
+            println("Connection3 is valid.")
         } catch (e: SQLException) {
             println(e.message)
         }

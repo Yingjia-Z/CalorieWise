@@ -19,6 +19,8 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
     var weight = mutableStateOf("")
     var goalWeight = mutableStateOf("")
 
+    var displayGender = mutableStateOf("")
+    var displayAge = mutableStateOf("")
     var displayHeight = mutableStateOf("")
     var displayWeight = mutableStateOf("")
     var displayGoalWeight = mutableStateOf("")
@@ -88,6 +90,8 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
 
         calculateRecommendation()
 
+        displayGender.value = model.gender
+        displayAge.value = model.age.toString()
         displayHeight.value = updateHeightUnits(model.height, heightUnits.value).toString()
         displayWeight.value = updateWeightUnits(model.weight, weightUnits.value).toString()
         displayGoalWeight.value = updateWeightUnits(model.goalWeight, weightUnits.value).toString()
@@ -187,7 +191,7 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
 
 //            val url = "jdbc:sqlite:src/main/kotlin/data/data.db"
             connection = DriverManager.getConnection(url)
-            println("Connection is valid.")
+            println("Connection5 is valid.")
         } catch (e: SQLException) {
             println(e.message)
         }
