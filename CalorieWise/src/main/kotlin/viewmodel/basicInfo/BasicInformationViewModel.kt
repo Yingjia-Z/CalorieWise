@@ -116,7 +116,7 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         val height = height.value.toDouble()
         val age = age.value.toDouble()
         val exerciseIndex = 1.4625
-        if (gender.value == "M" || gender.value == "f") {
+        if (gender.value == "M" || gender.value == "m") {
             calories = 66 + (13.7 * weight) + (5 * height) - (6.8 * age)
         } else if (gender.value == "F" || gender.value == "f") {
             calories = 655 + (9.6 * weight) + (1.8 * height) - (4.7 * age)

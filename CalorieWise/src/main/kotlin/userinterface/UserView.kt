@@ -139,8 +139,8 @@ fun UserView(userViewModel: UserViewModel) {
                             basicInformationViewModel
                         ) {
                             viewModel.updateModel()
-                            basicInformationViewModel.updateView()
                             recordsViewModel.updateView()
+                            basicInformationViewModel.updateView()
                             currentScreen = Screens.Homepage.screen
                         }
                         focusedButton = "icons/Profile.png"
@@ -150,14 +150,14 @@ fun UserView(userViewModel: UserViewModel) {
                         loginPageViewModel,
                         {
                             viewModel.updateModel()
-                            basicInformationViewModel.updateView()
                             recordsViewModel.updateView()
+                            basicInformationViewModel.updateView()
                             currentScreen = Screens.BasicInfo.screen
                         },
                         {
                             viewModel.updateModel()
-                            basicInformationViewModel.updateView()
                             recordsViewModel.updateView()
+                            basicInformationViewModel.updateView()
                             currentScreen = Screens.Homepage.screen
                         })
 
