@@ -63,6 +63,15 @@ fun BasicInformationPage(
                         label = { Text("AGE") },
                     )
                     Spacer(modifier = Modifier.height(25.dp))
+                    TextField(
+                        value = viewModel.displayGender.value.uppercase(),
+                        onValueChange = {
+                            viewModel.displayGender.value = it
+                            viewModel.gender.value = it
+                        },
+                        label = { Text("SEX(M/F)") },
+                    )
+                    Spacer(modifier = Modifier.height(25.dp))
 
                     TextField(
                         value = viewModel.displayHeight.value,
