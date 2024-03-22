@@ -2,6 +2,7 @@ package userinterface.records
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,12 +12,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import userinterface.composables.*
 import viewmodel.records.RecordsViewModel
 
 @Composable
-fun HistoryEntry(name: String, calorie: String, quantity: String) {
+fun HistoryEntry(name: String, calorie: String, quantity: String, favIconPath: String, onFavClicked: () -> Unit ) {
     Row(
         modifier = Modifier.border(1.dp, Color.Gray),
         verticalAlignment = Alignment.CenterVertically
@@ -34,13 +36,21 @@ fun HistoryEntry(name: String, calorie: String, quantity: String) {
             text = quantity,
             modifier = Modifier.align(Alignment.CenterVertically).padding(5.dp)
         )
+        Icon(
+            painter = painterResource(favIconPath),
+            contentDescription = "FavIcon",
+            tint = Color.Gray,
+            modifier = Modifier
+                .padding(5.dp)
+                .size(30.dp)
+                .clickable { onFavClicked() }
+        )
     }
 }
 
 @Composable
 fun RecordsView(
     recordsViewModel: RecordsViewModel,
-    onAddFoodClick: () -> Unit, onAddDrinkClick: () -> Unit, onAddExerciseClick: () -> Unit,
     overlayVisible: Boolean, recordType: String
 ) {
     val viewModel by remember { mutableStateOf(recordsViewModel) }
@@ -52,7 +62,6 @@ fun RecordsView(
     var drinkRecords by remember { mutableStateOf(viewModel.drinkRecords) }
     var exerciseRecords by remember { mutableStateOf(viewModel.exerciseRecords) }
 
-    viewModel.updateView()
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -78,7 +87,6 @@ fun RecordsView(
                             onClick = {
                                 overlayVisible = true
                                 recordType = "food"
-                                /*onAddFoodClick()*/
                             },
                             shape = CircleShape
                         ) {
@@ -98,7 +106,6 @@ fun RecordsView(
                             onClick = {
                                 overlayVisible = true
                                 recordType = "drink"
-                                /*onAddDrinkClick()*/
                             },
                             shape = CircleShape
                         ) {
@@ -118,7 +125,6 @@ fun RecordsView(
                             onClick = {
                                 overlayVisible = true
                                 recordType = "exercise"
-                                /*onAddExerciseClick()*/
                             },
                             shape = CircleShape
                         ) {
@@ -151,11 +157,16 @@ fun RecordsView(
                                     foodRecords.forEach { record ->
                                         val displayQuantity =
                                             updateFoodUnits(record.second[0], viewModel.foodUnits.value)
+                                        var favClicked by remember { mutableStateOf(viewModel.getFavourite(record.first, "food")) }
                                         HistoryEntry(
                                             record.first,
                                             record.second[1].toString(),
-                                            displayQuantity.toString() + " ${viewModel.foodUnits.value}"
-                                        )
+                                            displayQuantity.toString() + " ${viewModel.foodUnits.value}",
+                                            if (favClicked) "icons/FavClicked.png" else "icons/FavUnclicked.png"
+                                        ) {
+                                            favClicked = !favClicked
+                                            viewModel.updateFavourite(record.first, "food", favClicked)
+                                        }
                                     }
                                 }
                             }
@@ -167,11 +178,16 @@ fun RecordsView(
                                     drinkRecords.forEach { record ->
                                         val displayQuantity =
                                             updateDrinkUnits(record.second[0], viewModel.drinkUnits.value)
+                                        var favClicked by remember { mutableStateOf(viewModel.getFavourite(record.first, "drink")) }
                                         HistoryEntry(
                                             record.first,
                                             record.second[1].toString(),
-                                            displayQuantity.toString() + " ${viewModel.drinkUnits.value}"
-                                        )
+                                            displayQuantity.toString() + " ${viewModel.drinkUnits.value}",
+                                            if (favClicked) "icons/FavClicked.png" else "icons/FavUnclicked.png"
+                                        ) {
+                                            favClicked = !favClicked
+                                            viewModel.updateFavourite(record.first, "drink", favClicked)
+                                        }
                                     }
                                 }
                             }
@@ -183,11 +199,16 @@ fun RecordsView(
                                     exerciseRecords.forEach { record ->
                                         val displayQuantity =
                                             updateExerciseUnits(record.second[0].toInt(), viewModel.exerciseUnits.value)
+                                        var favClicked by remember { mutableStateOf(viewModel.getFavourite(record.first, "exercise")) }
                                         HistoryEntry(
                                             record.first,
                                             record.second[1].toString(),
-                                            displayQuantity.toString() + " ${viewModel.exerciseUnits.value}"
-                                        )
+                                            displayQuantity.toString() + " ${viewModel.exerciseUnits.value}",
+                                            if (favClicked) "icons/FavClicked.png" else "icons/FavUnclicked.png"
+                                        ) {
+                                            favClicked = !favClicked
+                                            viewModel.updateFavourite(record.first, "exercise", favClicked)
+                                        }
                                     }
                                 }
                             }
@@ -217,21 +238,75 @@ fun RecordsView(
                         modifier = Modifier.padding(16.dp)
                     ) {
                         Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                            TextField(
-                                value = recordItem,
-                                onValueChange = { recordItem = it },
-                                label = {
-                                    var inputTypePrompt =
-                                        when (recordType) {
-                                            "food" -> "food you consumed"
-                                            "drink" -> "drink you consumed"
-                                            "exercise" -> "exercise you performed"
-                                            else -> assert(false)
+
+                            var expanded by remember { mutableStateOf(false) }
+                            var isRecent by remember { mutableStateOf(false) }
+
+                            Box(modifier = Modifier.width(550.dp)) {
+                                TextField(
+                                    value = recordItem,
+                                    onValueChange = { recordItem = it },
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+//                                        .onGloballyPositioned { coordinates ->
+//                                            //This value is used to assign to the DropDown the same width
+//                                            textfieldSize = coordinates.size.toSize()
+//                                        },
+                                    label = {
+                                        var inputTypePrompt =
+                                            when (recordType) {
+                                                "food" -> "food you consumed"
+                                                "drink" -> "drink you consumed"
+                                                "exercise" -> "exercise you performed"
+                                                else -> assert(false)
+                                            }
+                                        Text("Please enter the name of the $inputTypePrompt")
+                                    },
+                                    trailingIcon = {
+                                        Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                                            Icon(
+                                                painter = painterResource("icons/Recent.png"),
+                                                contentDescription = "View",
+                                                tint = Color.Gray,
+                                                modifier = Modifier
+                                                    .size(30.dp)
+                                                    .clickable {
+                                                        expanded = !expanded
+                                                        isRecent = true }
+                                            )
+                                            Icon(
+                                                painter = painterResource("icons/FavClicked.png"),
+                                                contentDescription = "View",
+                                                tint = Color.Gray,
+                                                modifier = Modifier
+                                                    .size(30.dp)
+                                                    .clickable {
+                                                        expanded = !expanded
+                                                        isRecent = false }
+                                            )
+                                            Spacer(modifier = Modifier.width(5.dp))
                                         }
-                                    Text("Please enter the name of the $inputTypePrompt")
-                                },
-                                modifier = Modifier.width(450.dp)
-                            )
+                                    }
+                                )
+
+                                DropdownMenu(
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false }
+                                ) {
+                                    var suggestions = viewModel.getSuggestionList(recordType, isRecent)
+                                    if (suggestions.isEmpty()) {
+                                        suggestions = if (isRecent) listOf("Uh-oh, nothing has been recently added!")
+                                        else listOf("Uh-oh, nothing has been added to Favourite!")
+                                    }
+                                    suggestions.forEach { label ->
+                                        DropdownMenuItem(onClick = {
+                                            recordItem = label
+                                        }) {
+                                            Text(text = label)
+                                        }
+                                    }
+                                }
+                            }
 
                             var displayAmount by remember { mutableStateOf("") }
 
@@ -269,7 +344,7 @@ fun RecordsView(
                                         }
                                     Text("$inputAmountPrompt")
                                 },
-                                modifier = Modifier.width(150.dp)
+                                modifier = Modifier.width(200.dp)
                             )
                             Spacer(modifier = Modifier.width(10.dp))
                             Button(

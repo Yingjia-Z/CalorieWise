@@ -23,6 +23,9 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
     var drinkUnits = mutableStateOf("")
     var exerciseUnits = mutableStateOf("")
 
+    val suggestionList: MutableList<String> = mutableListOf()
+    var recordFav = false
+
     init {
         model.subscribe(this)
     }
@@ -66,14 +69,31 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         amount: Int,
         type: String,
         calorie: Int, fat: Int, protein: Int, sugar: Int
-//      TODO: add date: Int
     ): Int {
         try {
+            var exist = -1
+            val query =
+                prepareStatement("SELECT COUNT(*) AS record_count FROM Records " +
+                        "WHERE username = '${username}' AND recordItem = '${item}' AND recordType = '${type}' AND date = DATE('now');")
+            val result = query.executeQuery()
+            result.next()
+            exist = result.getInt("record_count")
+            result.close()
+            query.close()
+
             val stmt = createStatement()
-            stmt.executeUpdate(
-                "INSERT INTO Records (username, recordItem, recordType, recordAmount, recordCalorie, recordFat, recordProtein, recordSugar) " +
-                        "VALUES ('${username}', '${item}', '${type}', ${amount}, ${calorie}, ${fat}, ${protein}, ${sugar});"
-            )
+            if (exist > 0) {
+                stmt.executeUpdate( "UPDATE Records " +
+                        "SET recordAmount = recordAmount + ${amount}, recordCalorie = recordCalorie + ${calorie}, " +
+                        "recordFat = recordFat + ${fat}, recordProtein = recordProtein + ${protein}, recordSugar = recordSugar + ${sugar}" +
+                        "WHERE username = '${model.email}' AND recordItem = '${item}' AND recordType = '${type}' AND date = DATE('now')"
+                )
+            } else {
+                stmt.executeUpdate(
+                    "INSERT INTO Records (username, recordItem, recordType, recordAmount, date, recordCalorie, recordFat, recordProtein, recordSugar, favourite) " +
+                            "VALUES ('${username}', '${item}', '${type}', ${amount}, DATE('now'), ${calorie}, ${fat}, ${protein}, ${sugar}, ${0});"
+                )
+            }
             stmt.close()
             return 1
         } catch (exception: Exception) {
@@ -85,7 +105,8 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
     private fun Connection.updateView(): Int {
         try {
             val query = prepareStatement(
-                "SELECT recordItem, recordAmount, recordType, recordCalorie, recordFat, recordProtein, recordSugar FROM Records WHERE username = '${model.email}';"
+                "SELECT recordItem, recordAmount, recordType, date, recordCalorie, recordFat, recordProtein, recordSugar " +
+                        "FROM Records WHERE username = '${model.email}' AND date = DATE('now');"
             )
             val result = query.executeQuery()
             while (result.next()) {
@@ -121,6 +142,58 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
                     else -> assert(false)
                 }
 
+            }
+            result.close()
+            query.close()
+            return 1
+        } catch (exception: Exception) {
+            println(exception)
+            return -1
+        }
+    }
+
+    private fun Connection.getSuggestionList(recordType: String, isRecent: Boolean): Int {
+        try {
+            val query = if (isRecent) prepareStatement("SELECT DISTINCT recordItem, recordType FROM Records " +
+                            "WHERE username = '${model.email}' AND recordType = '${recordType}' ORDER BY ROWID DESC LIMIT 5;")
+                        else prepareStatement("SELECT DISTINCT recordItem, recordType, favourite FROM Records " +
+                            "WHERE username = '${model.email}' AND recordType = '${recordType}' AND favourite = '${1}';")
+            val result = query.executeQuery()
+            while (result.next()) {
+                val resultItem = result.getString("recordItem")
+                suggestionList.add(resultItem)
+            }
+            result.close()
+            query.close()
+            return 1
+        } catch (exception: Exception) {
+            println(exception)
+            return -1
+        }
+    }
+
+    private fun Connection.updateFavourite(recordItem: String, recordType: String, favClicked: Boolean): Int {
+        try {
+            val stmt = createStatement()
+            stmt.executeUpdate(
+                "UPDATE Records SET favourite = ${if (favClicked) 1 else 0} " +
+                        "WHERE username = '${model.email}' AND recordItem = '${recordItem}' AND recordType = '${recordType}';"
+            )
+            stmt.close()
+            return 1
+        } catch (exception: Exception) {
+            println(exception)
+            return -1
+        }
+    }
+
+    private fun Connection.getFavourite(recordItem: String, recordType: String): Int {
+        try {
+            val query = prepareStatement("SELECT favourite FROM Records " +
+                    "WHERE username = '${model.email}' AND recordItem = '${recordItem}' AND recordType = '${recordType}'")
+            val result = query.executeQuery()
+            while (result.next()) {
+                recordFav = result.getBoolean("favourite")
             }
             result.close()
             query.close()
@@ -201,5 +274,26 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         val connection = connect()
         val updateViewSuccessCode = connection?.updateView()
         assert(updateViewSuccessCode == 1)
+    }
+
+    fun getSuggestionList(recordType: String, isRecent: Boolean): List<String> {
+        suggestionList.clear()
+        val connection = connect()
+        val getSuggestionListSuccessCode = connection?.getSuggestionList(recordType, isRecent)
+        assert(getSuggestionListSuccessCode == 1)
+        return suggestionList
+    }
+
+    fun updateFavourite(recordItem: String, recordType: String, favClicked: Boolean) {
+        val connection = connect()
+        val getUpdateSuccessCode = connection?.updateFavourite(recordItem, recordType, favClicked)
+        assert(getUpdateSuccessCode == 1)
+    }
+
+    fun getFavourite(recordItem: String, recordType: String): Boolean {
+        val connection = connect()
+        val getFavouriteSuccessCode = connection?.getFavourite(recordItem, recordType)
+        assert(getFavouriteSuccessCode == 1)
+        return recordFav
     }
 }
