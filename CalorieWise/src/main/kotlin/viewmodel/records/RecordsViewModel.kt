@@ -23,6 +23,8 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
     var drinkUnits = mutableStateOf("")
     var exerciseUnits = mutableStateOf("")
 
+    val suggestionList: MutableList<String> = mutableListOf()
+
     init {
         model.subscribe(this)
     }
@@ -131,6 +133,26 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         }
     }
 
+    private fun Connection.getSuggestionList(recordType: String): Int {
+        try {
+            val query = prepareStatement(
+                "SELECT DISTINCT recordItem, recordType FROM Records " +
+                        "WHERE username = '${model.email}' AND recordType = '${recordType}' ORDER BY ROWID DESC LIMIT 5;"
+            )
+            val result = query.executeQuery()
+            while (result.next()) {
+                val resultItem = result.getString("recordItem")
+                suggestionList.add(resultItem)
+            }
+            result.close()
+            query.close()
+            return 1
+        } catch (exception: Exception) {
+            println(exception)
+            return -1
+        }
+    }
+
     private fun insertRecord(
         item: String,
         amount: String,
@@ -201,5 +223,13 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         val connection = connect()
         val updateViewSuccessCode = connection?.updateView()
         assert(updateViewSuccessCode == 1)
+    }
+
+    fun getSuggestionList(recordType: String): List<String> {
+        suggestionList.clear()
+        val connection = connect()
+        val getSuggestionListSuccessCode = connection?.getSuggestionList(recordType)
+        assert(getSuggestionListSuccessCode == 1)
+        return suggestionList
     }
 }

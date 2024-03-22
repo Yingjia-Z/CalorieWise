@@ -2,6 +2,7 @@ package userinterface.records
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import userinterface.composables.*
 import viewmodel.records.RecordsViewModel
@@ -51,7 +53,6 @@ fun RecordsView(
     var drinkRecords by remember { mutableStateOf(viewModel.drinkRecords) }
     var exerciseRecords by remember { mutableStateOf(viewModel.exerciseRecords) }
 
-    viewModel.updateView()
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -213,21 +214,77 @@ fun RecordsView(
                         modifier = Modifier.padding(16.dp)
                     ) {
                         Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                            TextField(
-                                value = recordItem,
-                                onValueChange = { recordItem = it },
-                                label = {
-                                    var inputTypePrompt =
-                                        when (recordType) {
-                                            "food" -> "food you consumed"
-                                            "drink" -> "drink you consumed"
-                                            "exercise" -> "exercise you performed"
-                                            else -> assert(false)
+
+                            var expanded by remember { mutableStateOf(false) }
+                            var isRecent by remember { mutableStateOf(false) }
+
+                            Box(modifier = Modifier.width(550.dp)) {
+                                TextField(
+                                    value = recordItem,
+                                    onValueChange = { recordItem = it },
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+//                                        .onGloballyPositioned { coordinates ->
+//                                            //This value is used to assign to the DropDown the same width
+//                                            textfieldSize = coordinates.size.toSize()
+//                                        },
+                                    label = {
+                                        var inputTypePrompt =
+                                            when (recordType) {
+                                                "food" -> "food you consumed"
+                                                "drink" -> "drink you consumed"
+                                                "exercise" -> "exercise you performed"
+                                                else -> assert(false)
+                                            }
+                                        Text("Please enter the name of the $inputTypePrompt")
+                                    },
+                                    trailingIcon = {
+                                        Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                                            Icon(
+                                                painter = painterResource("icons/Recent.png"),
+                                                contentDescription = "View",
+                                                tint = Color.Gray,
+                                                modifier = Modifier
+                                                    .size(30.dp)
+                                                    .clickable {
+                                                        expanded = !expanded
+                                                        isRecent = true }
+                                            )
+                                            Icon(
+                                                painter = painterResource("icons/FavClicked.png"),
+                                                contentDescription = "View",
+                                                tint = Color.Gray,
+                                                modifier = Modifier
+                                                    .size(30.dp)
+                                                    .clickable {
+                                                        expanded = !expanded
+                                                        isRecent = false }
+                                            )
+                                            Spacer(modifier = Modifier.width(5.dp))
                                         }
-                                    Text("Please enter the name of the $inputTypePrompt")
-                                },
-                                modifier = Modifier.width(450.dp)
-                            )
+                                    }
+                                )
+
+                                DropdownMenu(
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false }
+                                ) {
+                                    var suggestions: List<String> = viewModel.getSuggestionList(recordType)
+                                    if (isRecent) {
+                                        suggestions = viewModel.getSuggestionList(recordType)
+                                        if (suggestions.isEmpty()) {
+                                            suggestions = listOf("Uh oh, nothing has been recently added!")
+                                        }
+                                    }
+                                    suggestions.forEach { label ->
+                                        DropdownMenuItem(onClick = {
+                                            recordItem = label
+                                        }) {
+                                            Text(text = label)
+                                        }
+                                    }
+                                }
+                            }
 
                             var displayAmount by remember { mutableStateOf("") }
 
