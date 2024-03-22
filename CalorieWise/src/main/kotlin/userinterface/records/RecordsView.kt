@@ -18,7 +18,7 @@ import userinterface.composables.*
 import viewmodel.records.RecordsViewModel
 
 @Composable
-fun HistoryEntry(name: String, calorie: String, quantity: String) {
+fun HistoryEntry(name: String, calorie: String, quantity: String, favIconPath: String, onFavClicked: () -> Unit ) {
     Row(
         modifier = Modifier.border(1.dp, Color.Gray),
         verticalAlignment = Alignment.CenterVertically
@@ -35,6 +35,15 @@ fun HistoryEntry(name: String, calorie: String, quantity: String) {
         Text(
             text = quantity,
             modifier = Modifier.align(Alignment.CenterVertically).padding(5.dp)
+        )
+        Icon(
+            painter = painterResource(favIconPath),
+            contentDescription = "FavIcon",
+            tint = Color.Gray,
+            modifier = Modifier
+                .padding(5.dp)
+                .size(30.dp)
+                .clickable { onFavClicked() }
         )
     }
 }
@@ -148,11 +157,16 @@ fun RecordsView(
                                     foodRecords.forEach { record ->
                                         val displayQuantity =
                                             updateFoodUnits(record.second[0], viewModel.foodUnits.value)
+                                        var favClicked by remember { mutableStateOf(viewModel.getFavourite(record.first, "food")) }
                                         HistoryEntry(
                                             record.first,
                                             record.second[1].toString(),
-                                            displayQuantity.toString() + " ${viewModel.foodUnits.value}"
-                                        )
+                                            displayQuantity.toString() + " ${viewModel.foodUnits.value}",
+                                            if (favClicked) "icons/FavClicked.png" else "icons/FavUnclicked.png"
+                                        ) {
+                                            favClicked = !favClicked
+                                            viewModel.updateFavourite(record.first, "food", favClicked)
+                                        }
                                     }
                                 }
                             }
@@ -164,11 +178,16 @@ fun RecordsView(
                                     drinkRecords.forEach { record ->
                                         val displayQuantity =
                                             updateDrinkUnits(record.second[0], viewModel.drinkUnits.value)
+                                        var favClicked by remember { mutableStateOf(viewModel.getFavourite(record.first, "drink")) }
                                         HistoryEntry(
                                             record.first,
                                             record.second[1].toString(),
-                                            displayQuantity.toString() + " ${viewModel.drinkUnits.value}"
-                                        )
+                                            displayQuantity.toString() + " ${viewModel.drinkUnits.value}",
+                                            if (favClicked) "icons/FavClicked.png" else "icons/FavUnclicked.png"
+                                        ) {
+                                            favClicked = !favClicked
+                                            viewModel.updateFavourite(record.first, "drink", favClicked)
+                                        }
                                     }
                                 }
                             }
@@ -180,11 +199,16 @@ fun RecordsView(
                                     exerciseRecords.forEach { record ->
                                         val displayQuantity =
                                             updateExerciseUnits(record.second[0].toInt(), viewModel.exerciseUnits.value)
+                                        var favClicked by remember { mutableStateOf(viewModel.getFavourite(record.first, "exercise")) }
                                         HistoryEntry(
                                             record.first,
                                             record.second[1].toString(),
-                                            displayQuantity.toString() + " ${viewModel.exerciseUnits.value}"
-                                        )
+                                            displayQuantity.toString() + " ${viewModel.exerciseUnits.value}",
+                                            if (favClicked) "icons/FavClicked.png" else "icons/FavUnclicked.png"
+                                        ) {
+                                            favClicked = !favClicked
+                                            viewModel.updateFavourite(record.first, "exercise", favClicked)
+                                        }
                                     }
                                 }
                             }
@@ -269,12 +293,10 @@ fun RecordsView(
                                     expanded = expanded,
                                     onDismissRequest = { expanded = false }
                                 ) {
-                                    var suggestions: List<String> = viewModel.getSuggestionList(recordType)
-                                    if (isRecent) {
-                                        suggestions = viewModel.getSuggestionList(recordType)
-                                        if (suggestions.isEmpty()) {
-                                            suggestions = listOf("Uh oh, nothing has been recently added!")
-                                        }
+                                    var suggestions = viewModel.getSuggestionList(recordType, isRecent)
+                                    if (suggestions.isEmpty()) {
+                                        suggestions = if (isRecent) listOf("Uh-oh, nothing has been recently added!")
+                                        else listOf("Uh-oh, nothing has been added to Favourite!")
                                     }
                                     suggestions.forEach { label ->
                                         DropdownMenuItem(onClick = {
