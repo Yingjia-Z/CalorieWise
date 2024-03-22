@@ -34,23 +34,24 @@ class SettingsViewModel(val model: UserModel) : ISubscriber {
         // Clear session data
         model.email = ""
         model.password = ""
-//        model.gender = ""
-//        model.age = -1
-//        model.height = -1
-//        model.weight = -1
-//        model.goalWeight = -1
-//        model.recommendedCalorieIntake = 0
-//        model.recommendedWaterIntake = 0
-//        model.recommendedExerviseIntake = 0
-//        model.recommendedFatIntake = 0
-//        model.recommendedProteinIntake = 0
-//        model.recommendedSugarIntake = 0
-//        model.calorieTaken = 0
-//        model.calorieBurned = 0
-//        model.waterTaken = 0
-//        model.fatTaken = 0
-//        model.proteinTaken = 0
-//        model.sugerTaken = 0
+        model.gender = ""
+        model.age = -1
+        model.height = -1
+        model.weight = -1
+        model.goalWeight = -1
+        model.recommendedCalorieIntake = 0
+        model.recommendedWaterIntake = 0
+        model.recommendedExerciseIntake = 0
+        model.recommendedFatIntake = 0
+        model.recommendedProteinIntake = 0
+        model.recommendedSugarIntake = 0
+        model.calorieTaken = 0
+        model.calorieBurned = 0
+        model.waterTaken = 0
+        model.fatTaken = 0
+        model.proteinTaken = 0
+        model.sugarTaken = 0
+        println("Data cleared")
     }
 
     private fun connect(): Connection? {

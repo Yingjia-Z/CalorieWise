@@ -44,7 +44,9 @@ fun UserView(userViewModel: UserViewModel) {
     val basicInformationViewModel = BasicInformationViewModel(viewModel.model)
     val recordsViewModel = RecordsViewModel(viewModel.model)
     val analysisPageViewModel = AnalysisPageViewModel(viewModel.model)
+    viewModel.updateModel()
     recordsViewModel.updateView()
+    basicInformationViewModel.updateView()
     val settingsViewModel = SettingsViewModel(viewModel.model)
 
     // Maintain the current screen using rememberSaveable
@@ -136,7 +138,9 @@ fun UserView(userViewModel: UserViewModel) {
                         RecommendationPage(
                             basicInformationViewModel
                         ) {
+                            viewModel.updateModel()
                             recordsViewModel.updateView()
+                            basicInformationViewModel.updateView()
                             currentScreen = Screens.Homepage.screen
                         }
                         focusedButton = "icons/Profile.png"
@@ -144,8 +148,18 @@ fun UserView(userViewModel: UserViewModel) {
 
                     Screens.Login.screen -> LoginPageView(
                         loginPageViewModel,
-                        { currentScreen = Screens.BasicInfo.screen },
-                        { currentScreen = Screens.Homepage.screen })
+                        {
+                            viewModel.updateModel()
+                            recordsViewModel.updateView()
+                            basicInformationViewModel.updateView()
+                            currentScreen = Screens.BasicInfo.screen
+                        },
+                        {
+                            viewModel.updateModel()
+                            recordsViewModel.updateView()
+                            basicInformationViewModel.updateView()
+                            currentScreen = Screens.Homepage.screen
+                        })
 
                     Screens.Records.screen -> {
                         RecordsView(
