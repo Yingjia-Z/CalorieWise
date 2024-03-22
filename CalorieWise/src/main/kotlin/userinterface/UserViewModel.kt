@@ -37,22 +37,25 @@ class UserViewModel(val model: UserModel) : ISubscriber {
     private fun Connection.updateModel(): Int {
         try {
             val query = prepareStatement(
-                "SELECT height, weight, gender, goalWeight, age FROM BasicInfo WHERE username = '${model.email}';"
+                "SELECT height, weight, gender, goalWeight, age FROM BasicInfo WHERE username = ?;"
             )
+            query.setString(1, model.email)
+
             val result = query.executeQuery()
 
-            val userHeight = result.getInt("height")
-            val userWeight = result.getInt("weight")
-            val userGender = result.getString("gender")
-            val userGoalWeight = result.getInt("goalWeight")
-            val userAge = result.getInt("age")
+            if (result.next()) {
+                val userHeight = result.getInt("height")
+                val userWeight = result.getInt("weight")
+                val userGender = result.getString("gender")
+                val userGoalWeight = result.getInt("goalWeight")
+                val userAge = result.getInt("age")
 
-            model.height = userHeight
-            model.weight = userWeight
-            model.gender = userGender
-            model.goalWeight = userGoalWeight
-            model.age = userAge
-
+                model.height = userHeight
+                model.weight = userWeight
+                model.gender = userGender
+                model.goalWeight = userGoalWeight
+                model.age = userAge
+            }
             result.close()
             query.close()
             return 1
