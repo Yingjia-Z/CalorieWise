@@ -24,7 +24,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun PieChart(eaten: Int, total: Int, modifier: Modifier = Modifier) {
-    val sweepAngle by animateFloatAsState(
+    val sweepAngle by animateFloatAsState( ////OpenAI. (2024). ChatGPT (March 28 version) [Large language model]. https://chat.openai.com/chat
         targetValue = if (total > 0) (eaten.toFloat() / total) * 360f else 0f,
         animationSpec = tween(
             durationMillis = 1000,

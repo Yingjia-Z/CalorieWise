@@ -26,7 +26,7 @@ import viewmodel.homepage.HomepageViewModel
 fun PieChart(eaten: Int, totalCal: Int, burned: Int, modifier: Modifier = Modifier) {
     val total = totalCal + burned
     val sweepAngle by animateFloatAsState(
-        targetValue = if (total > 0) (eaten.toFloat() / total) * 360f else 0f,
+        targetValue = if (total > 0) (eaten.toFloat() / total) * 360f else 0f, ////OpenAI. (2024). ChatGPT (March 28 version) [Large language model]. https://chat.openai.com/chat
         animationSpec = tween(
             durationMillis = 2000,
             easing = LinearOutSlowInEasing
