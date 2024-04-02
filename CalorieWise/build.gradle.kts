@@ -22,11 +22,18 @@ dependencies {
     implementation("org.xerial:sqlite-jdbc:3.42.0.0")
     implementation(compose.desktop.currentOs)
     testImplementation(kotlin("test"))
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
+    testImplementation("org.mockito:mockito-core:5.10.0")
     implementation("org.jetbrains.exposed", "exposed-core", "0.40.1")
     implementation("org.jetbrains.exposed", "exposed-dao", "0.40.1")
     implementation("org.jetbrains.exposed", "exposed-jdbc", "0.40.1")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.+")
 }
+tasks.test {
+    useJUnitPlatform()
+}
+
+
 
 compose.desktop {
     application {
