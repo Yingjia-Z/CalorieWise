@@ -3,10 +3,13 @@ package userinterface
 import DatabaseManager
 import androidx.compose.runtime.mutableStateOf
 import model.UserModel
+import userinterface.composables.Screens
+import java.io.File
 import java.sql.Connection
 
 class UserViewModel(val model: UserModel) : ISubscriber {
     var isInDarkTheme = mutableStateOf(false)
+    var currentScreen = mutableStateOf(Screens.Login.screen)
 
     init {
         model.subscribe(this)
