@@ -88,7 +88,7 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
                 stmt.executeUpdate(
                     "UPDATE Records " +
                             "SET recordAmount = recordAmount + ${amount}, recordCalorie = recordCalorie + ${calorie}, " +
-                            "recordFat = recordFat + ${fat}, recordProtein = recordProtein + ${protein}, recordSugar = recordSugar + ${sugar}" +
+                            "recordFat = recordFat + ${fat}, recordProtein = recordProtein + ${protein}, recordSugar = recordSugar + ${sugar} " +
                             "WHERE username = '${model.email}' AND recordItem = '${item}' AND recordType = '${type}' AND date = DATE('now')"
                 )
             } else {
