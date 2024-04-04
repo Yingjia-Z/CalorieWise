@@ -12,7 +12,9 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.*
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -34,7 +36,6 @@ import viewmodel.homepage.HomepageViewModel
 import viewmodel.login.LoginPageViewModel
 import viewmodel.records.RecordsViewModel
 import viewmodel.settings.SettingsViewModel
-
 @Composable
 fun UserView(userViewModel: UserViewModel) {
     val viewModel by remember { mutableStateOf(userViewModel) }
@@ -50,12 +51,13 @@ fun UserView(userViewModel: UserViewModel) {
     val settingsViewModel = SettingsViewModel(viewModel.model)
 
     // Maintain the current screen using rememberSaveable
-    var currentScreen by rememberSaveable { mutableStateOf(Screens.Login.screen) }
+    var currentScreen by rememberSaveable { userViewModel.currentScreen }
     var focusedButton by rememberSaveable { mutableStateOf("") }
     var recordsOverlay = false
     var recordsType = ""
     var settingsOverlay = false
     var settingsType = ""
+
 
     @Composable
     fun SidebarImageButton(imageRes: String, onClick: () -> Unit) {
@@ -81,6 +83,8 @@ fun UserView(userViewModel: UserViewModel) {
         }
     }
 
+
+
     MyApplicationTheme(isInDarkTheme = viewModel.isInDarkTheme.value) {
         Surface(color = MaterialTheme.colors.background) {
             // Content area
@@ -105,6 +109,21 @@ fun UserView(userViewModel: UserViewModel) {
 
                 // Content area
                 when (currentScreen) {
+                    Screens.Login.screen -> LoginPageView(
+                        loginPageViewModel,
+                        {
+                            viewModel.updateModel()
+                            recordsViewModel.updateView()
+                            basicInformationViewModel.updateView()
+                            currentScreen = Screens.BasicInfo.screen
+                        },
+                        {
+                            viewModel.updateModel()
+                            recordsViewModel.updateView()
+                            basicInformationViewModel.updateView()
+                            currentScreen = Screens.Homepage.screen
+                        })
+
                     Screens.Homepage.screen -> {
                         HomepageView(
                             homepageViewModel,
@@ -145,21 +164,6 @@ fun UserView(userViewModel: UserViewModel) {
                         }
                         focusedButton = "icons/Profile.png"
                     }
-
-                    Screens.Login.screen -> LoginPageView(
-                        loginPageViewModel,
-                        {
-                            viewModel.updateModel()
-                            recordsViewModel.updateView()
-                            basicInformationViewModel.updateView()
-                            currentScreen = Screens.BasicInfo.screen
-                        },
-                        {
-                            viewModel.updateModel()
-                            recordsViewModel.updateView()
-                            basicInformationViewModel.updateView()
-                            currentScreen = Screens.Homepage.screen
-                        })
 
                     Screens.Records.screen -> {
                         RecordsView(

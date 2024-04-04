@@ -2,6 +2,7 @@ package userinterface
 
 import androidx.compose.runtime.mutableStateOf
 import model.UserModel
+import userinterface.composables.Screens
 import java.io.File
 import java.sql.Connection
 import java.sql.DriverManager
@@ -9,6 +10,7 @@ import java.sql.SQLException
 
 class UserViewModel(val model: UserModel) : ISubscriber {
     var isInDarkTheme = mutableStateOf(false)
+    var currentScreen = mutableStateOf(Screens.Login.screen)
 
     init {
         model.subscribe(this)
