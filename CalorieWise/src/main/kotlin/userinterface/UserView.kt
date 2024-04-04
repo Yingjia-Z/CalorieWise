@@ -144,6 +144,10 @@ fun UserView(userViewModel: UserViewModel) {
                             }
                         )
                         focusedButton = "icons/Home.png"
+                        LaunchedEffect(Unit) {
+                            handleHotkeys(KeyEvent(Key.H))
+                            homepageReq.value?.requestFocus()
+                        }
                     }
 
                     Screens.BasicInfo.screen -> {

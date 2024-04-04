@@ -8,8 +8,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
@@ -28,10 +26,6 @@ fun SettingsView(
     settingsViewModel: SettingsViewModel, onSignOutSuccess: () -> Unit,
     overlayVisible: Boolean, settingsType: String
 ) {
-    val focusRequester = remember { FocusRequester() }
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-    }
     val viewmodel by remember { mutableStateOf(settingsViewModel) }
     var overlayVisible by remember { mutableStateOf(overlayVisible) }
     var settingsType by remember { mutableStateOf(settingsType) }
@@ -189,7 +183,7 @@ fun SettingsView(
     }
 
 
-    Box(contentAlignment = Alignment.Center, modifier = Modifier.focusRequester(focusRequester).fillMaxSize()) {
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.padding(15.dp),
             horizontalAlignment = Alignment.CenterHorizontally

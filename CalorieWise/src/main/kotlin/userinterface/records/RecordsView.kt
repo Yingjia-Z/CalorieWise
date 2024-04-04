@@ -10,8 +10,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
@@ -55,11 +53,6 @@ fun RecordsView(
     recordsViewModel: RecordsViewModel,
     overlayVisible: Boolean, recordType: String
 ) {
-    val focusRequester = remember { FocusRequester() }
-
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-    }
     val viewModel by remember { mutableStateOf(recordsViewModel) }
     var overlayVisible by remember { mutableStateOf(overlayVisible) }
     var recordType by remember { mutableStateOf(recordType) }
@@ -70,7 +63,7 @@ fun RecordsView(
     var exerciseRecords by remember { mutableStateOf(viewModel.exerciseRecords) }
 
     Box(
-        modifier = Modifier.focusRequester(focusRequester).fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
 
         Column(

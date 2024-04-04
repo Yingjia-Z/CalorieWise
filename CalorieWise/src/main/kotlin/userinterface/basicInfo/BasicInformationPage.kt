@@ -6,11 +6,12 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import userinterface.composables.defaultHeightUnits
 import userinterface.composables.defaultWeightUnits
@@ -21,13 +22,9 @@ fun BasicInformationPage(
     basicInformationViewModel: BasicInformationViewModel,
     onNextStepClick: () -> Unit
 ) {
-    val focusRequester = remember { FocusRequester() }
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-    }
     val viewModel by remember { mutableStateOf(basicInformationViewModel) }
 
-    Box(contentAlignment = Alignment.Center, modifier = Modifier.focusRequester(focusRequester).fillMaxSize()) {
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(horizontal = 16.dp)

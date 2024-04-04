@@ -9,11 +9,12 @@ import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -54,10 +55,6 @@ fun PieChart(eaten: Int, total: Int, modifier: Modifier = Modifier) {
 
 @Composable
 fun AnalysisPageView(analysisPageViewModel: AnalysisPageViewModel) {
-    val focusRequester = remember { FocusRequester() }
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-    }
     // val viewModel by remember { mutableStateOf(analysisPageViewModel) }
     val selectedButton = remember { mutableStateOf("Today") }
     val fatTotal = analysisPageViewModel.fatIntake.value
@@ -70,7 +67,7 @@ fun AnalysisPageView(analysisPageViewModel: AnalysisPageViewModel) {
 
 
     Box(
-        modifier = Modifier.focusRequester(focusRequester).fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         // Nutrients Board
