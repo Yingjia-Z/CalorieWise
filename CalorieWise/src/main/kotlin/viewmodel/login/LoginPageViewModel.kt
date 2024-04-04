@@ -1,13 +1,11 @@
 package viewmodel.login
 
+import DatabaseManager
 import androidx.compose.runtime.mutableStateOf
 import model.UserModel
 import userinterface.ISubscriber
 import userinterface.login.LoginPageViewEvent
-import java.io.File
 import java.sql.Connection
-import java.sql.DriverManager
-import java.sql.SQLException
 
 
 class LoginPageViewModel(val model: UserModel) : ISubscriber {
@@ -25,9 +23,10 @@ class LoginPageViewModel(val model: UserModel) : ISubscriber {
     }
 
     private fun signInOrSignUp() {
-        val connection = connect()
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
 //        println("Checking if your username exist in our database. ")
-        val exist = connection?.checkUserExist(model.email)
+        val exist = connection.checkUserExist(model.email)
 //        println("Your exist status is ${exist}. ")
         if (exist == 0) {
 //            println("Welcome! You are a new user. Signing you up.")
@@ -115,22 +114,6 @@ class LoginPageViewModel(val model: UserModel) : ISubscriber {
             println(exception)
         }
         return exist
-    }
-
-    fun connect(): Connection? {
-        var connection: Connection? = null
-        try {
-            val appDataDir = System.getProperty("user.home") + File.separator + ".CalorieWise"
-            val dbPath = "$appDataDir${File.separator}data.db"
-            val url = "jdbc:sqlite:$dbPath"
-
-//            val url = "jdbc:sqlite:src/main/kotlin/data/data.db"
-            connection = DriverManager.getConnection(url)
-            println("Connection3 is valid.")
-        } catch (e: SQLException) {
-            println(e.message)
-        }
-        return connection
     }
 
 

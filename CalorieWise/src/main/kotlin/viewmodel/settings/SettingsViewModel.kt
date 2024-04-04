@@ -1,13 +1,11 @@
 package viewmodel.settings
 
+import DatabaseManager
 import androidx.compose.runtime.mutableStateOf
 import model.UserModel
 import userinterface.ISubscriber
 import userinterface.settings.SettingsViewEvent
-import java.io.File
 import java.sql.Connection
-import java.sql.DriverManager
-import java.sql.SQLException
 
 class SettingsViewModel(val model: UserModel) : ISubscriber {
 
@@ -54,20 +52,6 @@ class SettingsViewModel(val model: UserModel) : ISubscriber {
         println("Data cleared")
     }
 
-    private fun connect(): Connection? {
-        var connection: Connection? = null
-        try {
-            val appDataDir = System.getProperty("user.home") + File.separator + ".CalorieWise"
-            val dbPath = "$appDataDir${File.separator}data.db"
-            val url = "jdbc:sqlite:$dbPath"
-
-            connection = DriverManager.getConnection(url)
-            println("Connection4 is valid.")
-        } catch (e: SQLException) {
-            println(e.message)
-        }
-        return connection
-    }
 
     private fun Connection.updatePassword(
         newPassword: String
@@ -86,8 +70,9 @@ class SettingsViewModel(val model: UserModel) : ISubscriber {
     }
 
     private fun updatePassword(newPassword: String) {
-        val connection = connect()
-        val updatePasswordSuccessCode = connection?.updatePassword(newPassword)
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
+        val updatePasswordSuccessCode = connection.updatePassword(newPassword)
         assert(updatePasswordSuccessCode == 1)
         model.password = newPassword
         settingsMessage.value = "You've changed your password. "

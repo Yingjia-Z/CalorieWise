@@ -20,6 +20,7 @@ dependencies {
     // (in a separate module for demo project and in testMain).
     // With compose.desktop.common you will also lose @Preview functionality
     implementation("org.xerial:sqlite-jdbc:3.42.0.0")
+    implementation("mysql:mysql-connector-java:8.0.+")
     implementation(compose.desktop.currentOs)
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
