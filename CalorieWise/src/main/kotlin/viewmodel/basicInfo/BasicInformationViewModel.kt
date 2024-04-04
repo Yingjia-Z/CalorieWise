@@ -251,7 +251,7 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         val connection = databaseManager.getConnection()
         val exist = connection.checkUserExistInTable(username, "BasicInfo")
         val insertOrUpdateSuccessCode =
-            connection.insertOrUpdateBasicInfo(username, height, weight, goalWeight, age, gender, exist!!)
+            connection.insertOrUpdateBasicInfo(username, height, weight, goalWeight, age, gender, exist)
         assert(insertOrUpdateSuccessCode == 1)
     }
 

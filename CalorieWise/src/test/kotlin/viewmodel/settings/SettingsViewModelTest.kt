@@ -1,17 +1,12 @@
 package viewmodel.settings
 
-import org.junit.jupiter.api.Assertions.*
 import model.UserModel
-import userinterface.settings.SettingsViewEvent
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
-import org.mockito.Mockito.*;
-import java.sql.Connection
-import java.sql.PreparedStatement
-import java.sql.ResultSet
+import userinterface.settings.SettingsViewEvent
 import kotlin.test.Test
 
-class SettingsViewModelTest{
+class SettingsViewModelTest {
     private lateinit var model: UserModel
     private lateinit var viewModel: SettingsViewModel
 
@@ -26,8 +21,8 @@ class SettingsViewModelTest{
     fun testPasswordUpdate() {
         val newPassword = "newpassword"
 
-        viewModel.invoke(SettingsViewEvent.ChangePasswordEvent, newPassword,null)
-        assertEquals(newPassword,model.password)
+        viewModel.invoke(SettingsViewEvent.ChangePasswordEvent, newPassword, null)
+        assertEquals(newPassword, model.password)
     }
 
     @Test
@@ -47,7 +42,7 @@ class SettingsViewModelTest{
         viewModel.invoke(SettingsViewEvent.SignOutEvent, "", "")
 
         assert(!model.loggedIn)
-        assertEquals(model.email,"")
+        assertEquals(model.email, "")
         assertEquals(model.password, "")
 
     }

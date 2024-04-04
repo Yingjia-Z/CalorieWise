@@ -27,21 +27,26 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         onKeyEvent = { keyEvent ->
             if (keyEvent.type == KeyEventType.KeyDown && keyEvent.isCtrlPressed &&
-                userViewModel.currentScreen.value != Screens.Login.screen) {
+                userViewModel.currentScreen.value != Screens.Login.screen
+            ) {
                 when (keyEvent.key) {
                     Key.H -> {
                         //println("H key pressed")
                         userViewModel.currentScreen.value = Screens.Homepage.screen
                     }
+
                     Key.R -> {
                         userViewModel.currentScreen.value = Screens.Records.screen
                     }
+
                     Key.A -> {
                         userViewModel.currentScreen.value = Screens.Analysis.screen
                     }
+
                     Key.P -> {
                         userViewModel.currentScreen.value = Screens.BasicInfo.screen
                     }
+
                     Key.S -> {
                         userViewModel.currentScreen.value = Screens.Settings.screen
                     }
@@ -51,11 +56,11 @@ fun main() = application {
         }
     ) {
         MyApplicationTheme(isInDarkTheme = userModel.isInDarkTheme) {
-                UserView(userViewModel)
-            }
+            UserView(userViewModel)
         }
-
     }
+
+}
 
 
 

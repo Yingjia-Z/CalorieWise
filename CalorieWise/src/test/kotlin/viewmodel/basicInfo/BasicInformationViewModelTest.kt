@@ -1,18 +1,15 @@
 package viewmodel.basicInfo
 
-import org.junit.jupiter.api.Assertions.*
 import model.UserModel
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
-import org.mockito.Mockito.*;
-import userinterface.UserViewModel
+import org.mockito.Mockito.*
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
-import java.sql.Statement
 import kotlin.test.Test
 
-class BasicInformationViewModelTest{
+class BasicInformationViewModelTest {
     private lateinit var model: UserModel
     private lateinit var viewModel: BasicInformationViewModel
     private lateinit var mockConnection: Connection
@@ -68,7 +65,6 @@ class BasicInformationViewModelTest{
 
         assertEquals(expectedCalories, 1824)
     }
-
 
 
 }
