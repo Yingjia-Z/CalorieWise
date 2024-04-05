@@ -14,6 +14,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.unit.dp
+import userinterface.composables.MessagePrompt
 import userinterface.composables.defaultHeightUnits
 import userinterface.composables.defaultWeightUnits
 import viewmodel.basicInfo.BasicInformationViewModel
@@ -24,6 +25,7 @@ fun BasicInformationPage(
     onNextStepClick: () -> Unit
 ) {
     val viewModel by remember { mutableStateOf(basicInformationViewModel) }
+    var showMessagePrompt by remember { mutableStateOf(false) }
 
     val ageFocusRequester = remember { FocusRequester() }
     val genderFocusRequester = remember { FocusRequester() }
@@ -53,7 +55,7 @@ fun BasicInformationPage(
             //basic information text fields
 
             Text(
-                text = "BASIC INFORMATION",
+                text = "Basic Information",
                 style = MaterialTheme.typography.subtitle2,
                 modifier = Modifier.padding(30.dp)
             )
@@ -69,10 +71,15 @@ fun BasicInformationPage(
                     TextField(
                         value = viewModel.displayAge.value,
                         onValueChange = {
-                            viewModel.displayAge.value = it.trim()
-                            viewModel.age.value = it.trim()
+                            if (viewModel.checkInput("age", it.trim())) {
+                                viewModel.displayAge.value = it.trim()
+                                viewModel.age.value = it.trim()
+                            } else {
+                                showMessagePrompt = true
+                                viewModel.basicInfoMessage.value = "Please enter the correct age."
+                            }
                         },
-                        label = { Text("AGE") },
+                        label = { Text("Age") },
                         modifier = Modifier
                             .focusRequester(ageFocusRequester)
                             .onKeyEvent { keyEvent ->
@@ -82,14 +89,21 @@ fun BasicInformationPage(
                                 } else false
                             }
                     )
+
                     Spacer(modifier = Modifier.height(25.dp))
+
                     TextField(
                         value = viewModel.displayGender.value.uppercase(),
                         onValueChange = {
-                            viewModel.displayGender.value = it
-                            viewModel.gender.value = it
+                            if (viewModel.checkInput("sex", it.trim())) {
+                                viewModel.displayGender.value = it.trim()
+                                viewModel.gender.value = it.trim()
+                            } else {
+                                showMessagePrompt = true
+                                viewModel.basicInfoMessage.value = "Please enter the correct biological sex."
+                            }
                         },
-                        label = { Text("SEX(M/F)") },
+                        label = { Text("Biological Sex (M/F)") },
                         modifier = Modifier
                             .focusRequester(genderFocusRequester)
                             .onKeyEvent {
@@ -99,18 +113,24 @@ fun BasicInformationPage(
                                 } else false
                             }
                     )
+
                     Spacer(modifier = Modifier.height(25.dp))
 
                     TextField(
                         value = viewModel.displayHeight.value,
                         onValueChange = {
-                            viewModel.displayHeight.value = it
-                            viewModel.height.value = defaultHeightUnits(
-                                viewModel.displayHeight.value,
-                                viewModel.heightUnits.value
-                            ).toString()
+                            if (viewModel.checkInput("number", it.trim())) {
+                                viewModel.displayHeight.value = it.trim()
+                                viewModel.height.value = defaultHeightUnits(
+                                    viewModel.displayHeight.value,
+                                    viewModel.heightUnits.value
+                                ).toString()
+                            } else {
+                                showMessagePrompt = true
+                                viewModel.basicInfoMessage.value = "Please enter the correct height."
+                            }
                         },
-                        label = { Text("HEIGHT (${viewModel.heightUnits.value})") },
+                        label = { Text("Height (${viewModel.heightUnits.value})") },
                         modifier = Modifier
                             .focusRequester(heightFocusRequester)
                             .onKeyEvent {
@@ -126,13 +146,18 @@ fun BasicInformationPage(
                     TextField(
                         value = viewModel.displayWeight.value,
                         onValueChange = {
-                            viewModel.displayWeight.value = it
-                            viewModel.weight.value = defaultWeightUnits(
-                                viewModel.displayWeight.value,
-                                viewModel.weightUnits.value
-                            ).toString()
+                            if (viewModel.checkInput("number", it.trim())) {
+                                viewModel.displayWeight.value = it.trim()
+                                viewModel.weight.value = defaultWeightUnits(
+                                    viewModel.displayWeight.value,
+                                    viewModel.weightUnits.value
+                                ).toString()
+                            } else {
+                                showMessagePrompt = true
+                                viewModel.basicInfoMessage.value = "Please enter the correct weight."
+                            }
                         },
-                        label = { Text("WEIGHT (${viewModel.weightUnits.value})") },
+                        label = { Text("Weight (${viewModel.weightUnits.value})") },
                         modifier = Modifier
                             .focusRequester(weightFocusRequester)
                             .onKeyEvent {
@@ -147,13 +172,18 @@ fun BasicInformationPage(
                     TextField(
                         value = viewModel.displayGoalWeight.value,
                         onValueChange = {
-                            viewModel.displayGoalWeight.value = it
-                            viewModel.goalWeight.value = defaultWeightUnits(
-                                viewModel.displayGoalWeight.value,
-                                viewModel.weightUnits.value
-                            ).toString()
+                            if (viewModel.checkInput("number", it.trim())) {
+                                viewModel.displayGoalWeight.value = it.trim()
+                                viewModel.goalWeight.value = defaultWeightUnits(
+                                    viewModel.displayGoalWeight.value,
+                                    viewModel.weightUnits.value
+                                ).toString()
+                            } else {
+                                showMessagePrompt = true
+                                viewModel.basicInfoMessage.value = "Please enter the correct goal weight."
+                            }
                         },
-                        label = { Text("GOAL WEIGHT (${viewModel.weightUnits.value})") },
+                        label = { Text("Goal Weight (${viewModel.weightUnits.value})") },
                         modifier = Modifier
                             .focusRequester(goalWeightFocusRequester)
                             .onKeyEvent {
@@ -163,10 +193,11 @@ fun BasicInformationPage(
                                 } else false
                             }
                     )
-
                 }
             }
+
             Spacer(modifier = Modifier.height(25.dp))
+
             Button(
                 onClick = {
                     viewModel.updateBasicInformation()
@@ -174,7 +205,10 @@ fun BasicInformationPage(
                 },
                 modifier = Modifier.padding(top = 20.dp)
             ) {
-                Text("Next Step")
+                Text("Save and Next Step")
+            }
+            if (showMessagePrompt) {
+                MessagePrompt(viewModel.basicInfoMessage.value, { showMessagePrompt = false }, "error")
             }
 
         }

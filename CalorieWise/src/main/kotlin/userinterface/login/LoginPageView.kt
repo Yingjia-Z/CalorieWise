@@ -10,8 +10,11 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import userinterface.composables.Appname
+import userinterface.composables.MessagePrompt
 import viewmodel.login.LoginPageViewModel
 
 enum class LoginPageViewEvent {
@@ -23,6 +26,8 @@ fun LoginPageView(
     loginPageViewModel: LoginPageViewModel, onSignInSuccess: () -> Unit, onReturningUser: () -> Unit
 ) {
     val viewmodel by remember { mutableStateOf(loginPageViewModel) }
+    var passwordVisible by remember { mutableStateOf(false) }
+    var showMessagePrompt by remember { mutableStateOf(false) }
     val emailFocusRequester = remember { FocusRequester() }
     val pwFocusRequester = remember { FocusRequester() }
 
@@ -84,6 +89,8 @@ fun LoginPageView(
             TextField(
                 viewmodel.password.value,
                 label = { Text("Password: ") },
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                onValueChange = { viewmodel.invoke(LoginPageViewEvent.PasswordEvent, it.trim()) },
                 modifier = Modifier
                     .focusRequester(pwFocusRequester)
                     .onKeyEvent { keyEvent ->
@@ -92,7 +99,6 @@ fun LoginPageView(
                             true
                         } else false
                     },
-                onValueChange = { viewmodel.invoke(LoginPageViewEvent.PasswordEvent, it.trim()) },
                 leadingIcon = {
                     Icon(
                         painter = painterResource("icons/PasswordIcon.png"),
@@ -102,32 +108,39 @@ fun LoginPageView(
                     )
                 },
                 trailingIcon = {
-                    Icon(
-                        painter = painterResource("icons/ViewIcon.png"),
-                        contentDescription = "View",
-                        tint = Color.Gray,
-                        modifier = Modifier.size(30.dp)
-                    )
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(
+                            painter = painterResource("icons/ViewIcon.png"),
+                            contentDescription = "View",
+                            tint = Color.Gray,
+                            modifier = Modifier.size(30.dp)
+                        )
+                    }
                 }
             )
 
             Spacer(modifier = Modifier.height(45.dp))
 
             Button(
-                onClick = onEnterPressed
-            ) {
+                onClick = {
+                    viewmodel.invoke(LoginPageViewEvent.SignInEvent, 1)
+                    if (viewmodel.loggedin) {
+                        if (viewmodel.returning) {
+                            onReturningUser()
+                        } else {
+                            onSignInSuccess()
+                        }
+                    } else {
+                        showMessagePrompt = true
+                        viewmodel.loginMessage.value = "Wrong Password. Please try again. "
+                    }
+                }) {
                 Text("Log In / Sign Up")
             }
 
-            Spacer(modifier = Modifier.height(45.dp))
-
-            Text(viewmodel.loginMessage.value, color = MaterialTheme.colors.error)
-//            TextButton(
-//                onClick = {},
-//                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colors.error)
-//            ) {
-//                Text("Sign Up")
-//            }
+            if (showMessagePrompt) {
+                MessagePrompt(viewmodel.loginMessage.value, { showMessagePrompt = false }, "error")
+            }
         }
     }
 }

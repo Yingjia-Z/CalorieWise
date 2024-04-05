@@ -31,9 +31,9 @@ fun PieChart(eaten: Int, total: Int, modifier: Modifier = Modifier) {
             easing = FastOutSlowInEasing
         )
     )
-    val strokeWidth = 10
+    val strokeWidth = 20
 
-    Canvas(modifier = modifier.size(200.dp)) {
+    Canvas(modifier = modifier.size(250.dp)) {
         drawArc(
             color = Color.Red,
             startAngle = -90f,
@@ -106,7 +106,7 @@ fun AnalysisPageView(analysisPageViewModel: AnalysisPageViewModel) {
                             val percentage = if (fatTotal > 0) {
                                 (fatEaten.toFloat() / fatTotal * 100).roundToInt()
                             } else {
-                                '?'
+                                '0'
                             }
                             Text(text = "$percentage% of recommended \n Fats consumed")
                         }
@@ -119,7 +119,7 @@ fun AnalysisPageView(analysisPageViewModel: AnalysisPageViewModel) {
                             val percentage = if (sugarTotal > 0) {
                                 (sugarEaten.toFloat() / sugarTotal * 100).roundToInt()
                             } else {
-                                '?'
+                                '0'
                             }
                             Text(text = "$percentage% of recommended \n Sugar consumed")
                         }
@@ -131,7 +131,7 @@ fun AnalysisPageView(analysisPageViewModel: AnalysisPageViewModel) {
                             val percentage = if (proteinTotal > 0) {
                                 (proteinEaten.toFloat() / proteinTotal * 100).roundToInt()
                             } else {
-                                '?'
+                                '0'
                             }
                             Text(text = "$percentage% of recommended \n Protein consumed")
                         }

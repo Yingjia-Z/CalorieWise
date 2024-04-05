@@ -24,7 +24,14 @@ import userinterface.composables.*
 import viewmodel.records.RecordsViewModel
 
 @Composable
-fun HistoryEntry(name: String, calorie: String, quantity: String, favIconPath: String, onFavClicked: () -> Unit) {
+fun HistoryEntry(
+    name: String,
+    calorie: String,
+    quantity: String,
+    favIconPath: String,
+    onFavClicked: () -> Unit,
+    onDeleteClicked: () -> Unit
+) {
     Row(
         modifier = Modifier.border(1.dp, Color.Gray),
         verticalAlignment = Alignment.CenterVertically
@@ -36,7 +43,7 @@ fun HistoryEntry(name: String, calorie: String, quantity: String, favIconPath: S
                 .align(Alignment.CenterVertically)
         ) {
             Text(text = name)
-            Text(text = "$calorie kcal", color = Color.Gray)
+            Text(text = "$calorie cal", color = Color.Gray)
         }
         Text(
             text = quantity,
@@ -50,6 +57,15 @@ fun HistoryEntry(name: String, calorie: String, quantity: String, favIconPath: S
                 .padding(5.dp)
                 .size(30.dp)
                 .clickable { onFavClicked() }
+        )
+        Icon(
+            painter = painterResource("icons/DeleteIcon.png"),
+            contentDescription = "DeleteIcon",
+            tint = Color.Gray,
+            modifier = Modifier
+                .padding(5.dp)
+                .size(30.dp)
+                .clickable { onDeleteClicked() }
         )
     }
 }
@@ -162,6 +178,9 @@ fun RecordsView(
                 ) {
                     Text("Intake and Workout of the day", style = MaterialTheme.typography.subtitle2)
                     // add details here
+
+                    var deleteTriggered by remember { mutableStateOf(false) }
+
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                         verticalAlignment = Alignment.CenterVertically
@@ -185,11 +204,20 @@ fun RecordsView(
                                             record.first,
                                             record.second[1].toString(),
                                             displayQuantity.toString() + " ${viewModel.foodUnits.value}",
-                                            if (favClicked) "icons/FavClicked.png" else "icons/FavUnclicked.png"
-                                        ) {
-                                            favClicked = !favClicked
-                                            viewModel.updateFavourite(record.first, "food", favClicked)
-                                        }
+                                            if (favClicked) "icons/FavClicked.png" else "icons/FavUnclicked.png",
+                                            {
+                                                favClicked = !favClicked
+                                                viewModel.updateFavourite(record.first, "food", favClicked)
+                                            },
+                                            {
+                                                viewModel.removeRecord(
+                                                    item = record.first,
+                                                    type = "food",
+                                                    amount = record.second[0].toString()
+                                                )
+                                                deleteTriggered = true
+                                            }
+                                        )
                                     }
                                 }
                             }
@@ -213,11 +241,20 @@ fun RecordsView(
                                             record.first,
                                             record.second[1].toString(),
                                             displayQuantity.toString() + " ${viewModel.drinkUnits.value}",
-                                            if (favClicked) "icons/FavClicked.png" else "icons/FavUnclicked.png"
-                                        ) {
-                                            favClicked = !favClicked
-                                            viewModel.updateFavourite(record.first, "drink", favClicked)
-                                        }
+                                            if (favClicked) "icons/FavClicked.png" else "icons/FavUnclicked.png",
+                                            {
+                                                favClicked = !favClicked
+                                                viewModel.updateFavourite(record.first, "drink", favClicked)
+                                            },
+                                            {
+                                                viewModel.removeRecord(
+                                                    item = record.first,
+                                                    type = "drink",
+                                                    amount = record.second[0].toString()
+                                                )
+                                                deleteTriggered = true
+                                            }
+                                        )
                                     }
                                 }
                             }
@@ -241,20 +278,37 @@ fun RecordsView(
                                             record.first,
                                             record.second[1].toString(),
                                             displayQuantity.toString() + " ${viewModel.exerciseUnits.value}",
-                                            if (favClicked) "icons/FavClicked.png" else "icons/FavUnclicked.png"
-                                        ) {
-                                            favClicked = !favClicked
-                                            viewModel.updateFavourite(record.first, "exercise", favClicked)
-                                        }
+                                            if (favClicked) "icons/FavClicked.png" else "icons/FavUnclicked.png",
+                                            {
+                                                favClicked = !favClicked
+                                                viewModel.updateFavourite(record.first, "exercise", favClicked)
+                                            },
+                                            {
+                                                viewModel.removeRecord(
+                                                    item = record.first,
+                                                    type = "exercise",
+                                                    amount = record.second[0].toString()
+                                                )
+                                                deleteTriggered = true
+                                            }
+                                        )
                                     }
                                 }
                             }
+                        }
+
+                        if (deleteTriggered) {
+                            recordsViewModel.updateView()
+                            deleteTriggered = false
                         }
                     }
                 }
             }
         }
 
+        if (viewModel.showMessagePrompt.value) {
+            MessagePrompt(viewModel.recordsMessage.value, { viewModel.showMessagePrompt.value = false }, "message")
+        }
 
         // Overlay area
         if (overlayVisible) {

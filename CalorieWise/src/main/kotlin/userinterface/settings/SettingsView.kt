@@ -15,11 +15,9 @@ import androidx.compose.ui.unit.dp
 import userinterface.composables.*
 import viewmodel.settings.SettingsViewModel
 
-
 enum class SettingsViewEvent {
     SignOutEvent, ChangePasswordEvent, ChangeThemeEvent, UnitsConversionEvent, FavoritesEditingEvent
 }
-
 
 @Composable
 fun SettingsView(
@@ -29,6 +27,7 @@ fun SettingsView(
     val viewmodel by remember { mutableStateOf(settingsViewModel) }
     var overlayVisible by remember { mutableStateOf(overlayVisible) }
     var settingsType by remember { mutableStateOf(settingsType) }
+    var showMessagePrompt by remember { mutableStateOf(false) }
 
     @Composable
     fun changePasswordPrompt() {
@@ -37,7 +36,6 @@ fun SettingsView(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // TODO: maybe using text instead?
             TextField(
                 viewmodel.email.value,
                 label = { Text("E-mail: ") },
@@ -68,20 +66,13 @@ fun SettingsView(
                         tint = Color.Gray,
                         modifier = Modifier.size(30.dp)
                     )
-                },
-                trailingIcon = {
-                    Icon(
-                        painter = painterResource("icons/ViewIcon.png"),
-                        contentDescription = "View",
-                        tint = Color.Gray,
-                        modifier = Modifier.size(30.dp)
-                    )
                 }
             )
 
             Button(
                 onClick = {
                     viewmodel.invoke(SettingsViewEvent.ChangePasswordEvent, viewmodel.password.value, 1)
+                    showMessagePrompt = true
                     viewmodel.passwordEdited = false
                 },
                 enabled = viewmodel.passwordEdited,
@@ -125,17 +116,17 @@ fun SettingsView(
             ) {
                 val description =
                     when (type) {
-                        "height" -> viewmodel.heightUnits.value
-                        "weight" -> viewmodel.weightUnits.value
-                        "food" -> viewmodel.foodUnits.value
-                        "drink" -> viewmodel.drinkUnits.value
-                        "exercise" -> viewmodel.exerciseUnits.value
+                        "Height" -> viewmodel.heightUnits.value
+                        "Weight" -> viewmodel.weightUnits.value
+                        "Food" -> viewmodel.foodUnits.value
+                        "Drink" -> viewmodel.drinkUnits.value
+                        "Exercise" -> viewmodel.exerciseUnits.value
                         else -> assert(false)
                     }
                 Text("$description ($type)", modifier = Modifier.weight(1f))
 
                 // Button to trigger the dropdown menu
-                Button(onClick = { expanded = !expanded }, modifier = Modifier.width(130.dp)) {
+                Button(onClick = { expanded = !expanded }) {
                     Text("Select Units")
                 }
 
@@ -146,18 +137,19 @@ fun SettingsView(
                 ) {
                     val items =
                         when (type) {
-                            "height" -> heightUnitsList
-                            "weight" -> weightUnitsList
-                            "food" -> foodUnitsList
-                            "drink" -> drinkUnitsList
-                            "exercise" -> exerciseUnitsList
+                            "Height" -> heightUnitsList
+                            "Weight" -> weightUnitsList
+                            "Food" -> foodUnitsList
+                            "Drink" -> drinkUnitsList
+                            "Exercise" -> exerciseUnitsList
                             else -> listOf<String>()
                         }
 
                     items.forEach { item ->
                         DropdownMenuItem(onClick = {
                             viewmodel.invoke(SettingsViewEvent.UnitsConversionEvent, type, item)
-                            viewmodel.settingsMessage.value = "$type units changes to $item"
+                            viewmodel.settingsMessage.value = "'$type' units has changed to '$item'"
+                            showMessagePrompt = true
                             expanded = false
                         }) {
                             Text(item)
@@ -174,11 +166,11 @@ fun SettingsView(
             modifier = Modifier.padding(15.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            unitsDropDown("height")
-            unitsDropDown("weight")
-            unitsDropDown("food")
-            unitsDropDown("drink")
-            unitsDropDown("exercise")
+            unitsDropDown("Height")
+            unitsDropDown("Weight")
+            unitsDropDown("Food")
+            unitsDropDown("Drink")
+            unitsDropDown("Exercise")
         }
     }
 
@@ -273,6 +265,8 @@ fun SettingsView(
                                 onSignOutSuccess()
                             } else {
                                 viewmodel.settingsMessage.value = "Something went wrong, you are still logged in."
+                                settingsType = "logoutFail"
+                                showMessagePrompt = true
                             }
                         },
                         modifier = Modifier.width(275.dp)
@@ -328,12 +322,22 @@ fun SettingsView(
                         }
 
                         Spacer(modifier = Modifier.height(12.dp))
-                        Text(
-                            viewmodel.settingsMessage.value,
-                            color = MaterialTheme.colors.error,
-                            modifier = Modifier.padding(16.dp)
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
+
+                        if (showMessagePrompt) {
+                            when (settingsType) {
+                                "logoutFail" -> MessagePrompt(
+                                    viewmodel.settingsMessage.value,
+                                    { showMessagePrompt = false },
+                                    "error"
+                                )
+
+                                else -> MessagePrompt(
+                                    viewmodel.settingsMessage.value,
+                                    { showMessagePrompt = false },
+                                    "message"
+                                )
+                            }
+                        }
                     }
                 }
             }
