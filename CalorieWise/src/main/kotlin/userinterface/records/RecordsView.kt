@@ -82,6 +82,7 @@ fun RecordsView(
     var exerciseRecords by remember { mutableStateOf(viewModel.exerciseRecords) }
     val foodFocusRequester = remember { FocusRequester() }
     val amountFocusRequester = remember { FocusRequester() }
+    var showMessagePrompt by remember { mutableStateOf(1) }
     //val focusManager = LocalFocusManager.current
 
     LaunchedEffect(overlayVisible) {
@@ -325,7 +326,7 @@ fun RecordsView(
                 ) {
                     val handleEnterEvent: (KeyEvent) -> Boolean = { keyEvent ->
                         if (keyEvent.key == Key.Enter && keyEvent.type == KeyEventType.KeyUp) {
-                            recordsViewModel.addRecord(recordItem, recordAmount, recordType)
+                            showMessagePrompt = recordsViewModel.addRecord(recordItem, recordAmount, recordType)
                             recordItem = ""
                             recordAmount = ""
                             overlayVisible = false
@@ -472,7 +473,7 @@ fun RecordsView(
                             Spacer(modifier = Modifier.width(10.dp))
                             Button(
                                 onClick = {
-                                    recordsViewModel.addRecord(recordItem, recordAmount, recordType)
+                                    showMessagePrompt = recordsViewModel.addRecord(recordItem, recordAmount, recordType)
                                     recordItem = ""
                                     recordAmount = ""
                                     overlayVisible = false
@@ -495,6 +496,13 @@ fun RecordsView(
                     }
                 }
             }
+        }
+        if (showMessagePrompt == 0) {
+            MessagePrompt(
+                "This $recordType is not recognized, please check your spelling and try entering your $recordType again",
+                { showMessagePrompt = 1 },
+                "message"
+            )
         }
     }
 }
