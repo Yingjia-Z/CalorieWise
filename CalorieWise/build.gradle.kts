@@ -44,7 +44,7 @@ compose.desktop {
             includeAllModules = true
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "CalorieWise"
-            packageVersion = "3.0.0"
+            packageVersion = "4.0.0"
         }
     }
 }
