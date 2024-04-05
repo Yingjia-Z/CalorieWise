@@ -25,17 +25,4 @@ class DatabaseManager(
         println("Connection Successful!")
         return connection
     }
-
-    // Test the database connection
-    fun testConnection(): Boolean {
-        return try {
-            getConnection().use {
-                println("Connection to database successful")
-            }
-            true
-        } catch (e: Exception) {
-            println("Failed to connect to the database: ${e.message}")
-            false
-        }
-    }
 }
