@@ -10,9 +10,15 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.input.key.*
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
 import userinterface.composables.*
 import viewmodel.records.RecordsViewModel
@@ -61,6 +67,16 @@ fun RecordsView(
     var foodRecords by remember { mutableStateOf(viewModel.foodRecords) }
     var drinkRecords by remember { mutableStateOf(viewModel.drinkRecords) }
     var exerciseRecords by remember { mutableStateOf(viewModel.exerciseRecords) }
+    val foodFocusRequester = remember { FocusRequester() }
+    val amountFocusRequester = remember { FocusRequester() }
+    //val focusManager = LocalFocusManager.current
+
+    LaunchedEffect(overlayVisible) {
+        if (overlayVisible) {
+            foodFocusRequester.requestFocus()
+        }
+    }
+
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -239,6 +255,7 @@ fun RecordsView(
             }
         }
 
+
         // Overlay area
         if (overlayVisible) {
             Box(
@@ -255,24 +272,49 @@ fun RecordsView(
                     shape = RoundedCornerShape(8.dp),
                     elevation = 8.dp
                 ) {
+                    val handleEnterEvent: (KeyEvent) -> Boolean = { keyEvent ->
+                        if (keyEvent.key == Key.Enter && keyEvent.type == KeyEventType.KeyUp) {
+                            recordsViewModel.addRecord(recordItem, recordAmount, recordType)
+                            recordItem = ""
+                            recordAmount = ""
+                            overlayVisible = false
+                            true
+                        } else {
+                            false
+                        }
+                    }
                     Column(
-                        modifier = Modifier.padding(16.dp)
+                        modifier = Modifier.padding(16.dp).onKeyEvent(handleEnterEvent)
                     ) {
                         Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
 
                             var expanded by remember { mutableStateOf(false) }
                             var isRecent by remember { mutableStateOf(false) }
+                           // var lastKeyWasTab by remember { mutableStateOf(false) }
 
                             Box(modifier = Modifier.width(550.dp)) {
                                 TextField(
                                     value = recordItem,
-                                    onValueChange = { recordItem = it },
+                                    onValueChange = {recordItem = it},
                                     modifier = Modifier
-                                        .fillMaxWidth(),
+                                        .fillMaxWidth()
 //                                        .onGloballyPositioned { coordinates ->
 //                                            //This value is used to assign to the DropDown the same width
 //                                            textfieldSize = coordinates.size.toSize()
 //                                        },
+
+                                        .focusRequester(foodFocusRequester)
+                                        .onKeyEvent { keyEvent ->
+                                            if (keyEvent.key == Key.Tab && keyEvent.type == KeyEventType.KeyUp) {
+                                                recordItem = recordItem.trimEnd()
+                                                amountFocusRequester.requestFocus()
+                                                true
+                                            } else {
+                                                false
+                                            }
+                                        },
+
+
                                     label = {
                                         var inputTypePrompt =
                                             when (recordType) {
@@ -336,7 +378,7 @@ fun RecordsView(
                             TextField(
                                 value = displayAmount,
                                 onValueChange = {
-                                    displayAmount = it
+                                    displayAmount = it.trim()
                                     recordAmount =
                                         when (recordType) {
                                             "food" -> defaultFoodUnits(
@@ -368,6 +410,13 @@ fun RecordsView(
                                     Text("$inputAmountPrompt")
                                 },
                                 modifier = Modifier.width(200.dp)
+                                    .focusRequester(amountFocusRequester)
+                                    .onKeyEvent { keyEvent ->
+                                        if (keyEvent.key == Key.Tab && keyEvent.type == KeyEventType.KeyUp) {
+                                            foodFocusRequester.requestFocus()
+                                            true
+                                        } else false
+                                    }
                             )
                             Spacer(modifier = Modifier.width(10.dp))
                             Button(
