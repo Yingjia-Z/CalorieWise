@@ -1,5 +1,6 @@
 package viewmodel.analysis
 
+import DatabaseManager
 import androidx.compose.runtime.mutableStateOf
 import model.UserModel
 import userinterface.ISubscriber
@@ -88,8 +89,9 @@ class AnalysisPageViewModel(val model: UserModel) : ISubscriber {
         for (i in 0 until weeklyCalorieValue.value.size) {
             weeklyCalorieValue.value[i] = 0
         }
-        val connection = connect()
-        val getWeeklyCalorieValueSuccessCode = connection?.updateWeeklyCalorieValue()
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
+        val getWeeklyCalorieValueSuccessCode = connection.updateWeeklyCalorieValue()
         assert(getWeeklyCalorieValueSuccessCode == 1)
     }
     private fun Connection.updateMonthlyCalorieValue(): Int {
@@ -126,8 +128,9 @@ class AnalysisPageViewModel(val model: UserModel) : ISubscriber {
         for (i in 0 until monthlyCalorieValue.value.size) {
             monthlyCalorieValue.value[i] = 0
         }
-        val connection = connect()
-        val getMonthlyCalorieValueSuccessCode = connection?.updateMonthlyCalorieValue()
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
+        val getMonthlyCalorieValueSuccessCode = connection.updateMonthlyCalorieValue()
         assert(getMonthlyCalorieValueSuccessCode == 1)
     }
 }
