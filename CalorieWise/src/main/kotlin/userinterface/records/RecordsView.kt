@@ -1,8 +1,6 @@
 package userinterface.records
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,10 +13,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.key.*
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
 import userinterface.composables.*
 import viewmodel.records.RecordsViewModel
@@ -85,6 +80,7 @@ fun RecordsView(
     var exerciseRecords by remember { mutableStateOf(viewModel.exerciseRecords) }
     val foodFocusRequester = remember { FocusRequester() }
     val amountFocusRequester = remember { FocusRequester() }
+    var showMessagePrompt by remember { mutableStateOf(1) }
     //val focusManager = LocalFocusManager.current
 
     LaunchedEffect(overlayVisible) {
@@ -188,7 +184,10 @@ fun RecordsView(
                         Card(modifier = Modifier.fillMaxSize().weight(1f)) {
                             Column(verticalArrangement = Arrangement.spacedBy(25.dp)) {
                                 Text(text = "Food", style = MaterialTheme.typography.h5)
-                                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                Column(
+                                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                                    modifier = Modifier.verticalScroll(rememberScrollState())
+                                ) {
                                     foodRecords.forEach { record ->
                                         val displayQuantity =
                                             updateFoodUnits(record.second[0], viewModel.foodUnits.value)
@@ -225,7 +224,10 @@ fun RecordsView(
                         Card(modifier = Modifier.fillMaxSize().weight(1f)) {
                             Column(verticalArrangement = Arrangement.spacedBy(25.dp)) {
                                 Text(text = "Drink", style = MaterialTheme.typography.h5)
-                                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                Column(
+                                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                                    modifier = Modifier.verticalScroll(rememberScrollState())
+                                ) {
                                     drinkRecords.forEach { record ->
                                         val displayQuantity =
                                             updateDrinkUnits(record.second[0], viewModel.drinkUnits.value)
@@ -262,7 +264,10 @@ fun RecordsView(
                         Card(modifier = Modifier.fillMaxSize().weight(1f)) {
                             Column(verticalArrangement = Arrangement.spacedBy(25.dp)) {
                                 Text(text = "Exercise", style = MaterialTheme.typography.h5)
-                                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                Column(
+                                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                                    modifier = Modifier.verticalScroll(rememberScrollState())
+                                ) {
                                     exerciseRecords.forEach { record ->
                                         val displayQuantity =
                                             updateExerciseUnits(record.second[0].toInt(), viewModel.exerciseUnits.value)
@@ -328,7 +333,7 @@ fun RecordsView(
                 ) {
                     val handleEnterEvent: (KeyEvent) -> Boolean = { keyEvent ->
                         if (keyEvent.key == Key.Enter && keyEvent.type == KeyEventType.KeyUp) {
-                            recordsViewModel.addRecord(recordItem, recordAmount, recordType)
+                            showMessagePrompt = recordsViewModel.addRecord(recordItem, recordAmount, recordType)
                             recordItem = ""
                             recordAmount = ""
                             overlayVisible = false
@@ -344,12 +349,12 @@ fun RecordsView(
 
                             var expanded by remember { mutableStateOf(false) }
                             var isRecent by remember { mutableStateOf(false) }
-                           // var lastKeyWasTab by remember { mutableStateOf(false) }
+                            // var lastKeyWasTab by remember { mutableStateOf(false) }
 
                             Box(modifier = Modifier.width(550.dp)) {
                                 TextField(
                                     value = recordItem,
-                                    onValueChange = {recordItem = it},
+                                    onValueChange = { recordItem = it },
                                     modifier = Modifier
                                         .fillMaxWidth()
 //                                        .onGloballyPositioned { coordinates ->
@@ -475,7 +480,7 @@ fun RecordsView(
                             Spacer(modifier = Modifier.width(10.dp))
                             Button(
                                 onClick = {
-                                    recordsViewModel.addRecord(recordItem, recordAmount, recordType)
+                                    showMessagePrompt = recordsViewModel.addRecord(recordItem, recordAmount, recordType)
                                     recordItem = ""
                                     recordAmount = ""
                                     overlayVisible = false
@@ -498,6 +503,13 @@ fun RecordsView(
                     }
                 }
             }
+        }
+        if (showMessagePrompt == 0) {
+            MessagePrompt(
+                "Oops, this $recordType is not recognized, please check your spelling and try entering your $recordType again. ",
+                { showMessagePrompt = 1 },
+                "message"
+            )
         }
     }
 }

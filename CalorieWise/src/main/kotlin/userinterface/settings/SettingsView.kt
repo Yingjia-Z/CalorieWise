@@ -1,6 +1,8 @@
 package userinterface.settings
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,6 +30,7 @@ fun SettingsView(
     var overlayVisible by remember { mutableStateOf(overlayVisible) }
     var settingsType by remember { mutableStateOf(settingsType) }
     var showMessagePrompt by remember { mutableStateOf(false) }
+    var editFavType by remember { mutableStateOf("food") }
 
     @Composable
     fun changePasswordPrompt() {
@@ -148,7 +151,7 @@ fun SettingsView(
                     items.forEach { item ->
                         DropdownMenuItem(onClick = {
                             viewmodel.invoke(SettingsViewEvent.UnitsConversionEvent, type, item)
-                            viewmodel.settingsMessage.value = "'$type' units has changed to '$item'"
+                            viewmodel.settingsMessage.value = "'$type' units has been changed to '$item'!"
                             showMessagePrompt = true
                             expanded = false
                         }) {
@@ -171,6 +174,102 @@ fun SettingsView(
             unitsDropDown("Food")
             unitsDropDown("Drink")
             unitsDropDown("Exercise")
+        }
+    }
+
+    @Composable
+    fun FavoriteEntry(
+        name: String,
+        favIconPath: String,
+        onFavClicked: () -> Unit,
+    ) {
+        Row(
+            modifier = Modifier.border(1.dp, Color.Gray),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = name,
+                modifier = Modifier
+                    .padding(5.dp)
+                    .width(220.dp)
+                    .align(Alignment.CenterVertically)
+            )
+            Icon(
+                painter = painterResource(favIconPath),
+                contentDescription = "FavIcon",
+                tint = Color.Gray,
+                modifier = Modifier
+                    .padding(5.dp)
+                    .size(30.dp)
+                    .clickable { onFavClicked() }
+            )
+        }
+    }
+
+    @Composable
+    fun editFavoritesPrompt() {
+        Box(
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            ) {
+                Row(horizontalArrangement = Arrangement.SpaceEvenly) {
+                    Button(
+                        modifier = Modifier.width(110.dp), onClick = { editFavType = "food" },
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = if (editFavType == "food") MaterialTheme.colors.primary else MaterialTheme.colors.primaryVariant
+                        )
+                    ) {
+                        Text("Food")
+                    }
+                    Button(
+                        modifier = Modifier.width(110.dp), onClick = { editFavType = "drink" },
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = if (editFavType == "drink") MaterialTheme.colors.primary else MaterialTheme.colors.primaryVariant
+                        )
+                    ) {
+                        Text("Drink")
+                    }
+                    Button(
+                        modifier = Modifier.width(110.dp), onClick = { editFavType = "exercise" },
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = if (editFavType == "exercise") MaterialTheme.colors.primary else MaterialTheme.colors.primaryVariant
+                        )
+                    ) {
+                        Text("Exercise")
+                    }
+                }
+                LazyColumn(
+                    modifier = Modifier.padding(16.dp).height(350.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
+                    viewmodel.invoke(SettingsViewEvent.FavoritesEditingEvent, editFavType, 1)
+
+                    if (viewmodel.FavouriteList.isEmpty()) {
+                        item { Text("Nothing's been added to Favourite!") }
+                    }
+                    items(viewmodel.FavouriteList.size) { index ->
+                        val recordItem = viewmodel.FavouriteList[index]
+                        var favClicked by remember {
+                            mutableStateOf(
+                                viewmodel.getFavourite(
+                                    recordItem,
+                                    editFavType
+                                )
+                            )
+                        }
+                        FavoriteEntry(
+                            recordItem,
+                            if (favClicked) "icons/FavClicked.png" else "icons/FavUnclicked.png",
+                            {
+                                favClicked = !favClicked
+                                viewmodel.updateFavourite(recordItem, editFavType, favClicked)
+                            })
+                    }
+                }
+            }
         }
     }
 
@@ -293,7 +392,8 @@ fun SettingsView(
                 Card(
                     modifier = Modifier
                         .wrapContentSize()
-                        .padding(16.dp),
+                        .padding(16.dp)
+                        .sizeIn(maxWidth = 500.dp, maxHeight = 600.dp),
                     shape = RoundedCornerShape(8.dp),
                     elevation = 8.dp
                 ) {
@@ -306,7 +406,7 @@ fun SettingsView(
                             "password" -> changePasswordPrompt()
                             "theme" -> themeSwitch()
                             "unit" -> changeUnitPrompt()
-                            "favorite" -> TODO()
+                            "favorite" -> editFavoritesPrompt()
                             else -> assert(false)
                         }
 

@@ -40,7 +40,7 @@ fun LoginPageView(
                 onSignInSuccess()
             }
         } else {
-            viewmodel.loginMessage.value = "Wrong Password. Please try again."
+            viewmodel.loginMessage.value = "Oops! Incorrect email or password. Please try again."
         }
     }
 
@@ -67,12 +67,12 @@ fun LoginPageView(
                 viewmodel.email.value,
                 label = { Text("E-mail: ") },
                 modifier = Modifier.focusRequester(emailFocusRequester)
-                .onKeyEvent { keyEvent ->
-                    if (keyEvent.key == Key.Tab && keyEvent.type == KeyEventType.KeyUp) {
-                        pwFocusRequester.requestFocus()
-                        true
-                    } else false
-                },
+                    .onKeyEvent { keyEvent ->
+                        if (keyEvent.key == Key.Tab && keyEvent.type == KeyEventType.KeyUp) {
+                            pwFocusRequester.requestFocus()
+                            true
+                        } else false
+                    },
                 onValueChange = { viewmodel.invoke(LoginPageViewEvent.EmailEvent, it.trim()) },
                 leadingIcon = {
                     Icon(
@@ -108,7 +108,10 @@ fun LoginPageView(
                     )
                 },
                 trailingIcon = {
-                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    IconButton(onClick = {
+                        passwordVisible = !passwordVisible
+                        pwFocusRequester.requestFocus()
+                    }) {
                         Icon(
                             painter = painterResource("icons/ViewIcon.png"),
                             contentDescription = "View",
@@ -132,7 +135,7 @@ fun LoginPageView(
                         }
                     } else {
                         showMessagePrompt = true
-                        viewmodel.loginMessage.value = "Wrong Password. Please try again. "
+                        viewmodel.loginMessage.value = "Oops! Incorrect email or password. Please try again."
                     }
                 }) {
                 Text("Log In / Sign Up")

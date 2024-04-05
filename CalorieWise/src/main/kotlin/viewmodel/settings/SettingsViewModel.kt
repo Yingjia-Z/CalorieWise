@@ -1,13 +1,11 @@
 package viewmodel.settings
 
+import DatabaseManager
 import androidx.compose.runtime.mutableStateOf
 import model.UserModel
 import userinterface.ISubscriber
 import userinterface.settings.SettingsViewEvent
-import java.io.File
 import java.sql.Connection
-import java.sql.DriverManager
-import java.sql.SQLException
 
 class SettingsViewModel(val model: UserModel) : ISubscriber {
 
@@ -22,6 +20,9 @@ class SettingsViewModel(val model: UserModel) : ISubscriber {
     var foodUnits = mutableStateOf("")
     var drinkUnits = mutableStateOf("")
     var exerciseUnits = mutableStateOf("")
+
+    val FavouriteList: MutableList<String> = mutableListOf()
+    var recordFav = false
 
     init {
         model.subscribe(this)
@@ -54,20 +55,6 @@ class SettingsViewModel(val model: UserModel) : ISubscriber {
         println("Data cleared")
     }
 
-    private fun connect(): Connection? {
-        var connection: Connection? = null
-        try {
-            val appDataDir = System.getProperty("user.home") + File.separator + ".CalorieWise"
-            val dbPath = "$appDataDir${File.separator}data.db"
-            val url = "jdbc:sqlite:$dbPath"
-
-            connection = DriverManager.getConnection(url)
-            println("Connection4 is valid.")
-        } catch (e: SQLException) {
-            println(e.message)
-        }
-        return connection
-    }
 
     private fun Connection.updatePassword(
         newPassword: String
@@ -86,11 +73,12 @@ class SettingsViewModel(val model: UserModel) : ISubscriber {
     }
 
     private fun updatePassword(newPassword: String) {
-        val connection = connect()
-        val updatePasswordSuccessCode = connection?.updatePassword(newPassword)
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
+        val updatePasswordSuccessCode = connection.updatePassword(newPassword)
         assert(updatePasswordSuccessCode == 1)
         model.password = newPassword
-        settingsMessage.value = "You've changed your password. "
+        settingsMessage.value = "You've changed your password! "
         model.notifySubscribers()
     }
 
@@ -105,13 +93,90 @@ class SettingsViewModel(val model: UserModel) : ISubscriber {
         }
     }
 
+    private fun Connection.getFavouriteList(recordType: String): Int {
+        try {
+            val query = prepareStatement(
+                "SELECT DISTINCT recordItem, recordType, favourite FROM Records " +
+                        "WHERE username = '${model.email}' AND recordType = '${recordType}' AND favourite = '${1}';"
+            )
+            val result = query.executeQuery()
+            while (result.next()) {
+                val resultItem = result.getString("recordItem")
+                FavouriteList.add(resultItem)
+            }
+            result.close()
+            query.close()
+            return 1
+        } catch (exception: Exception) {
+            println(exception)
+            return -1
+        }
+    }
+
+    fun getFavouriteList(recordType: String) {
+        FavouriteList.clear()
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
+        val getSuggestionListSuccessCode = connection.getFavouriteList(recordType)
+        assert(getSuggestionListSuccessCode == 1)
+    }
+
+    private fun Connection.updateFavourite(recordItem: String, recordType: String, favClicked: Boolean): Int {
+        try {
+            val stmt = createStatement()
+            stmt.executeUpdate(
+                "UPDATE Records SET favourite = ${if (favClicked) 1 else 0} " +
+                        "WHERE username = '${model.email}' AND recordItem = '${recordItem}' AND recordType = '${recordType}';"
+            )
+            stmt.close()
+            return 1
+        } catch (exception: Exception) {
+            println(exception)
+            return -1
+        }
+    }
+
+    private fun Connection.getFavourite(recordItem: String, recordType: String): Int {
+        try {
+            val query = prepareStatement(
+                "SELECT favourite FROM Records " +
+                        "WHERE username = '${model.email}' AND recordItem = '${recordItem}' AND recordType = '${recordType}'"
+            )
+            val result = query.executeQuery()
+            while (result.next()) {
+                recordFav = result.getBoolean("favourite")
+            }
+            result.close()
+            query.close()
+            return 1
+        } catch (exception: Exception) {
+            println(exception)
+            return -1
+        }
+    }
+
+    fun updateFavourite(recordItem: String, recordType: String, favClicked: Boolean) {
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
+        val getUpdateSuccessCode = connection.updateFavourite(recordItem, recordType, favClicked)
+        assert(getUpdateSuccessCode == 1)
+    }
+
+    fun getFavourite(recordItem: String, recordType: String): Boolean {
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
+        val getFavouriteSuccessCode = connection.getFavourite(recordItem, recordType)
+        assert(getFavouriteSuccessCode == 1)
+        return recordFav
+    }
+
     fun invoke(event: SettingsViewEvent, value1: Any?, value2: Any?) {
         when (event) {
             SettingsViewEvent.SignOutEvent -> signOut()
             SettingsViewEvent.ChangePasswordEvent -> updatePassword(value1 as String)
             SettingsViewEvent.ChangeThemeEvent -> model.isInDarkTheme = !model.isInDarkTheme
             SettingsViewEvent.UnitsConversionEvent -> updateUnits(value1 as String, value2 as String)
-            SettingsViewEvent.FavoritesEditingEvent -> TODO()
+            SettingsViewEvent.FavoritesEditingEvent -> getFavouriteList(value1 as String)
         }
     }
 

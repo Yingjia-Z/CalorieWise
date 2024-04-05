@@ -1,18 +1,13 @@
 package viewmodel.basicInfo
 
-import androidx.compose.runtime.getValue
+import DatabaseManager
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import model.UserModel
 import userinterface.ISubscriber
 import userinterface.composables.defaultDrinkUnits
 import userinterface.composables.updateHeightUnits
 import userinterface.composables.updateWeightUnits
-import java.io.File
 import java.sql.Connection
-import java.sql.DriverManager
-import java.sql.SQLException
 import kotlin.math.roundToInt
 
 class BasicInformationViewModel(val model: UserModel) : ISubscriber {
@@ -202,21 +197,6 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         protein.value = (((cal * 0.225) / 4).roundToInt())
     }
 
-    fun connect(): Connection? {
-        var connection: Connection? = null
-        try {
-            val appDataDir = System.getProperty("user.home") + File.separator + ".CalorieWise"
-            val dbPath = "$appDataDir${File.separator}data.db"
-            val url = "jdbc:sqlite:$dbPath"
-
-//            val url = "jdbc:sqlite:src/main/kotlin/data/data.db"
-            connection = DriverManager.getConnection(url)
-            println("Connection5 is valid.")
-        } catch (e: SQLException) {
-            println(e.message)
-        }
-        return connection
-    }
 
     private fun Connection.checkUserExistInTable(username: String, tablename: String): Int {
         var exist = -1
@@ -284,10 +264,11 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         age: Int,
         gender: String
     ) {
-        val connection = connect()
-        val exist = connection?.checkUserExistInTable(username, "BasicInfo")
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
+        val exist = connection.checkUserExistInTable(username, "BasicInfo")
         val insertOrUpdateSuccessCode =
-            connection?.insertOrUpdateBasicInfo(username, height, weight, goalWeight, age, gender, exist!!)
+            connection.insertOrUpdateBasicInfo(username, height, weight, goalWeight, age, gender, exist)
         assert(insertOrUpdateSuccessCode == 1)
     }
 
