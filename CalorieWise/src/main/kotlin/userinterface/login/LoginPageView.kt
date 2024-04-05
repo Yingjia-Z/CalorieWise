@@ -40,7 +40,7 @@ fun LoginPageView(
                 onSignInSuccess()
             }
         } else {
-            viewmodel.loginMessage.value = "Wrong Password. Please try again."
+            viewmodel.loginMessage.value = "Incorrect email or password. Please try again."
         }
     }
 
@@ -135,7 +135,7 @@ fun LoginPageView(
                         }
                     } else {
                         showMessagePrompt = true
-                        viewmodel.loginMessage.value = "Wrong Password. Please try again. "
+                        viewmodel.loginMessage.value = "Incorrect email or password. Please try again."
                     }
                 }) {
                 Text("Log In / Sign Up")
