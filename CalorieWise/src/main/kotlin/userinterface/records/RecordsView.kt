@@ -1,8 +1,6 @@
 package userinterface.records
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -186,7 +184,10 @@ fun RecordsView(
                         Card(modifier = Modifier.fillMaxSize().weight(1f)) {
                             Column(verticalArrangement = Arrangement.spacedBy(25.dp)) {
                                 Text(text = "Food", style = MaterialTheme.typography.h5)
-                                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                Column(
+                                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                                    modifier = Modifier.verticalScroll(rememberScrollState())
+                                ) {
                                     foodRecords.forEach { record ->
                                         val displayQuantity =
                                             updateFoodUnits(record.second[0], viewModel.foodUnits.value)
@@ -223,7 +224,10 @@ fun RecordsView(
                         Card(modifier = Modifier.fillMaxSize().weight(1f)) {
                             Column(verticalArrangement = Arrangement.spacedBy(25.dp)) {
                                 Text(text = "Drink", style = MaterialTheme.typography.h5)
-                                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                Column(
+                                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                                    modifier = Modifier.verticalScroll(rememberScrollState())
+                                ) {
                                     drinkRecords.forEach { record ->
                                         val displayQuantity =
                                             updateDrinkUnits(record.second[0], viewModel.drinkUnits.value)
@@ -260,7 +264,10 @@ fun RecordsView(
                         Card(modifier = Modifier.fillMaxSize().weight(1f)) {
                             Column(verticalArrangement = Arrangement.spacedBy(25.dp)) {
                                 Text(text = "Exercise", style = MaterialTheme.typography.h5)
-                                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                Column(
+                                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                                    modifier = Modifier.verticalScroll(rememberScrollState())
+                                ) {
                                     exerciseRecords.forEach { record ->
                                         val displayQuantity =
                                             updateExerciseUnits(record.second[0].toInt(), viewModel.exerciseUnits.value)

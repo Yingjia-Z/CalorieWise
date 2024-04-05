@@ -94,18 +94,6 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
                             "WHERE username = '${model.email}' AND recordItem = '${item}' AND recordType = '${type}' AND date = CURDATE()"
                 )
 
-                // the updated amount is not consistent with units
-
-//                val resultAmount = stmt.executeQuery(
-//                    "SELECT recordAmount FROM Records " +
-//                            "WHERE username = '${username}' AND recordItem = '${item}' AND recordType = '${type}' AND date = DATE('now')"
-//                )
-//                var updatedAmount = 0
-//                if (resultAmount.next()) {
-//                   updatedAmount = resultAmount.getInt("recordAmount")
-//                }
-//                resultAmount.close()
-
                 showMessagePrompt.value = true
                 when (type) {
                     "exercise" -> recordsMessage.value = "Duration of '${item}' has been updated."
