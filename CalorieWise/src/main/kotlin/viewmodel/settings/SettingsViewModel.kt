@@ -115,7 +115,8 @@ class SettingsViewModel(val model: UserModel) : ISubscriber {
 
     fun getFavouriteList(recordType: String) {
         FavouriteList.clear()
-        val connection = connect()
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
         val getSuggestionListSuccessCode = connection?.getFavouriteList(recordType)
         assert(getSuggestionListSuccessCode == 1)
     }
@@ -155,14 +156,16 @@ class SettingsViewModel(val model: UserModel) : ISubscriber {
     }
 
     fun updateFavourite(recordItem: String, recordType: String, favClicked: Boolean) {
-        val connection = connect()
-        val getUpdateSuccessCode = connection?.updateFavourite(recordItem, recordType, favClicked)
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
+        val getUpdateSuccessCode = connection.updateFavourite(recordItem, recordType, favClicked)
         assert(getUpdateSuccessCode == 1)
     }
 
     fun getFavourite(recordItem: String, recordType: String): Boolean {
-        val connection = connect()
-        val getFavouriteSuccessCode = connection?.getFavourite(recordItem, recordType)
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
+        val getFavouriteSuccessCode = connection.getFavourite(recordItem, recordType)
         assert(getFavouriteSuccessCode == 1)
         return recordFav
     }
