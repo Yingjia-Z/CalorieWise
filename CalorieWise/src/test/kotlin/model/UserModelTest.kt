@@ -33,6 +33,7 @@ internal class UserModelTest {
         assertEquals("Dongni", model.lastname)
         assertTrue(notified)
     }
+
     @Test
     fun testUserLogin() {
         val model = UserModel()

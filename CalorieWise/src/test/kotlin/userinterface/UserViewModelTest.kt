@@ -3,7 +3,7 @@ package userinterface
 import model.UserModel
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
-import org.mockito.Mockito.*;
+import org.mockito.Mockito.*
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
@@ -25,10 +25,11 @@ internal class UserViewModelTest {
         mockConnection = mock(Connection::class.java)
         mockPreparedStatement = mock(PreparedStatement::class.java)
         mockResultSet = mock(ResultSet::class.java)
-        spyUserViewModel = spy(userViewModel) //OpenAI. (2024). ChatGPT (March 28 version) [Large language model]. https://chat.openai.com/chat
+        spyUserViewModel =
+            spy(userViewModel) //OpenAI. (2024). ChatGPT (March 28 version) [Large language model]. https://chat.openai.com/chat
 
         //`when`(userViewModel.connect()).thenReturn(mockConnection)
-         doReturn(mockConnection).`when`(spyUserViewModel).connect()
+        doReturn(mockConnection).`when`(spyUserViewModel).connect()
         `when`(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement)
         `when`(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet)
         `when`(mockResultSet.next()).thenReturn(true)

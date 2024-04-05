@@ -1,12 +1,10 @@
 package userinterface
 
+import DatabaseManager
 import androidx.compose.runtime.mutableStateOf
 import model.UserModel
 import userinterface.composables.Screens
-import java.io.File
 import java.sql.Connection
-import java.sql.DriverManager
-import java.sql.SQLException
 
 class UserViewModel(val model: UserModel) : ISubscriber {
     var isInDarkTheme = mutableStateOf(false)
@@ -20,21 +18,6 @@ class UserViewModel(val model: UserModel) : ISubscriber {
         isInDarkTheme.value = model.isInDarkTheme
     }
 
-    fun connect(): Connection? {
-        var connection: Connection? = null
-        try {
-            val appDataDir = System.getProperty("user.home") + File.separator + ".CalorieWise"
-            val dbPath = "$appDataDir${File.separator}data.db"
-            val url = "jdbc:sqlite:$dbPath"
-
-//            val url = "jdbc:sqlite:src/main/kotlin/data/data.db"
-            connection = DriverManager.getConnection(url)
-            println("Connection2 is valid.")
-        } catch (e: SQLException) {
-            println(e.message)
-        }
-        return connection
-    }
 
     private fun Connection.updateModel(): Int {
         try {
@@ -73,8 +56,9 @@ class UserViewModel(val model: UserModel) : ISubscriber {
         model.gender = ""
         model.goalWeight = 0
         model.age = 0
-        val connection = connect()
-        val updateViewSuccessCode = connection?.updateModel()
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
+        val updateViewSuccessCode = connection.updateModel()
         assert(updateViewSuccessCode == 1)
     }
 }

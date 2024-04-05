@@ -1,20 +1,15 @@
 package viewmodel.records
 
-import androidx.compose.runtime.getValue
+import DatabaseManager
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import model.UserModel
 import userinterface.ISubscriber
-import java.io.File
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URI
 import java.sql.Connection
-import java.sql.DriverManager
-import java.sql.SQLException
 
 
 class RecordsViewModel(val model: UserModel) : ISubscriber {
@@ -64,22 +59,6 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         model.notifySubscribers()
     }
 
-    private fun connect(): Connection? {
-        var connection: Connection? = null
-        try {
-            val appDataDir = System.getProperty("user.home") + File.separator + ".CalorieWise"
-            val dbPath = "$appDataDir${File.separator}data.db"
-            val url = "jdbc:sqlite:$dbPath"
-
-//            val url = "jdbc:sqlite:src/main/kotlin/data/data.db"
-            connection = DriverManager.getConnection(url)
-            println("Connection1 is valid.")
-        } catch (e: SQLException) {
-            println(e.message)
-        }
-        return connection
-    }
-
     private fun Connection.insertRecord(
         username: String,
         item: String,
@@ -92,7 +71,7 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
             val query =
                 prepareStatement(
                     "SELECT COUNT(*) AS record_count FROM Records " +
-                            "WHERE username = '${username}' AND recordItem = '${item}' AND recordType = '${type}' AND date = DATE('now');"
+                            "WHERE username = '${username}' AND recordItem = '${item}' AND recordType = '${type}' AND date = CURDATE();"
                 )
             val result = query.executeQuery()
             result.next()
@@ -106,8 +85,8 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
                 stmt.executeUpdate(
                     "UPDATE Records " +
                             "SET recordAmount = recordAmount + ${amount}, recordCalorie = recordCalorie + ${calorie}, " +
-                            "recordFat = recordFat + ${fat}, recordProtein = recordProtein + ${protein}, recordSugar = recordSugar + ${sugar} " +
-                            "WHERE username = '${model.email}' AND recordItem = '${item}' AND recordType = '${type}' AND date = DATE('now')"
+                            "recordFat = recordFat + ${fat}, recordProtein = recordProtein + ${protein}, recordSugar = recordSugar + ${sugar}" +
+                            "WHERE username = '${model.email}' AND recordItem = '${item}' AND recordType = '${type}' AND date = CURDATE()"
                 )
 
                 // the updated amount is not consistent with units
@@ -130,7 +109,7 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
             } else {
                 stmt.executeUpdate(
                     "INSERT INTO Records (username, recordItem, recordType, recordAmount, date, recordCalorie, recordFat, recordProtein, recordSugar, favourite) " +
-                            "VALUES ('${username}', '${item}', '${type}', ${amount}, DATE('now'), ${calorie}, ${fat}, ${protein}, ${sugar}, ${0});"
+                            "VALUES ('${username}', '${item}', '${type}', ${amount}, CURDATE(), ${calorie}, ${fat}, ${protein}, ${sugar}, ${0});"
                 )
             }
             stmt.close()
@@ -153,7 +132,7 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
             val query =
                 prepareStatement(
                     "SELECT COUNT(*) AS record_count FROM Records " +
-                            "WHERE username = '${username}' AND recordItem = '${item}' AND recordType = '${type}' AND date = DATE('now');"
+                            "WHERE username = '${username}' AND recordItem = '${item}' AND recordType = '${type}' AND date = CURDATE();"
                 )
             val result = query.executeQuery()
             result.next()
@@ -165,7 +144,7 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
             if (exist > 0) {
                 stmt.executeUpdate(
                     "DELETE FROM Records WHERE username = '${model.email}'" +
-                            " AND recordItem = '${item}' AND recordType = '${type}' AND date = DATE('now');"
+                            " AND recordItem = '${item}' AND recordType = '${type}' AND date = CURDATE();"
                 )
             }
             stmt.close()
@@ -181,7 +160,7 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         try {
             val query = prepareStatement(
                 "SELECT recordItem, recordAmount, recordType, date, recordCalorie, recordFat, recordProtein, recordSugar " +
-                        "FROM Records WHERE username = '${model.email}' AND date = DATE('now');"
+                        "FROM Records WHERE username = '${model.email}' AND date = CURDATE();"
             )
             val result = query.executeQuery()
             while (result.next()) {
@@ -294,9 +273,10 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         protein: Int,
         sugar: Int
     ) {
-        val connection = connect()
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
         val insertSuccessCode =
-            connection?.insertRecord(model.email, item, amount.toInt(), type, calorie, fat, protein, sugar)
+            connection.insertRecord(model.email, item, amount.toInt(), type, calorie, fat, protein, sugar)
         assert(insertSuccessCode == 1)
     }
 
@@ -309,9 +289,10 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         protein: Int,
         sugar: Int
     ) {
-        val connection = connect()
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
         val deleteSuccessCode =
-            connection?.deleteRecord(model.email, item, amount.toInt(), type, calorie, fat, protein, sugar)
+            connection.deleteRecord(model.email, item, amount.toInt(), type, calorie, fat, protein, sugar)
         assert(deleteSuccessCode == 1)
     }
 
@@ -367,28 +348,32 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         model.calorieTaken = 0
         model.proteinTaken = 0
         model.sugarTaken = 0
-        val connection = connect()
-        val updateViewSuccessCode = connection?.updateView()
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
+        val updateViewSuccessCode = connection.updateView()
         assert(updateViewSuccessCode == 1)
     }
 
     fun getSuggestionList(recordType: String, isRecent: Boolean): List<String> {
         suggestionList.clear()
-        val connection = connect()
-        val getSuggestionListSuccessCode = connection?.getSuggestionList(recordType, isRecent)
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
+        val getSuggestionListSuccessCode = connection.getSuggestionList(recordType, isRecent)
         assert(getSuggestionListSuccessCode == 1)
         return suggestionList
     }
 
     fun updateFavourite(recordItem: String, recordType: String, favClicked: Boolean) {
-        val connection = connect()
-        val getUpdateSuccessCode = connection?.updateFavourite(recordItem, recordType, favClicked)
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
+        val getUpdateSuccessCode = connection.updateFavourite(recordItem, recordType, favClicked)
         assert(getUpdateSuccessCode == 1)
     }
 
     fun getFavourite(recordItem: String, recordType: String): Boolean {
-        val connection = connect()
-        val getFavouriteSuccessCode = connection?.getFavourite(recordItem, recordType)
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
+        val getFavouriteSuccessCode = connection.getFavourite(recordItem, recordType)
         assert(getFavouriteSuccessCode == 1)
         return recordFav
     }
