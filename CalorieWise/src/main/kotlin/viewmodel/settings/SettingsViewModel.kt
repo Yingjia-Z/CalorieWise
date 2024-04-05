@@ -117,7 +117,7 @@ class SettingsViewModel(val model: UserModel) : ISubscriber {
         FavouriteList.clear()
         val databaseManager = DatabaseManager()
         val connection = databaseManager.getConnection()
-        val getSuggestionListSuccessCode = connection?.getFavouriteList(recordType)
+        val getSuggestionListSuccessCode = connection.getFavouriteList(recordType)
         assert(getSuggestionListSuccessCode == 1)
     }
 
