@@ -108,7 +108,8 @@ fun LoginPageView(
                     )
                 },
                 trailingIcon = {
-                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    IconButton(onClick = { passwordVisible = !passwordVisible
+                                             pwFocusRequester.requestFocus()}) {
                         Icon(
                             painter = painterResource("icons/ViewIcon.png"),
                             contentDescription = "View",
