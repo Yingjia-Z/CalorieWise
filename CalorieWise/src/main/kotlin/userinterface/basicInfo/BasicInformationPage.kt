@@ -6,12 +6,13 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.input.key.*
 import androidx.compose.ui.unit.dp
 import userinterface.composables.defaultHeightUnits
 import userinterface.composables.defaultWeightUnits
@@ -24,7 +25,27 @@ fun BasicInformationPage(
 ) {
     val viewModel by remember { mutableStateOf(basicInformationViewModel) }
 
-    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+    val ageFocusRequester = remember { FocusRequester() }
+    val genderFocusRequester = remember { FocusRequester() }
+    val heightFocusRequester = remember { FocusRequester() }
+    val weightFocusRequester = remember { FocusRequester() }
+    val goalWeightFocusRequester = remember { FocusRequester() }
+
+    val handleEnterEvent: (KeyEvent) -> Boolean = { keyEvent ->
+        if (keyEvent.key == Key.Enter && keyEvent.type == KeyEventType.KeyUp) {
+            viewModel.updateBasicInformation()
+            onNextStepClick()
+            true
+        } else {
+            false
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        ageFocusRequester.requestFocus()
+    }
+
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize().onKeyEvent(handleEnterEvent)) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(horizontal = 16.dp)
@@ -48,10 +69,18 @@ fun BasicInformationPage(
                     TextField(
                         value = viewModel.displayAge.value,
                         onValueChange = {
-                            viewModel.displayAge.value = it
-                            viewModel.age.value = it
+                            viewModel.displayAge.value = it.trim()
+                            viewModel.age.value = it.trim()
                         },
                         label = { Text("AGE") },
+                        modifier = Modifier
+                            .focusRequester(ageFocusRequester)
+                            .onKeyEvent { keyEvent ->
+                                if (keyEvent.key == Key.Tab && keyEvent.type == KeyEventType.KeyUp) {
+                                    genderFocusRequester.requestFocus()
+                                    true
+                                } else false
+                            }
                     )
                     Spacer(modifier = Modifier.height(25.dp))
                     TextField(
@@ -61,6 +90,14 @@ fun BasicInformationPage(
                             viewModel.gender.value = it
                         },
                         label = { Text("SEX(M/F)") },
+                        modifier = Modifier
+                            .focusRequester(genderFocusRequester)
+                            .onKeyEvent {
+                                if (it.key == Key.Tab && it.type == KeyEventType.KeyUp) {
+                                    heightFocusRequester.requestFocus()
+                                    true
+                                } else false
+                            }
                     )
                     Spacer(modifier = Modifier.height(25.dp))
 
@@ -74,6 +111,14 @@ fun BasicInformationPage(
                             ).toString()
                         },
                         label = { Text("HEIGHT (${viewModel.heightUnits.value})") },
+                        modifier = Modifier
+                            .focusRequester(heightFocusRequester)
+                            .onKeyEvent {
+                                if (it.key == Key.Tab && it.type == KeyEventType.KeyUp) {
+                                    weightFocusRequester.requestFocus()
+                                    true
+                                } else false
+                            }
                     )
 
                     Spacer(modifier = Modifier.height(25.dp))
@@ -88,6 +133,14 @@ fun BasicInformationPage(
                             ).toString()
                         },
                         label = { Text("WEIGHT (${viewModel.weightUnits.value})") },
+                        modifier = Modifier
+                            .focusRequester(weightFocusRequester)
+                            .onKeyEvent {
+                                if (it.key == Key.Tab && it.type == KeyEventType.KeyUp) {
+                                    goalWeightFocusRequester.requestFocus()
+                                    true
+                                } else false
+                            }
                     )
                     Spacer(modifier = Modifier.height(25.dp))
 
@@ -101,6 +154,14 @@ fun BasicInformationPage(
                             ).toString()
                         },
                         label = { Text("GOAL WEIGHT (${viewModel.weightUnits.value})") },
+                        modifier = Modifier
+                            .focusRequester(goalWeightFocusRequester)
+                            .onKeyEvent {
+                                if (it.key == Key.Tab && it.type == KeyEventType.KeyUp) {
+                                    ageFocusRequester.requestFocus()
+                                    true
+                                } else false
+                            }
                     )
 
                 }
@@ -115,6 +176,7 @@ fun BasicInformationPage(
             ) {
                 Text("Next Step")
             }
+
         }
     }
 }

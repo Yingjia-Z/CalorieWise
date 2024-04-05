@@ -2,13 +2,13 @@ package userinterface.login
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import userinterface.composables.Appname
@@ -23,8 +23,32 @@ fun LoginPageView(
     loginPageViewModel: LoginPageViewModel, onSignInSuccess: () -> Unit, onReturningUser: () -> Unit
 ) {
     val viewmodel by remember { mutableStateOf(loginPageViewModel) }
+    val emailFocusRequester = remember { FocusRequester() }
+    val pwFocusRequester = remember { FocusRequester() }
 
-    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+    val onEnterPressed: () -> Unit = {
+        viewmodel.invoke(LoginPageViewEvent.SignInEvent, 1)
+        if (viewmodel.loggedin) {
+            if (viewmodel.returning) {
+                onReturningUser()
+            } else {
+                onSignInSuccess()
+            }
+        } else {
+            viewmodel.loginMessage.value = "Wrong Password. Please try again."
+        }
+    }
+
+    val handleEnterEvent: (KeyEvent) -> Boolean = { keyEvent ->
+        if (keyEvent.key == Key.Enter && keyEvent.type == KeyEventType.KeyUp) {
+            onEnterPressed()
+            true
+        } else false
+    }
+
+
+
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize().onKeyEvent(handleEnterEvent)) {
         Column(
             verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -37,7 +61,14 @@ fun LoginPageView(
             TextField(
                 viewmodel.email.value,
                 label = { Text("E-mail: ") },
-                onValueChange = { viewmodel.invoke(LoginPageViewEvent.EmailEvent, it) },
+                modifier = Modifier.focusRequester(emailFocusRequester)
+                .onKeyEvent { keyEvent ->
+                    if (keyEvent.key == Key.Tab && keyEvent.type == KeyEventType.KeyUp) {
+                        pwFocusRequester.requestFocus()
+                        true
+                    } else false
+                },
+                onValueChange = { viewmodel.invoke(LoginPageViewEvent.EmailEvent, it.trim()) },
                 leadingIcon = {
                     Icon(
                         painter = painterResource("icons/EmailIcon.png"),
@@ -53,7 +84,15 @@ fun LoginPageView(
             TextField(
                 viewmodel.password.value,
                 label = { Text("Password: ") },
-                onValueChange = { viewmodel.invoke(LoginPageViewEvent.PasswordEvent, it) },
+                modifier = Modifier
+                    .focusRequester(pwFocusRequester)
+                    .onKeyEvent { keyEvent ->
+                        if (keyEvent.key == Key.Tab && keyEvent.type == KeyEventType.KeyUp) {
+                            emailFocusRequester.requestFocus()
+                            true
+                        } else false
+                    },
+                onValueChange = { viewmodel.invoke(LoginPageViewEvent.PasswordEvent, it.trim()) },
                 leadingIcon = {
                     Icon(
                         painter = painterResource("icons/PasswordIcon.png"),
@@ -75,18 +114,8 @@ fun LoginPageView(
             Spacer(modifier = Modifier.height(45.dp))
 
             Button(
-                onClick = {
-                    viewmodel.invoke(LoginPageViewEvent.SignInEvent, 1)
-                    if (viewmodel.loggedin) {
-                        if (viewmodel.returning) {
-                            onReturningUser()
-                        } else {
-                            onSignInSuccess()
-                        }
-                    } else {
-                        viewmodel.loginMessage.value = "Wrong Password. Please try again. "
-                    }
-                }) {
+                onClick = onEnterPressed
+            ) {
                 Text("Log In / Sign Up")
             }
 
