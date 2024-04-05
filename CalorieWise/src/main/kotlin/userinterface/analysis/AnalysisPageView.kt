@@ -87,6 +87,9 @@ fun TrendGraph(calorieValues: MutableList<Int>, type: String) {
 
     val valPerSlot = ((((calorieValues.maxOrNull() ?: 1) / (15 * 10)).toDouble().roundToInt() * 10).coerceAtLeast(10))
 
+    val axisColor = MaterialTheme.colors.primaryVariant
+    val lineColor = MaterialTheme.colors.secondary
+
     Box(modifier = Modifier.fillMaxSize(),  contentAlignment = Alignment.Center) {
         Row() {
             Column(modifier = Modifier.height(530.dp).offset(y=-10.dp), verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.End) {
@@ -106,7 +109,7 @@ fun TrendGraph(calorieValues: MutableList<Int>, type: String) {
                     drawLine(
                         start = Offset(0f, size.height),
                         end = Offset(size.width, size.height),
-                        color = Color.Black,
+                        color = axisColor,
                         strokeWidth = 2f
                     )
 
@@ -114,7 +117,7 @@ fun TrendGraph(calorieValues: MutableList<Int>, type: String) {
                     drawLine(
                         start = Offset(0f, size.height),
                         end = Offset(0f, 0f),
-                        color = Color.Black,
+                        color = axisColor,
                         strokeWidth = 2f
                     )
 
@@ -124,7 +127,7 @@ fun TrendGraph(calorieValues: MutableList<Int>, type: String) {
                         drawLine(
                             start = Offset(xStep / 2 + index * xStep, size.height),
                             end = Offset(xStep / 2 + index * xStep, size.height + 10.dp.toPx()),
-                            color = Color.Black,
+                            color = axisColor,
                             strokeWidth = 2f
                         )
                     }
@@ -135,7 +138,7 @@ fun TrendGraph(calorieValues: MutableList<Int>, type: String) {
                         drawLine(
                             start = Offset(0f, size.height - i * yStep),
                             end = Offset(-10.dp.toPx(), size.height - i * yStep),
-                            color = Color.Black,
+                            color = axisColor,
                             strokeWidth = 2f
                         )
                     }
@@ -175,7 +178,7 @@ fun TrendGraph(calorieValues: MutableList<Int>, type: String) {
                     // and finally we draw the path
                     drawPath(
                         path,
-                        color = Color.Blue,
+                        color = lineColor,
                         style = Stroke(width = 3f)
                     )
                 }
