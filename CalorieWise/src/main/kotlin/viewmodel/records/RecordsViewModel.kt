@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import model.UserModel
 import userinterface.ISubscriber
 import java.io.File
+import userinterface.composables.MessagePrompt
+import userinterface.composables.MessagePrompt
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URI
@@ -42,15 +44,20 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         exerciseUnits.value = model.exerciseUnits
     }
 
-    fun addRecord(item: String, amount: String, type: String) {
+    fun addRecord(item: String, amount: String, type: String): Int {
         val nutritionInfo = calculateCalorieofNewIntake(item, amount, type)
         val calorie = nutritionInfo[0]
         val fat = nutritionInfo[1]
         val protein = nutritionInfo[2]
         val sugar = nutritionInfo[3]
-        insertRecord(item, amount, type, calorie, fat, protein, sugar)
-        updateView()
-        model.notifySubscribers()
+        if (calorie != -1) {
+            insertRecord(item, amount, type, calorie, fat, protein, sugar)
+            updateView()
+            model.notifySubscribers()
+            return 1
+        } else {
+            return 0
+        }
     }
 
     fun removeRecord(item: String, amount: String, type: String) {
@@ -336,7 +343,7 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         val root: JsonNode = mapper.readTree(responseStream)
         if (type == "food" || type == "drink") {
             if (root.size() == 0 || root.isNull) {
-                calorie = 70
+                calorie = -1
             } else {
                 calorie = root[0]["calories"].asInt()
                 fat = root[0]["fat_total_g"].asInt()
@@ -349,7 +356,7 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
             model.calorieTaken += calorie
         } else {
             if (root.size() == 0 || root.isNull) {
-                calorie = 70
+                calorie = -1
             } else {
                 calorie = root[0]["total_calories"].asInt()
             }
