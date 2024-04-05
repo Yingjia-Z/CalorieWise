@@ -1,10 +1,7 @@
 package viewmodel.basicInfo
 
 import DatabaseManager
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import model.UserModel
 import userinterface.ISubscriber
 import userinterface.composables.defaultDrinkUnits

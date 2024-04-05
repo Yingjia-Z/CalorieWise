@@ -58,9 +58,11 @@ fun tracker(eaten: Int, totalCal: Int, burned: Int) {
     Box(
         contentAlignment = Alignment.Center,
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically,
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp),
-            modifier = Modifier.padding(16.dp)) {
+            modifier = Modifier.padding(16.dp)
+        ) {
             Text(
                 text = "$eaten cal eaten",
                 modifier = Modifier.padding(end = 16.dp)

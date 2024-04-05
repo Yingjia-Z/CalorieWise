@@ -1,10 +1,7 @@
 package viewmodel.records
 
 import DatabaseManager
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import model.UserModel
@@ -295,7 +292,7 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         val databaseManager = DatabaseManager()
         val connection = databaseManager.getConnection()
         val deleteSuccessCode =
-            connection?.deleteRecord(model.email, item, amount.toInt(), type, calorie, fat, protein, sugar)
+            connection.deleteRecord(model.email, item, amount.toInt(), type, calorie, fat, protein, sugar)
         assert(deleteSuccessCode == 1)
     }
 
