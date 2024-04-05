@@ -1,7 +1,10 @@
 package viewmodel.basicInfo
 
 import DatabaseManager
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import model.UserModel
 import userinterface.ISubscriber
 import userinterface.composables.defaultDrinkUnits
@@ -34,6 +37,8 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
     var weightUnits = mutableStateOf("")
     var drinkUnits = mutableStateOf("")
     var exerciseUnits = mutableStateOf("")
+
+    var basicInfoMessage = mutableStateOf("")
 
     init {
         model.subscribe(this)
@@ -89,10 +94,25 @@ class BasicInformationViewModel(val model: UserModel) : ISubscriber {
         calculateRecommendation()
 
         displayGender.value = model.gender
-        displayAge.value = model.age.toString()
-        displayHeight.value = updateHeightUnits(model.height, heightUnits.value).toString()
-        displayWeight.value = updateWeightUnits(model.weight, weightUnits.value).toString()
-        displayGoalWeight.value = updateWeightUnits(model.goalWeight, weightUnits.value).toString()
+        // TODO: why model not initialized as -1
+        displayAge.value = if (model.age == 0) "" else model.age.toString()
+        displayHeight.value =
+            if (model.height == 0) "" else updateHeightUnits(model.height, heightUnits.value).toString()
+        displayWeight.value =
+            if (model.weight == 0) "" else updateWeightUnits(model.weight, weightUnits.value).toString()
+        displayGoalWeight.value =
+            if (model.goalWeight == 0) "" else updateWeightUnits(model.goalWeight, weightUnits.value).toString()
+    }
+
+    fun checkInput(input: String, value: String): Boolean {
+        val result =
+            when (input) {
+                "sex" -> value == "" || (value == "M" || value == "F" || value == "m" || value == "f")
+                "age" -> value == "" || (value.toIntOrNull()?.let { it >= 0 } == true)
+                // handle numbers
+                else -> value == "" || (value.toDoubleOrNull()?.let { it >= 0.0 } == true)
+            }
+        return result
     }
 
     fun calculateRecommendation() {

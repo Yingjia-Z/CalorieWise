@@ -32,9 +32,9 @@ fun PieChart(eaten: Int, totalCal: Int, burned: Int, modifier: Modifier = Modifi
             easing = LinearOutSlowInEasing
         )
     )
-    val strokeWidth = 30
+    val strokeWidth = 40
 
-    Canvas(modifier = modifier.size(250.dp)) {
+    Canvas(modifier = modifier.size(300.dp)) {
         drawArc(
             color = Color.Red,
             startAngle = -90f,
@@ -58,21 +58,30 @@ fun tracker(eaten: Int, totalCal: Int, burned: Int) {
     Box(
         contentAlignment = Alignment.Center,
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "$eaten kcal eaten",
+                text = "$eaten cal eaten",
                 modifier = Modifier.padding(end = 16.dp)
             )
             PieChart(eaten = eaten, totalCal = totalCal, burned = burned)
             Text(
-                text = "$burned kcal burned",
+                text = "$burned cal burned",
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
 
-        Text(
-            text = "${totalCal - eaten + burned} kcal remaining"
-        )
+        val cal = totalCal - eaten + burned
+        if (cal >= 0) {
+            Text(
+                text = "${cal} cal remaining"
+            )
+        } else {
+            Text(
+                text = "${-cal} cal over the daily goal"
+            )
+        }
     }
 }
 

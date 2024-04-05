@@ -1,7 +1,10 @@
 package viewmodel.records
 
 import DatabaseManager
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import model.UserModel
@@ -24,6 +27,9 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
     val suggestionList: MutableList<String> = mutableListOf()
     var recordFav = false
 
+    var showMessagePrompt = mutableStateOf(false)
+    var recordsMessage = mutableStateOf("")
+
     init {
         model.subscribe(this)
     }
@@ -43,7 +49,17 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         insertRecord(item, amount, type, calorie, fat, protein, sugar)
         updateView()
         model.notifySubscribers()
-        println(foodRecords)
+    }
+
+    fun removeRecord(item: String, amount: String, type: String) {
+        val nutritionInfo = calculateCalorieofNewIntake(item, amount, type)
+        val calorie = nutritionInfo[0]
+        val fat = nutritionInfo[1]
+        val protein = nutritionInfo[2]
+        val sugar = nutritionInfo[3]
+        deleteRecord(item, amount, type, calorie, fat, protein, sugar)
+        updateView()
+        model.notifySubscribers()
     }
 
     private fun Connection.insertRecord(
@@ -68,12 +84,31 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
 
             val stmt = createStatement()
             if (exist > 0) {
+
                 stmt.executeUpdate(
                     "UPDATE Records " +
                             "SET recordAmount = recordAmount + ${amount}, recordCalorie = recordCalorie + ${calorie}, " +
                             "recordFat = recordFat + ${fat}, recordProtein = recordProtein + ${protein}, recordSugar = recordSugar + ${sugar}" +
                             "WHERE username = '${model.email}' AND recordItem = '${item}' AND recordType = '${type}' AND date = CURDATE()"
                 )
+
+                // the updated amount is not consistent with units
+
+//                val resultAmount = stmt.executeQuery(
+//                    "SELECT recordAmount FROM Records " +
+//                            "WHERE username = '${username}' AND recordItem = '${item}' AND recordType = '${type}' AND date = DATE('now')"
+//                )
+//                var updatedAmount = 0
+//                if (resultAmount.next()) {
+//                   updatedAmount = resultAmount.getInt("recordAmount")
+//                }
+//                resultAmount.close()
+
+                showMessagePrompt.value = true
+                when (type) {
+                    "exercise" -> recordsMessage.value = "Duration of '${item}' has been updated."
+                    else -> recordsMessage.value = "Amount of '${item}' has been updated."
+                }
             } else {
                 stmt.executeUpdate(
                     "INSERT INTO Records (username, recordItem, recordType, recordAmount, date, recordCalorie, recordFat, recordProtein, recordSugar, favourite) " +
@@ -87,6 +122,42 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
             return -1
         }
     }
+
+    private fun Connection.deleteRecord(
+        username: String,
+        item: String,
+        amount: Int,
+        type: String,
+        calorie: Int, fat: Int, protein: Int, sugar: Int
+    ): Int {
+        try {
+            var exist = -1
+            val query =
+                prepareStatement(
+                    "SELECT COUNT(*) AS record_count FROM Records " +
+                            "WHERE username = '${username}' AND recordItem = '${item}' AND recordType = '${type}' AND date = DATE('now');"
+                )
+            val result = query.executeQuery()
+            result.next()
+            exist = result.getInt("record_count")
+            result.close()
+            query.close()
+
+            val stmt = createStatement()
+            if (exist > 0) {
+                stmt.executeUpdate(
+                    "DELETE FROM Records WHERE username = '${model.email}'" +
+                            " AND recordItem = '${item}' AND recordType = '${type}' AND date = DATE('now');"
+                )
+            }
+            stmt.close()
+            return 1
+        } catch (exception: Exception) {
+            println(exception)
+            return -1
+        }
+    }
+
 
     private fun Connection.updateView(): Int {
         try {
@@ -210,6 +281,22 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
         val insertSuccessCode =
             connection.insertRecord(model.email, item, amount.toInt(), type, calorie, fat, protein, sugar)
         assert(insertSuccessCode == 1)
+    }
+
+    private fun deleteRecord(
+        item: String,
+        amount: String,
+        type: String,
+        calorie: Int,
+        fat: Int,
+        protein: Int,
+        sugar: Int
+    ) {
+        val databaseManager = DatabaseManager()
+        val connection = databaseManager.getConnection()
+        val deleteSuccessCode =
+            connection?.deleteRecord(model.email, item, amount.toInt(), type, calorie, fat, protein, sugar)
+        assert(deleteSuccessCode == 1)
     }
 
     private fun calculateCalorieofNewIntake(item: String, amount: String, type: String): List<Int> {

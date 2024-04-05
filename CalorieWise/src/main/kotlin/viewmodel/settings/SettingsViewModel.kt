@@ -81,11 +81,11 @@ class SettingsViewModel(val model: UserModel) : ISubscriber {
 
     private fun updateUnits(type: String, units: String) {
         when (type) {
-            "height" -> model.heightUnits = units
-            "weight" -> model.weightUnits = units
-            "food" -> model.foodUnits = units
-            "drink" -> model.drinkUnits = units
-            "exercise" -> model.exerciseUnits = units
+            "Height" -> model.heightUnits = units
+            "Weight" -> model.weightUnits = units
+            "Food" -> model.foodUnits = units
+            "Drink" -> model.drinkUnits = units
+            "Exercise" -> model.exerciseUnits = units
             else -> assert(false)
         }
     }
