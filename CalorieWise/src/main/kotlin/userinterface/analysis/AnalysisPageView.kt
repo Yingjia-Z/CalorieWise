@@ -5,10 +5,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,11 +13,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 import viewmodel.analysis.AnalysisPageViewModel
-import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
@@ -60,14 +58,14 @@ data class Point(val x: Float, val y: Float)
 @Composable
 fun TrendGraph(calorieValues: MutableList<Int>, type: String) {
     val calorieSize = calorieValues.size
-    val caloriePoints = MutableList<Point>(calorieSize){ Point(0f, 0f) }
+    val caloriePoints = MutableList<Point>(calorieSize) { Point(0f, 0f) }
     for (i in 0 until calorieSize) {
-        caloriePoints[i] = Point((i+0.5).toFloat(), calorieValues[i].toFloat())
+        caloriePoints[i] = Point((i + 0.5).toFloat(), calorieValues[i].toFloat())
     }
 
     var xAxisLabels = mutableListOf<String>()
     val today = LocalDate.now()
-    val start = today.minusDays((calorieSize-1).toLong())
+    val start = today.minusDays((calorieSize - 1).toLong())
     var currentDate = start
     var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     if (type == "Month") formatter = DateTimeFormatter.ofPattern("dd")
@@ -90,10 +88,14 @@ fun TrendGraph(calorieValues: MutableList<Int>, type: String) {
     val axisColor = MaterialTheme.colors.primaryVariant
     val lineColor = MaterialTheme.colors.secondary
 
-    Box(modifier = Modifier.fillMaxSize(),  contentAlignment = Alignment.Center) {
-        Row() {
-            Column(modifier = Modifier.height(530.dp).offset(y=-10.dp), verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.End) {
-                var yLabel= mutableListOf<Int>()
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Row {
+            Column(
+                modifier = Modifier.height(530.dp).offset(y = -10.dp),
+                verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.End
+            ) {
+                var yLabel = mutableListOf<Int>()
                 for (i in 0 until (calorieValues.maxOrNull() ?: 1) step valPerSlot) {
                     yLabel.add(i)
                 }
@@ -234,13 +236,28 @@ fun AnalysisPageView(analysisPageViewModel: AnalysisPageViewModel) {
             ) {
                 Text("Nutrients Board", style = MaterialTheme.typography.subtitle2)
                 Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-                    Button(onClick = { selectedButton.value = "Today" }) {
+                    Button(
+                        onClick = { selectedButton.value = "Today" },
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = if (selectedButton.value == "Today") MaterialTheme.colors.primary else MaterialTheme.colors.primaryVariant
+                        )
+                    ) {
                         Text("Today")
                     }
-                    Button(onClick = { selectedButton.value = "Week" }) {
+                    Button(
+                        onClick = { selectedButton.value = "Week" },
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = if (selectedButton.value == "Week") MaterialTheme.colors.primary else MaterialTheme.colors.primaryVariant
+                        )
+                    ) {
                         Text("Week")
                     }
-                    Button(onClick = { selectedButton.value = "Month" }) {
+                    Button(
+                        onClick = { selectedButton.value = "Month" },
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = if (selectedButton.value == "Month") MaterialTheme.colors.primary else MaterialTheme.colors.primaryVariant
+                        )
+                    ) {
                         Text("Month")
                     }
                     Modifier.padding(bottom = 20.dp)
