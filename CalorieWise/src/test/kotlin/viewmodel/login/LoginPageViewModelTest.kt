@@ -1,18 +1,16 @@
 package viewmodel.login
 
-import org.junit.jupiter.api.Assertions.*
 import model.UserModel
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
-import org.mockito.Mockito.*;
-import userinterface.UserViewModel
+import org.mockito.Mockito.*
 import userinterface.login.LoginPageViewEvent
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import kotlin.test.Test
 
-class LoginPageViewModelTest{
+class LoginPageViewModelTest {
     private lateinit var model: UserModel
     private lateinit var loginViewModel: LoginPageViewModel
     private lateinit var mockConnection: Connection
@@ -52,7 +50,6 @@ class LoginPageViewModelTest{
         // Assert that the user is logged in
         assertTrue(loginViewModel.loggedin)
     }
-
 
 
 }

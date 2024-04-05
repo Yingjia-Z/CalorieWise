@@ -15,10 +15,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.key.*
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
 import userinterface.composables.*
 import viewmodel.records.RecordsViewModel
@@ -345,12 +342,12 @@ fun RecordsView(
 
                             var expanded by remember { mutableStateOf(false) }
                             var isRecent by remember { mutableStateOf(false) }
-                           // var lastKeyWasTab by remember { mutableStateOf(false) }
+                            // var lastKeyWasTab by remember { mutableStateOf(false) }
 
                             Box(modifier = Modifier.width(550.dp)) {
                                 TextField(
                                     value = recordItem,
-                                    onValueChange = {recordItem = it},
+                                    onValueChange = { recordItem = it },
                                     modifier = Modifier
                                         .fillMaxWidth()
 //                                        .onGloballyPositioned { coordinates ->
@@ -501,7 +498,11 @@ fun RecordsView(
             }
         }
         if (showMessagePrompt == 0) {
-            MessagePrompt("This $recordType is not recognized, please try inputting your $recordType again", {showMessagePrompt = 1}, "message")
+            MessagePrompt(
+                "This $recordType is not recognized, please try inputting your $recordType again",
+                { showMessagePrompt = 1 },
+                "message"
+            )
         }
     }
 }

@@ -1,17 +1,13 @@
 package viewmodel.analysis
 
-import org.junit.jupiter.api.Assertions.*
 import model.UserModel
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
-import org.mockito.Mockito.*;
-import viewmodel.homepage.HomepageViewModel
-import java.sql.Connection
-import java.sql.PreparedStatement
-import java.sql.ResultSet
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.`when`
 import kotlin.test.Test
 
-class AnalysisPageViewModelTest{
+class AnalysisPageViewModelTest {
     private lateinit var userModel: UserModel
     private lateinit var analysisViewModel: AnalysisPageViewModel
 

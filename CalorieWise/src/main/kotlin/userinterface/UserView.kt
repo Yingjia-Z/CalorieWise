@@ -12,9 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.*
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -36,6 +34,7 @@ import viewmodel.homepage.HomepageViewModel
 import viewmodel.login.LoginPageViewModel
 import viewmodel.records.RecordsViewModel
 import viewmodel.settings.SettingsViewModel
+
 @Composable
 fun UserView(userViewModel: UserViewModel) {
     val viewModel by remember { mutableStateOf(userViewModel) }
