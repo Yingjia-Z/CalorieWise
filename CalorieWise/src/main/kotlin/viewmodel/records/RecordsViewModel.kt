@@ -132,7 +132,7 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
             val query =
                 prepareStatement(
                     "SELECT COUNT(*) AS record_count FROM Records " +
-                            "WHERE username = '${username}' AND recordItem = '${item}' AND recordType = '${type}' AND date = DATE('now');"
+                            "WHERE username = '${username}' AND recordItem = '${item}' AND recordType = '${type}' AND date = CURDATE();"
                 )
             val result = query.executeQuery()
             result.next()
@@ -144,7 +144,7 @@ class RecordsViewModel(val model: UserModel) : ISubscriber {
             if (exist > 0) {
                 stmt.executeUpdate(
                     "DELETE FROM Records WHERE username = '${model.email}'" +
-                            " AND recordItem = '${item}' AND recordType = '${type}' AND date = DATE('now');"
+                            " AND recordItem = '${item}' AND recordType = '${type}' AND date = CURDATE();"
                 )
             }
             stmt.close()
