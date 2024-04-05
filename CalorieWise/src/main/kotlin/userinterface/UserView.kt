@@ -98,8 +98,8 @@ fun UserView(userViewModel: UserViewModel) {
                     ) {
                         item {
                             SidebarImageButton("icons/Home.png") { currentScreen = Screens.Homepage.screen }
-                            SidebarImageButton("icons/Graph.png") { currentScreen = Screens.Analysis.screen }
-                            SidebarImageButton("icons/My-Nutrition.png") { currentScreen = Screens.Records.screen }
+                            SidebarImageButton("icons/Analysis.png") { currentScreen = Screens.Analysis.screen }
+                            SidebarImageButton("icons/Records.png") { currentScreen = Screens.Records.screen }
                             SidebarImageButton("icons/Profile.png") { currentScreen = Screens.BasicInfo.screen }
                             SidebarImageButton("icons/Settings.png") { currentScreen = Screens.Settings.screen }
                         }
@@ -170,7 +170,7 @@ fun UserView(userViewModel: UserViewModel) {
                             recordsOverlay,
                             recordsType
                         )
-                        focusedButton = "icons/My-Nutrition.png"
+                        focusedButton = "icons/Records.png"
                     }
 
                     Screens.AddFood.screen -> AddFoodView()
@@ -179,7 +179,7 @@ fun UserView(userViewModel: UserViewModel) {
 
                     Screens.Analysis.screen -> {
                         AnalysisPageView(analysisPageViewModel)
-                        focusedButton = "icons/Graph.png"
+                        focusedButton = "icons/Analysis.png"
                     }
 
                     Screens.Settings.screen -> {

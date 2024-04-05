@@ -19,3 +19,4 @@
 - [Sprint 1](https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Sprint-1-Release-Notes)
 - [Sprint 2](https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Sprint-2-Release-Notes)
 - [Sprint 3](https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Sprint-3-Release-Notes)
+- [Sprint 4](https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Sprint-4-Release-Notes)
