@@ -499,7 +499,7 @@ fun RecordsView(
         }
         if (showMessagePrompt == 0) {
             MessagePrompt(
-                "This $recordType is not recognized, please check your spelling and try entering your $recordType again",
+                "Oops, this $recordType is not recognized, please check your spelling and try entering your $recordType again. ",
                 { showMessagePrompt = 1 },
                 "message"
             )
