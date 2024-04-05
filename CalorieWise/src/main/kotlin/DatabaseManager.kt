@@ -3,8 +3,9 @@ import java.sql.DriverManager
 
 class DatabaseManager(
     hostname: String = "34.31.38.46:3306",
+    schemaName: String = "calorie-wise"
 ) {
-    private val jdbcUrl: String = "jdbc:mysql://$hostname/data?user=root"
+    private val jdbcUrl: String = "jdbc:mysql://$hostname/$schemaName?user=root"
     private val connection: Connection = establishConnection()
 
     // Establish a database connection
