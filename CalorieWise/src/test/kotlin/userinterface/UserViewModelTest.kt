@@ -1,6 +1,7 @@
 package userinterface
 
 import model.UserModel
+import DatabaseManager
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito.*
@@ -16,6 +17,7 @@ internal class UserViewModelTest {
     private lateinit var mockPreparedStatement: PreparedStatement
     private lateinit var mockResultSet: ResultSet
     private lateinit var spyUserViewModel: UserViewModel
+    private lateinit var mockDatabaseManager: DatabaseManager
 
     @BeforeEach
     fun setUp() {
@@ -27,9 +29,9 @@ internal class UserViewModelTest {
         mockResultSet = mock(ResultSet::class.java)
         spyUserViewModel =
             spy(userViewModel) //OpenAI. (2024). ChatGPT (March 28 version) [Large language model]. https://chat.openai.com/chat
-
+        mockDatabaseManager = mock(DatabaseManager::class.java)
         //`when`(userViewModel.connect()).thenReturn(mockConnection)
-        doReturn(mockConnection).`when`(spyUserViewModel).connect()
+        `when`(mockDatabaseManager.getConnection()).thenReturn(mockConnection)
         `when`(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement)
         `when`(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet)
         `when`(mockResultSet.next()).thenReturn(true)
@@ -39,12 +41,17 @@ internal class UserViewModelTest {
         `when`(mockResultSet.getString("gender")).thenReturn("M")
         `when`(mockResultSet.getInt("goalWeight")).thenReturn(88)
         `when`(mockResultSet.getInt("age")).thenReturn(25)
+
     }
 
     @Test
     fun testUpdateModel() {
         model.email = "test@test.com"
         spyUserViewModel.updateModel()
+        val method = UserViewModel::class.java.getDeclaredMethod("updateModel", Connection::class.java)
+        method.isAccessible = true
+        method.invoke(userViewModel, mockConnection)
+
 
         // Assert that the model has been updated with the expected values
         assertEquals(180, model.height)
@@ -52,6 +59,7 @@ internal class UserViewModelTest {
         assertEquals("M", model.gender)
         assertEquals(88, model.goalWeight)
         assertEquals(25, model.age)
+
 
     }
 

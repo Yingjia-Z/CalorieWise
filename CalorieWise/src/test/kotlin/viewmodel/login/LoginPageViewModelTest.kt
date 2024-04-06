@@ -29,7 +29,7 @@ class LoginPageViewModelTest {
         spyLoginViewModel = spy(loginViewModel)
 
         //`when`(userViewModel.connect()).thenReturn(mockConnection)
-        doReturn(mockConnection).`when`(spyLoginViewModel).connect()
+        //doReturn(mockConnection).`when`(spyLoginViewModel).connect()
         `when`(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement)
         `when`(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet)
         `when`(mockResultSet.next()).thenReturn(true)
