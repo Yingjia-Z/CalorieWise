@@ -3,6 +3,25 @@
 
 **Project Description**: CalorieWise is a desktop app that aims to help users better track their diet in order to manage their health more efficiently. The app provides an easy-to-use calorie tracker, breakdowns of your nutrient intake, and an intake/exercise entry page for you to get an overview of your daily calorie consumption. Furthermore, the app recommends a healthy calorie total to better guide you on your wellness journey, which can be updated anytime. Welcome to CalorieWise!
 
+![Screenshot1](https://git.uwaterloo.ca/d55lu1/team-6/uploads/22e89ca59d46dc3e04b07ecfc283c2e6/Screenshot_2024-04-06_at_1.26.47_PM.png)
+![Screenshot2](https://git.uwaterloo.ca/d55lu1/team-6/uploads/3b744b734686110305fced5e7d1dae3b/Screenshot_2024-04-06_at_1.35.20_PM.png)
+![Screenshot3](https://git.uwaterloo.ca/d55lu1/team-6/uploads/379ca8f40a388c752dcf0a1552c51ba1/Screenshot_2024-04-06_at_1.35.30_PM.png)
+![Screenshot4](https://git.uwaterloo.ca/d55lu1/team-6/uploads/b4b8470a92dbfd6f30069c7aac52b373/Screenshot_2024-04-06_at_1.35.40_PM.png)
+![Screenshot5](https://git.uwaterloo.ca/d55lu1/team-6/uploads/9ea5f7c5b0a0a73a0be0630259db4a31/Screenshot_2024-04-06_at_1.35.48_PM.png)
+![Screenshot6](https://git.uwaterloo.ca/d55lu1/team-6/uploads/d43efab7b5da5235543691ed1681c00d/Screenshot_2024-04-06_at_1.36.00_PM.png)
+
+## Team Names and Contact Info:
+- Dongni Lu - d55lu@uwaterloo.ca
+- Lynn Li - j2557li@uwaterloo.ca
+- Peter Li - j2457li@uwaterloo.ca
+- Yingjia Zhang - y3457zha@uwaterloo.ca 
+
+## User Documentatioin:
+[User Documentation Wiki]()
+
+## Design Documentation:
+[Design Documentation Wiki]()
+
 ## Project Proposal: 
 [Project Proposal Wiki](https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Project-Proposal)
 
