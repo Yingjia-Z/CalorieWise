@@ -22,6 +22,9 @@
 ## Design Documentation:
 [Design Documentation Wiki]()
 
+## Team Reflection:
+[Reflection](https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Reflection)
+
 ## Project Proposal: 
 [Project Proposal Wiki](https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Project-Proposal)
 
