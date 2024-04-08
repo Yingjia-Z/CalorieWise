@@ -1,6 +1,8 @@
 # Team-6
 **Project Title**: CalorieWise
 
+_Note: Please use the backup installer if the original one does is not supported on your MAC._
+
 **Project Description**: CalorieWise is a desktop app that aims to help users better track their diet in order to manage their health more efficiently. The app provides an easy-to-use calorie tracker, breakdowns of your nutrient intake, and an intake/exercise entry page for you to get an overview of your daily calorie consumption. Furthermore, the app recommends a healthy calorie total to better guide you on your wellness journey, which can be updated anytime. Welcome to CalorieWise!
 
 ![Screenshot1](https://git.uwaterloo.ca/d55lu1/team-6/uploads/9c1540921db5595329a82248edf80c9f/image.png)
