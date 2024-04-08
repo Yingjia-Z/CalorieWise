@@ -20,7 +20,7 @@
 [User Documentation Wiki](https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/User-Documentation)
 
 ## Design Documentation:
-[Design Documentation Wiki]()
+[Design Documentation Wiki](https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Design-Document)
 
 ## Team Reflection:
 [Reflection](https://git.uwaterloo.ca/d55lu1/team-6/-/wikis/Reflection)
