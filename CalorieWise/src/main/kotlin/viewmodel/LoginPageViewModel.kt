@@ -1,4 +1,4 @@
-package viewmodel.login
+package viewmodel
 
 import DatabaseManager
 import androidx.compose.runtime.mutableStateOf
@@ -16,19 +16,25 @@ class LoginPageViewModel(val model: UserModel) : ISubscriber {
     var loginFailed = false
     var loginMessage = mutableStateOf("")
     var returning = false
+    var showMessagePrompt = mutableStateOf(false)
 
 
     init {
         model.subscribe(this)
     }
 
-    private fun signInOrSignUp() {
+    private fun signInOrSignUp(buttonPressed: String) {
         val databaseManager = DatabaseManager()
         val connection = databaseManager.getConnection()
 //        println("Checking if your username exist in our database. ")
         val exist = connection.checkUserExist(model.email)
 //        println("Your exist status is ${exist}. ")
         if (exist == 0) {
+            if (buttonPressed == "signin") {
+                showMessagePrompt.value = true
+                loginMessage.value = "Please create an account first."
+                return
+            }
 //            println("Welcome! You are a new user. Signing you up.")
             val signUpSuccessCode = connection.signUp(model.email, model.password)
             if (signUpSuccessCode == 1) {
@@ -37,6 +43,11 @@ class LoginPageViewModel(val model: UserModel) : ISubscriber {
                 return
             }
         } else if (exist == 1) {
+            if (buttonPressed == "signup") {
+                showMessagePrompt.value = true
+                loginMessage.value = "The account already exists."
+                return
+            }
 //            println("Welcome! You are a returning user. Logging you in.")
             returning = true
             val logInSuccessCode = connection.logInOrInterrupt(model.email, model.password)
@@ -45,7 +56,8 @@ class LoginPageViewModel(val model: UserModel) : ISubscriber {
 //                println("Welcome! You are logged in!")
                 return
             } else if (logInSuccessCode == 0) {
-//                println("Password incorrect!")
+                showMessagePrompt.value = true
+                loginMessage.value = "Oops! Incorrect email or password. Please try again."
             } else {
 //                println("??????? Something wrong happened during login ???????")
             }
@@ -121,7 +133,8 @@ class LoginPageViewModel(val model: UserModel) : ISubscriber {
         when (event) {
             LoginPageViewEvent.EmailEvent -> model.email = value as String
             LoginPageViewEvent.PasswordEvent -> model.password = value as String
-            LoginPageViewEvent.SignInEvent -> signInOrSignUp()
+            LoginPageViewEvent.SignInEvent -> signInOrSignUp(value as String)
+            else -> assert(false)
         }
     }
 

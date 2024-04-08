@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
-import viewmodel.analysis.AnalysisPageViewModel
+import viewmodel.AnalysisPageViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
@@ -230,11 +230,12 @@ fun AnalysisPageView(analysisPageViewModel: AnalysisPageViewModel) {
             elevation = 4.dp
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text("Nutrients Board", style = MaterialTheme.typography.subtitle2)
+
                 Row(horizontalArrangement = Arrangement.SpaceEvenly) {
                     Button(
                         onClick = { selectedButton.value = "Today" },

@@ -15,7 +15,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import userinterface.composables.Appname
 import userinterface.composables.MessagePrompt
-import viewmodel.login.LoginPageViewModel
+import viewmodel.LoginPageViewModel
 
 enum class LoginPageViewEvent {
     EmailEvent, PasswordEvent, SignInEvent
@@ -27,20 +27,17 @@ fun LoginPageView(
 ) {
     val viewmodel by remember { mutableStateOf(loginPageViewModel) }
     var passwordVisible by remember { mutableStateOf(false) }
-    var showMessagePrompt by remember { mutableStateOf(false) }
     val emailFocusRequester = remember { FocusRequester() }
     val pwFocusRequester = remember { FocusRequester() }
 
     val onEnterPressed: () -> Unit = {
-        viewmodel.invoke(LoginPageViewEvent.SignInEvent, 1)
+        viewmodel.invoke(LoginPageViewEvent.SignInEvent, "signin")
         if (viewmodel.loggedin) {
             if (viewmodel.returning) {
                 onReturningUser()
             } else {
                 onSignInSuccess()
             }
-        } else {
-            viewmodel.loginMessage.value = "Oops! Incorrect email or password. Please try again."
         }
     }
 
@@ -126,23 +123,39 @@ fun LoginPageView(
 
             Button(
                 onClick = {
-                    viewmodel.invoke(LoginPageViewEvent.SignInEvent, 1)
+                    viewmodel.invoke(LoginPageViewEvent.SignInEvent, "signin")
                     if (viewmodel.loggedin) {
                         if (viewmodel.returning) {
                             onReturningUser()
                         } else {
                             onSignInSuccess()
                         }
-                    } else {
-                        showMessagePrompt = true
-                        viewmodel.loginMessage.value = "Oops! Incorrect email or password. Please try again."
                     }
                 }) {
-                Text("Log In / Sign Up")
+                Text("Log In")
             }
 
-            if (showMessagePrompt) {
-                MessagePrompt(viewmodel.loginMessage.value, { showMessagePrompt = false }, "error")
+            Spacer(modifier = Modifier.height(15.dp))
+
+            TextButton(
+                onClick = {
+                    viewmodel.invoke(LoginPageViewEvent.SignInEvent, "signup")
+                    if (viewmodel.loggedin) {
+                        if (viewmodel.returning) {
+                            onReturningUser()
+                        } else {
+                            onSignInSuccess()
+                        }
+                    }
+                },
+                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colors.primary)
+            ) {
+                Text("Create Account Here")
+            }
+
+
+            if (viewmodel.showMessagePrompt.value) {
+                MessagePrompt(viewmodel.loginMessage.value, { viewmodel.showMessagePrompt.value = false }, "error")
             }
         }
     }

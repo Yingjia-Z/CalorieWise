@@ -20,7 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
-import viewmodel.homepage.HomepageViewModel
+import viewmodel.HomepageViewModel
 
 @Composable
 fun PieChart(eaten: Int, totalCal: Int, burned: Int, modifier: Modifier = Modifier) {
@@ -94,9 +94,9 @@ fun HomepageView(
     onAddFoodClick: () -> Unit, onAddDrinkClick: () -> Unit, onAddExerciseClick: () -> Unit,
 ) {
     val viewModel by remember { mutableStateOf(homepageViewModel) }
-    val eaten = homepageViewModel.calorieEaten.value
-    val totalCal = homepageViewModel.calorieIntake.value
-    val burned = homepageViewModel.calorieBurned.value
+    val eaten = viewModel.calorieEaten.value
+    val totalCal = viewModel.calorieIntake.value
+    val burned = viewModel.calorieBurned.value
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -110,55 +110,67 @@ fun HomepageView(
             Column(
                 modifier = Modifier.padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(26.dp)
             ) {
                 Text("Calorie Tracker", style = MaterialTheme.typography.subtitle2)
                 tracker(eaten, totalCal, burned)
-                Card(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically
+
+                Row(modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    Card(
+                        modifier = Modifier.weight(0.3f).padding(16.dp),
+                        elevation = 4.dp
                     ) {
-                        Text(text = "Add Food", style = MaterialTheme.typography.h5)
-                        Button(
-                            onClick = { onAddFoodClick() },
-                            shape = CircleShape
+                        Column(
+                            modifier = Modifier.padding(16.dp),
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text("+")
+                            Text(text = "Add Food", style = MaterialTheme.typography.h5)
+                            Button(
+                                onClick = { onAddFoodClick() },
+                                shape = CircleShape
+                            ) {
+                                Text("+")
+                            }
                         }
                     }
-                }
-                Card(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically
+
+                    Card(
+                        modifier = Modifier.weight(0.3f).padding(16.dp),
+                        elevation = 4.dp
                     ) {
-                        Text(text = "Add Drinks", style = MaterialTheme.typography.h5)
-                        Button(
-                            onClick = { onAddDrinkClick() },
-                            shape = CircleShape
+                        Column(
+                            modifier = Modifier.padding(16.dp),
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text("+")
+                            Text(text = "Add Drinks", style = MaterialTheme.typography.h5)
+                            Button(
+                                onClick = { onAddDrinkClick() },
+                                shape = CircleShape
+                            ) {
+                                Text("+")
+                            }
                         }
                     }
-                }
-                Card(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically
+
+                    Card(
+                        modifier = Modifier.weight(0.3f).padding(16.dp),
+                        elevation = 4.dp
                     ) {
-                        Text(text = "Add Exercise", style = MaterialTheme.typography.h5)
-                        Button(
-                            onClick = { onAddExerciseClick() },
-                            shape = CircleShape
+                        Column(
+                            modifier = Modifier.padding(16.dp),
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text("+")
+                            Text(text = "Add Exercise", style = MaterialTheme.typography.h5)
+                            Button(
+                                onClick = { onAddExerciseClick() },
+                                shape = CircleShape
+                            ) {
+                                Text("+")
+                            }
                         }
                     }
                 }

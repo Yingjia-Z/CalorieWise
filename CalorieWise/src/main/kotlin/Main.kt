@@ -8,7 +8,7 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import model.UserModel
 import userinterface.UserView
-import userinterface.UserViewModel
+import viewmodel.UserViewModel
 import userinterface.composables.Screens
 import userinterface.theme.MyApplicationTheme
 

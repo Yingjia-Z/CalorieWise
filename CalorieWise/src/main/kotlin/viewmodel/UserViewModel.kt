@@ -1,8 +1,9 @@
-package userinterface
+package viewmodel
 
 import DatabaseManager
 import androidx.compose.runtime.mutableStateOf
 import model.UserModel
+import userinterface.ISubscriber
 import userinterface.composables.Screens
 import java.sql.Connection
 

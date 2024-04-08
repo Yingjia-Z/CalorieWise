@@ -5,6 +5,7 @@ import DatabaseManager
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito.*
+import viewmodel.UserViewModel
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet

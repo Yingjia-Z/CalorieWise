@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito.*
 import userinterface.login.LoginPageViewEvent
+import viewmodel.LoginPageViewModel
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet

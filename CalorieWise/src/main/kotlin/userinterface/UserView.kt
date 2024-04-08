@@ -28,12 +28,7 @@ import userinterface.records.addExercise.AddExerciseView
 import userinterface.records.addFood.AddFoodView
 import userinterface.settings.SettingsView
 import userinterface.theme.MyApplicationTheme
-import viewmodel.analysis.AnalysisPageViewModel
-import viewmodel.basicInfo.BasicInformationViewModel
-import viewmodel.homepage.HomepageViewModel
-import viewmodel.login.LoginPageViewModel
-import viewmodel.records.RecordsViewModel
-import viewmodel.settings.SettingsViewModel
+import viewmodel.*
 
 @Composable
 fun UserView(userViewModel: UserViewModel) {

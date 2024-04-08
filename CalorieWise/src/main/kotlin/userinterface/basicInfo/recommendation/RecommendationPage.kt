@@ -16,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import userinterface.composables.updateDrinkUnits
 import userinterface.composables.updateExerciseUnits
-import viewmodel.basicInfo.BasicInformationViewModel
+import viewmodel.BasicInformationViewModel
 
 @Composable
 fun RecommendationPage(
