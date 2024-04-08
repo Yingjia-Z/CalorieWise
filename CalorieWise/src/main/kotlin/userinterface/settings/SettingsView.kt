@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import userinterface.composables.*
-import viewmodel.settings.SettingsViewModel
+import viewmodel.SettingsViewModel
 
 enum class SettingsViewEvent {
     SignOutEvent, ChangePasswordEvent, ChangeThemeEvent, UnitsConversionEvent, FavoritesEditingEvent

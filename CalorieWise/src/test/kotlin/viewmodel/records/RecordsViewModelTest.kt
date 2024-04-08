@@ -3,6 +3,7 @@ package viewmodel.records
 import model.UserModel
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import viewmodel.RecordsViewModel
 import kotlin.test.Test
 
 class RecordsViewModelTest {

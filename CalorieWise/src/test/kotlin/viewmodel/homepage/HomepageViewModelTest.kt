@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
+import viewmodel.HomepageViewModel
 import kotlin.test.Test
 
 class HomepageViewModelTest {

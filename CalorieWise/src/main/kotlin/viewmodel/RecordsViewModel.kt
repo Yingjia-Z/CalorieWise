@@ -1,4 +1,4 @@
-package viewmodel.records
+package viewmodel
 
 import DatabaseManager
 import androidx.compose.runtime.mutableStateOf

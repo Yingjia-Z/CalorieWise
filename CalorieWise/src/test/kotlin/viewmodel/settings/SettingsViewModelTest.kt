@@ -4,6 +4,7 @@ import model.UserModel
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import userinterface.settings.SettingsViewEvent
+import viewmodel.SettingsViewModel
 import kotlin.test.Test
 
 class SettingsViewModelTest {

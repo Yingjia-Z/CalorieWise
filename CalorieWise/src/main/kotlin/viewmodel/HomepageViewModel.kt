@@ -1,4 +1,4 @@
-package viewmodel.homepage
+package viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import model.UserModel

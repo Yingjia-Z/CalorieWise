@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import userinterface.composables.MessagePrompt
 import userinterface.composables.defaultHeightUnits
 import userinterface.composables.defaultWeightUnits
-import viewmodel.basicInfo.BasicInformationViewModel
+import viewmodel.BasicInformationViewModel
 
 @Composable
 fun BasicInformationPage(

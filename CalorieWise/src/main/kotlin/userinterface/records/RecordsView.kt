@@ -16,7 +16,7 @@ import androidx.compose.ui.input.key.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import userinterface.composables.*
-import viewmodel.records.RecordsViewModel
+import viewmodel.RecordsViewModel
 
 @Composable
 fun HistoryEntry(
@@ -179,10 +179,13 @@ fun RecordsView(
 
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Card(modifier = Modifier.fillMaxSize().weight(1f)) {
-                            Column(verticalArrangement = Arrangement.spacedBy(25.dp)) {
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(25.dp),
+                                modifier = Modifier.padding(16.dp)
+                            ) {
                                 Text(text = "Food", style = MaterialTheme.typography.h5)
                                 Column(
                                     verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -222,7 +225,10 @@ fun RecordsView(
                             }
                         }
                         Card(modifier = Modifier.fillMaxSize().weight(1f)) {
-                            Column(verticalArrangement = Arrangement.spacedBy(25.dp)) {
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(25.dp),
+                                modifier = Modifier.padding(16.dp)
+                            ) {
                                 Text(text = "Drink", style = MaterialTheme.typography.h5)
                                 Column(
                                     verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -262,7 +268,10 @@ fun RecordsView(
                             }
                         }
                         Card(modifier = Modifier.fillMaxSize().weight(1f)) {
-                            Column(verticalArrangement = Arrangement.spacedBy(25.dp)) {
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(25.dp),
+                                modifier = Modifier.padding(16.dp)
+                            ) {
                                 Text(text = "Exercise", style = MaterialTheme.typography.h5)
                                 Column(
                                     verticalArrangement = Arrangement.spacedBy(10.dp),
