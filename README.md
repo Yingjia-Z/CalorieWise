@@ -3,12 +3,15 @@
 
 **Project Description**: CalorieWise is a desktop app that aims to help users better track their diet in order to manage their health more efficiently. The app provides an easy-to-use calorie tracker, breakdowns of your nutrient intake, and an intake/exercise entry page for you to get an overview of your daily calorie consumption. Furthermore, the app recommends a healthy calorie total to better guide you on your wellness journey, which can be updated anytime. Welcome to CalorieWise!
 
-![Screenshot1](https://git.uwaterloo.ca/d55lu1/team-6/uploads/22e89ca59d46dc3e04b07ecfc283c2e6/Screenshot_2024-04-06_at_1.26.47_PM.png)
-![Screenshot2](https://git.uwaterloo.ca/d55lu1/team-6/uploads/3b744b734686110305fced5e7d1dae3b/Screenshot_2024-04-06_at_1.35.20_PM.png)
-![Screenshot3](https://git.uwaterloo.ca/d55lu1/team-6/uploads/379ca8f40a388c752dcf0a1552c51ba1/Screenshot_2024-04-06_at_1.35.30_PM.png)
-![Screenshot4](https://git.uwaterloo.ca/d55lu1/team-6/uploads/b4b8470a92dbfd6f30069c7aac52b373/Screenshot_2024-04-06_at_1.35.40_PM.png)
-![Screenshot5](https://git.uwaterloo.ca/d55lu1/team-6/uploads/9ea5f7c5b0a0a73a0be0630259db4a31/Screenshot_2024-04-06_at_1.35.48_PM.png)
-![Screenshot6](https://git.uwaterloo.ca/d55lu1/team-6/uploads/d43efab7b5da5235543691ed1681c00d/Screenshot_2024-04-06_at_1.36.00_PM.png)
+![Screenshot1](https://git.uwaterloo.ca/d55lu1/team-6/uploads/9c1540921db5595329a82248edf80c9f/image.png)
+![Screenshot2](https://git.uwaterloo.ca/d55lu1/team-6/uploads/9ea2906ce738c4c8bd48b3806e16dbbd/image.png)
+![Screenshot3](https://git.uwaterloo.ca/d55lu1/team-6/uploads/9a728043426c160130c4dbade06d62d1/image.png)
+![Screenshot4](https://git.uwaterloo.ca/d55lu1/team-6/uploads/854fb7d13bc2bd6ef934eb3c196aeb88/image.png)
+![Screenshot5](https://git.uwaterloo.ca/d55lu1/team-6/uploads/5a7f23c66d428e8e014901a171935c56/image.png)
+![Screenshot6](https://git.uwaterloo.ca/d55lu1/team-6/uploads/abf20881315d32be9aadb497f64d7f90/image.png)
+![Screenshot7](https://git.uwaterloo.ca/d55lu1/team-6/uploads/74d3f5904a3e99fc8b3702821106b419/image.png)
+![Screenshot8](https://git.uwaterloo.ca/d55lu1/team-6/uploads/134fac32105d5d1d1196de1ef61b7cd8/image.png)
+![Screenshot9](https://git.uwaterloo.ca/d55lu1/team-6/uploads/1349dbd8c8477465cc30308055494696/image.png)
 
 ## Team Names and Contact Info:
 - Dongni Lu - d55lu@uwaterloo.ca
