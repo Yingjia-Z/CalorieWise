@@ -14,6 +14,11 @@ _Note: Please use the backup installer if the original one does is not supported
 ![Screenshot8](CalorieWise/screenshots/image%20(7).png)
 ![Screenshot9](CalorieWise/screenshots/image%20(8).png)
 
+## Built With:
+- kotlin
+- [RESTful APIs for Nutrients and Exercise](https://api-ninjas.com)
+- Cloud Storage for MySQL with Google Cloud Platform
+
 ## Team Names and Contact Info:
 - Dongni Lu - d55lu@uwaterloo.ca
 - Lynn Li - j2557li@uwaterloo.ca
